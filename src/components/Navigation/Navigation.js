@@ -16,7 +16,7 @@ const StyledWrapper = styled.div`
 
 const StyledLogoWrapper = styled.a``;
 
-const Navigator = () => (
+const Navigation = () => (
   <StyledWrapper>
     <StyledLogoWrapper href="#">1</StyledLogoWrapper>
     <Menu />
@@ -24,4 +24,4 @@ const Navigator = () => (
   </StyledWrapper>
 );
 
-export default Navigator;
+export default Navigation;
