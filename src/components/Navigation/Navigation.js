@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 import Menu from '../Menu/Menu';
 import UserPanel from '../UserPanel/UserPanel';
 
@@ -14,11 +15,18 @@ const StyledWrapper = styled.div`
   align-items: center;
 `;
 
-const StyledLogoWrapper = styled.a``;
+const StyledLogo = styled.a`
+  font-size: 24px;
+  color: ${({ theme }) => theme.green};
+  text-decoration: none;
+  margin: 5px 15px;
+`;
 
 const Navigation = () => (
   <StyledWrapper>
-    <StyledLogoWrapper href="#">1</StyledLogoWrapper>
+    <StyledLogo as={NavLink} to="/">
+      fastrent
+    </StyledLogo>
     <Menu />
     <UserPanel>3</UserPanel>
   </StyledWrapper>

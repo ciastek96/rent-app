@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import DownIcon from '../../assets/icons/svg/directional/angle-down.svg';
@@ -9,6 +9,7 @@ const StyledWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const StyledNotificationButton = styled.button`
@@ -36,6 +37,7 @@ const StyledUserButton = styled.button`
   background-repeat: no-repeat;
   padding-right: 30px;
 `;
+
 const StyledAvatar = styled.div`
   width: 45px;
   height: 45px;
@@ -44,14 +46,30 @@ const StyledAvatar = styled.div`
   margin-right: 15px;
 `;
 
-const UserPanel = () => (
-  <StyledWrapper>
-    <StyledNotificationButton />
-    <StyledUserButton>
-      <StyledAvatar />
-      <p>Kamil Kołacz</p>
-    </StyledUserButton>
-  </StyledWrapper>
-);
+const StyledDropDownMenu = styled.div`
+  position: absolute;
+  top: 120%;
+  right: 15%;
+  color: red;
+  height: 120px;
+  width: 100px;
+  background: ${({ theme }) => theme.white};
+  box-shadow: ${({ theme }) => theme.boxShadow};
+`;
+
+const UserPanel = () => {
+  const [toggleMenu, setToggleMenu] = useState(false);
+
+  return (
+    <StyledWrapper>
+      <StyledNotificationButton />
+      <StyledUserButton onClick={() => setToggleMenu(!toggleMenu)}>
+        <StyledAvatar />
+        <p>Kamil Kołacz</p>
+      </StyledUserButton>
+      {toggleMenu && <StyledDropDownMenu />}
+    </StyledWrapper>
+  );
+};
 
 export default UserPanel;
