@@ -13,7 +13,14 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
-    'react/jsx-curly-newline': 0,
+    'no-unused-vars': 1,
+    'linebreak-style': 0,
+    'object-curly-newline': [
+      'off',
+      {
+        ImportDeclaration: { minProperties: 3, consistent: false, multiline: true },
+      },
+    ],
     'import/prefer-default-export': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
   },
