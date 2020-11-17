@@ -13,6 +13,8 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
+    'implicit-arrow-linebreak': 0,
+    'operator-linebreak': 0,
     'no-unused-vars': 1,
     'linebreak-style': 0,
     'object-curly-newline': [

@@ -22,23 +22,24 @@ const StyledHeading = styled.h1`
   margin: 0;
   padding: 0;
   color: ${({ theme }) => theme.default};
+  text-shadow: 0 0 5px hsla(0, 0%, 0%, 0.1);
 `;
 
 const StyledParagraph = styled.p`
-  margin-top: 15px;
+  margin-top: 10px;
   padding: 0;
+  text-align: center;
   color: ${({ theme }) => theme.white};
   font-size: ${({ theme }) => theme.fontSize.xs};
+  text-shadow: 0 0 5px hsla(0, 0%, 0%, 0.1);
 `;
-
-const MyButton = styled.button``;
 
 const NotFoundView = () => (
   <MainTemplate>
     <StyledWrapper>
       <StyledInnerWrapper>
         <StyledHeading>Oops... Nic tu nie ma!</StyledHeading>
-        <StyledParagraph>Strona której szukasz nie istnieje.</StyledParagraph>
+        <StyledParagraph>Strona, której szukasz nie istnieje.</StyledParagraph>
       </StyledInnerWrapper>
     </StyledWrapper>
   </MainTemplate>

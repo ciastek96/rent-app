@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import DownIcon from '../../assets/icons/svg/directional/angle-down.svg';
 import BellIcon from '../../assets/icons/svg/interfaces/bell-alt.svg';
 
@@ -46,16 +47,7 @@ const StyledAvatar = styled.div`
   margin-right: 15px;
 `;
 
-const StyledDropDownMenu = styled.div`
-  position: absolute;
-  top: 135%;
-  right: 0;
-  color: red;
-  height: 360px;
-  width: 100%;
-  background: ${({ theme }) => theme.white};
-  box-shadow: ${({ theme }) => theme.boxShadow};
-`;
+const StyledDropdownMenu = styled(DropdownMenu)``;
 
 const UserPanel = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -67,7 +59,7 @@ const UserPanel = () => {
         <StyledAvatar />
         <p>Kamil Kołacz</p>
       </StyledUserButton>
-      {toggleMenu && <StyledDropDownMenu />}
+      {toggleMenu && <StyledDropdownMenu />}
     </StyledWrapper>
   );
 };

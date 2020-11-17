@@ -1,11 +1,11 @@
 export const routes = {
   home: '/',
-  logout: '/logout',
+  logout: '/wyloguj',
   login: '/logowanie',
   register: '/rejestracja',
   calendar: '/kalendarz',
-  clients: '/clients',
-  products: '/products',
-  settings: '/settings',
+  clients: '/klienci',
+  products: '/produkty',
+  settings: '/ustawienia',
   rent: '/wypożyczalnia',
 };
