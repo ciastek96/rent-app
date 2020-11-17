@@ -13,7 +13,8 @@ const StyledListItem = styled.li`
   color: black;
   text-decoration: none;
   list-style: none;
-  color: ${({ theme }) => theme.default};
+  color: ${({ theme }) => theme.gray};
+  font-weight: 500;
 
   &.active {
     color: ${({ theme }) => theme.green};

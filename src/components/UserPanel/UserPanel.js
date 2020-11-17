@@ -48,11 +48,11 @@ const StyledAvatar = styled.div`
 
 const StyledDropDownMenu = styled.div`
   position: absolute;
-  top: 120%;
-  right: 15%;
+  top: 135%;
+  right: 0;
   color: red;
-  height: 120px;
-  width: 100px;
+  height: 360px;
+  width: 100%;
   background: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
 `;

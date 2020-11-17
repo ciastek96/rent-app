@@ -13,13 +13,13 @@ const StyledWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 20px;
 `;
 
 const StyledLogo = styled.a`
   font-size: 24px;
   color: ${({ theme }) => theme.green};
   text-decoration: none;
-  margin: 5px 15px;
 `;
 
 const Navigation = () => (
