@@ -21,6 +21,10 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         background-color: #F0F0F0;
     }
+    h1, h2, h3, h4, h5, h6, ul, li, p{
+        margin: 0;
+        padding: 0;
+    }
     h1 {
         font-family: 'Barlow', sans-serif;
         font-size: 48px;
@@ -32,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
         font-size: 32px;
         font-weight: 600;
         color: #727272;
+        margin: 30px 0;
     }
     h3 {
         font-family: 'Barlow', sans-serif;
@@ -44,6 +49,7 @@ const GlobalStyle = createGlobalStyle`
         font-size: 21px;
         font-weight: 600;
         color: #5F5F5F;
+        margin: 15px 0;
     }
     p {
         font-family: 'Roboto', sans-serif;

@@ -34,14 +34,14 @@ const Button = styled.button`
     tertiary &&
     css`
       background: 0;
-      transition: color 0.2s ease-in-out;
-      color: ${({ theme, color }) => (color ? theme[color] : '#121212')};
+      transition: color background-color 0.2s ease-in-out;
+      color: ${({ theme, color }) => (color ? theme[color] : theme.darkGray)};
       text-decoration: underline;
       font-weight: 600;
 
       &:hover {
         background: ${({ theme }) => theme.white};
-        color: black;
+        color: ${({ theme }) => theme.darkGray};
       }
     `}
 `;

@@ -7,5 +7,5 @@ export const routes = {
   clients: '/klienci',
   products: '/produkty',
   settings: '/ustawienia',
-  rent: '/wypożyczalnia',
+  rental: '/wypożyczalnia',
 };
