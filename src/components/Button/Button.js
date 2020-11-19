@@ -2,9 +2,10 @@ import styled, { css } from 'styled-components';
 
 const Button = styled.button`
   min-width: 120px;
+  height: 36px;
   background-color: ${({ theme }) => theme.green};
   font-size: ${({ theme }) => theme.fontSize.xs};
-  color: ${({ theme }) => theme.default};
+  color: ${({ theme, color }) => (color ? theme[color] : theme.default)};
   border: 0;
   border-radius: 25px;
   padding: 9px 21px;
@@ -15,11 +16,26 @@ const Button = styled.button`
     background-color: ${({ theme }) => theme.darkGreen};
   }
 
+  &:focus {
+    border: 0;
+  }
+
   ${({ secondary }) =>
     secondary &&
     css`
+      background: ${({ theme }) => theme.gray};
+
+      &:hover {
+        background-color: ${({ theme }) => theme.darkGray};
+      }
+    `}
+
+  ${({ tertiary }) =>
+    tertiary &&
+    css`
       background: 0;
-      color: #121212;
+      transition: color 0.2s ease-in-out;
+      color: ${({ theme, color }) => (color ? theme[color] : '#121212')};
       text-decoration: underline;
       font-weight: 600;
 

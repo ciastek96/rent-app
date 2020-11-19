@@ -8,7 +8,6 @@ const StyledWrapper = styled.div`
   top: 150%;
   right: 0;
   color: red;
-  width: 100%;
   background: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
   z-index: 999;
@@ -25,12 +24,12 @@ const StyledListItem = styled.li`
 
 const StyledLink = styled(Link)`
   display: block;
-  height: 100%;
   text-decoration: none;
   background-color: ${({ theme }) => theme.white};
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.gray};
   margin: 0;
-  padding: 25px;
+  padding: 20px 25px;
 
   &:hover {
     background-color: ${({ theme }) => theme.default};

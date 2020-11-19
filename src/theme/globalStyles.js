@@ -7,6 +7,9 @@ const GlobalStyle = createGlobalStyle`
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+    *,*:focus,*:hover{
+    outline:none;
+    }
     html {
         font-size: 62.5%;
     }

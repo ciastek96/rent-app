@@ -95,7 +95,7 @@ const LoginView = ({ location: { pathname } }) => {
                   <StyledInput type="password" name="password2" placeholder="Powtórz hasło" />
                 </StyledForm>
                 <StyledButtonsWrapper>
-                  <Button secondary onClick={() => setCardType(routes.login)}>
+                  <Button tertiary onClick={() => setCardType(routes.login)}>
                     Logowanie
                   </Button>
                   <Button>Stwórz konto</Button>
@@ -114,7 +114,7 @@ const LoginView = ({ location: { pathname } }) => {
                   <StyledInput type="password" name="password" placeholder="Hasło" />
                 </StyledForm>
                 <StyledButtonsWrapper>
-                  <Button secondary onClick={() => setCardType(routes.register)}>
+                  <Button tertiary onClick={() => setCardType(routes.register)}>
                     Rejestracja
                   </Button>
                   <Button>Zaloguj</Button>
