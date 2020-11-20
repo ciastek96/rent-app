@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { routes } from '../../routes/routes';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import DownIcon from '../../assets/icons/svg/directional/angle-down.svg';
 import BellIcon from '../../assets/icons/svg/interfaces/bell-alt.svg';
@@ -46,7 +47,23 @@ const StyledAvatar = styled.div`
   background-color: ${({ theme }) => theme.green};
   margin-right: 15px;
 `;
+const StyledListItem = styled.li`
+  list-style: none;
+`;
 
+const StyledLink = styled(Link)`
+  display: block;
+  text-decoration: none;
+  background-color: ${({ theme }) => theme.white};
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  color: ${({ theme }) => theme.gray};
+  margin: 0;
+  padding: 20px 25px;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.default};
+  }
+`;
 const StyledDropdownMenu = styled(DropdownMenu)``;
 
 const UserPanel = () => {
@@ -59,7 +76,18 @@ const UserPanel = () => {
         <StyledAvatar />
         <p>Kamil Kołacz</p>
       </StyledUserButton>
-      {toggleMenu && <StyledDropdownMenu />}
+      {toggleMenu && (
+        <>
+          <StyledDropdownMenu>
+            <StyledListItem>
+              <StyledLink to={routes.settings}>Ustawienia konta</StyledLink>
+            </StyledListItem>
+            <StyledListItem>
+              <StyledLink to={routes.logout}>Wyloguj</StyledLink>
+            </StyledListItem>
+          </StyledDropdownMenu>
+        </>
+      )}
     </StyledWrapper>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { routes } from '../../routes/routes';
 
@@ -18,38 +19,22 @@ const StyledList = styled.ul`
   padding: 0;
 `;
 
-const StyledListItem = styled.li`
-  list-style: none;
-`;
-
-const StyledLink = styled(Link)`
-  display: block;
-  text-decoration: none;
-  background-color: ${({ theme }) => theme.white};
-  font-size: ${({ theme }) => theme.fontSize.xs};
-  color: ${({ theme }) => theme.gray};
-  margin: 0;
-  padding: 20px 25px;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.default};
-  }
-`;
-
-const DropdownMenu = () => {
-  let i;
-  return (
-    <StyledWrapper>
-      <StyledList>
-        <StyledListItem>
+const DropdownMenu = ({ children }) => (
+  <StyledWrapper>
+    <StyledList>
+      {/* <StyledListItem>
           <StyledLink to={routes.settings}>Ustawienia konta</StyledLink>
         </StyledListItem>
         <StyledListItem>
           <StyledLink to={routes.logout}>Wyloguj</StyledLink>
-        </StyledListItem>
-      </StyledList>
-    </StyledWrapper>
-  );
+        </StyledListItem> */}
+      {children}
+    </StyledList>
+  </StyledWrapper>
+);
+
+DropdownMenu.propTypes = {
+  children: PropTypes.element.isRequired,
 };
 
 export default DropdownMenu;
