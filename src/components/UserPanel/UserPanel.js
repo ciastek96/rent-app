@@ -47,6 +47,7 @@ const StyledAvatar = styled.div`
   background-color: ${({ theme }) => theme.green};
   margin-right: 15px;
 `;
+
 const StyledListItem = styled.li`
   list-style: none;
 `;
@@ -64,7 +65,10 @@ const StyledLink = styled(Link)`
     background-color: ${({ theme }) => theme.default};
   }
 `;
-const StyledDropdownMenu = styled(DropdownMenu)``;
+
+const StyledDropdownMenu = styled(DropdownMenu)`
+  top: 150%;
+`;
 
 const UserPanel = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -78,7 +82,7 @@ const UserPanel = () => {
       </StyledUserButton>
       {toggleMenu && (
         <>
-          <StyledDropdownMenu>
+          <StyledDropdownMenu top="150%">
             <StyledListItem>
               <StyledLink to={routes.settings}>Ustawienia konta</StyledLink>
             </StyledListItem>

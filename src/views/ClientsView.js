@@ -4,9 +4,8 @@ import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import Card from '../components/Card/Card';
+import LayoutButtons from '../components/LayoutButtons/LayoutButtons';
 import ListItem from '../components/ListItem/ListItem';
-import GridIcon from '../assets/icons/svg/interfaces/nav-icon.svg';
-import ListIcon from '../assets/icons/svg/interfaces/nav-icon-list.svg';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -19,29 +18,6 @@ const StyledGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 45px;
-`;
-
-const StyledDisplayOptions = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const StyledIcon = styled.button`
-  border: 0;
-  height: 20px;
-  width: 20px;
-  cursor: pointer;
-  margin: 15px 5px;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  opacity: 0.3;
-`;
-
-const StyledGridIcon = styled(StyledIcon)`
-  background-image: url(${GridIcon});
-`;
-const StyledListIcon = styled(StyledIcon)`
-  background-image: url(${ListIcon});
 `;
 
 const data = [
@@ -66,31 +42,36 @@ const data = [
 ];
 
 const ClientsView = () => {
+  const [inputValue, setInputValue] = useState('');
   const GRID = 'grid';
-  const LIST = 'list';
-  const [activeView, setActiveView] = useState(GRID);
+
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const filteredData = data.filter((value) => value.name.toLowerCase().includes(inputValue));
+
+  const [activeView, setActiveView] = useState('list');
   return (
     <MainTemplate>
       <StyledHeader>
         <h2>Klienci</h2>
-        <Input search placeholder="Szukaj..." />
+        <Input search placeholder="Szukaj..." value={inputValue} onChange={handleChange} />
         <Button>Dodaj nowy</Button>
       </StyledHeader>
-      <StyledDisplayOptions>
-        <StyledGridIcon onClick={() => setActiveView(GRID)} />
-        <StyledListIcon onClick={() => setActiveView(LIST)} />
-      </StyledDisplayOptions>
+      <LayoutButtons setActiveView={setActiveView} />
       {activeView === GRID ? (
         <StyledGrid>
-          {data.map(({ name, city, phone, id }) => (
+          {filteredData.map(({ name, city, phone, id }) => (
             <Card key={id} name={name} city={city} phone={phone} />
           ))}
         </StyledGrid>
       ) : (
-        data.map(({ name, city, phone, id }) => (
+        filteredData.map(({ name, city, phone, id }) => (
           <ListItem listType="clients" key={id} name={name} city={city} phone={phone} />
         ))
       )}
+      {filteredData <= 0 && <p>Brak wyników...</p>}
     </MainTemplate>
   );
 };

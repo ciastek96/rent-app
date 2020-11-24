@@ -1,13 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
-import { Link } from 'react-router-dom';
-import { routes } from '../../routes/routes';
 
 const StyledWrapper = styled.div`
   position: absolute;
-  top: 150%;
-  right: 0;
+  top: ${({ top }) => top};
+  right: 35px;
   color: red;
   background: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
@@ -19,22 +17,19 @@ const StyledList = styled.ul`
   padding: 0;
 `;
 
-const DropdownMenu = ({ children }) => (
-  <StyledWrapper>
-    <StyledList>
-      {/* <StyledListItem>
-          <StyledLink to={routes.settings}>Ustawienia konta</StyledLink>
-        </StyledListItem>
-        <StyledListItem>
-          <StyledLink to={routes.logout}>Wyloguj</StyledLink>
-        </StyledListItem> */}
-      {children}
-    </StyledList>
+const DropdownMenu = ({ children, top }) => (
+  <StyledWrapper top={top}>
+    <StyledList>{children}</StyledList>
   </StyledWrapper>
 );
 
 DropdownMenu.propTypes = {
   children: PropTypes.element.isRequired,
+  top: PropTypes.string,
+};
+
+DropdownMenu.defaultProps = {
+  top: '50%',
 };
 
 export default DropdownMenu;

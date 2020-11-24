@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import MainTemplate from '../templates/MainTemplate';
-import Modal from '../components/Modal/Modal';
 import Button from '../components/Button/Button';
 import ListItem from '../components/ListItem/ListItem';
 
@@ -39,7 +38,7 @@ const StyledHeader = styled.div`
   align-items: center;
 `;
 
-const DashboardView = () => (
+const ProductsView = () => (
   <MainTemplate>
     <StyledHeader>
       <h2>Produkty</h2>
@@ -48,8 +47,7 @@ const DashboardView = () => (
     {produkty.map(({ title, data, renter, id }) => (
       <ListItem listType="products" key={id} title={title} data={data} renter={renter} />
     ))}
-    {/* <Modal>siema</Modal> */}
   </MainTemplate>
 );
 
-export default DashboardView;
+export default ProductsView;

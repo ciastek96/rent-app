@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
-import Button from '../Button/Button';
+import { routes } from '../../routes/routes';
+import MoreButton from '../MoreButton/MoreButton';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
-import MoreIcon from '../../assets/icons/svg/interfaces/more-v.svg';
 
 const StyledList = styled.div``;
 const StyledListItem = styled.div`
   width: 100%;
-  height: 80px;
   background-color: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
   margin: 10px 0;
   padding: 15px;
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center; */
+  display: grid;
+  grid-template-columns: 6% 92% 2%;
   align-items: center;
   position: relative;
 `;
@@ -43,37 +46,61 @@ const StyledData = styled.div`
 `;
 
 const StyledWrapper = styled.div`
-  margin: 0 auto 0 25px;
+  margin: 0 0 0 25px;
+
+  h4 {
+    margin: 0;
+  }
 `;
 
 const StyledButtonWrapper = styled.div``;
 
-const StyledMoreButton = styled.button`
-  border: 0;
-  height: 18px;
-  width: 14px;
-  background-color: white;
-  background-image: url(${MoreIcon});
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  cursor: pointer;
+const StyledMenuItemList = styled.li`
+  list-style: none;
 `;
+
+const StyledLink = styled(Link)`
+  display: block;
+  text-decoration: none;
+  background-color: ${({ theme }) => theme.white};
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  color: ${({ theme }) => theme.gray};
+  margin: 0;
+  padding: 12px 24px;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.default};
+  }
+`;
+
+const StyledDetails = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+`;
+
+const StyledDropdownMenu = styled(DropdownMenu)``;
 
 const PRODUCTS = 'products';
 const CLIENTS = 'clients';
 
-const ListItem = ({ title, data, renter, name, phone, city, listType }) => {
+const ListItem = ({ title, data, renter, name, phone, city, nip, listType }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   return (
     <StyledList>
       <StyledListItem>
-        {/* <StyledData>{item.data}</StyledData> */}
-        <StyledPhoto />
+        {listType === PRODUCTS ? <StyledData>{data}</StyledData> : <StyledPhoto />}
+
         <StyledWrapper>
-          {listType === PRODUCTS ? <h4>{title}</h4> : <h4>{name}</h4>}
-          {listType === CLIENTS && (
+          {listType === PRODUCTS ? (
+            <h4>{title}</h4>
+          ) : (
             <>
-              <p>{city}</p>
+              <h4>{name}</h4>
+              <StyledDetails>
+                <p>{city}</p>
+                <p>{phone}</p>
+              </StyledDetails>
             </>
           )}
         </StyledWrapper>
@@ -82,9 +109,20 @@ const ListItem = ({ title, data, renter, name, phone, city, listType }) => {
             Usuń pozycję
           </Button>
           <Button secondary>Edytuj</Button> */}
-          <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
+          <MoreButton onClick={() => setOptionMenu(!optionMenu)} />
         </StyledButtonWrapper>
-        {optionMenu && <DropdownMenu />}
+        {optionMenu && (
+          <>
+            <StyledDropdownMenu top="50%">
+              <StyledMenuItemList>
+                <StyledLink to={routes.settings}>Usuń</StyledLink>
+              </StyledMenuItemList>
+              <StyledMenuItemList>
+                <StyledLink to={routes.logout}>Edytuj</StyledLink>
+              </StyledMenuItemList>
+            </StyledDropdownMenu>
+          </>
+        )}
       </StyledListItem>
     </StyledList>
   );
@@ -97,6 +135,7 @@ ListItem.propTypes = {
   name: PropTypes.string,
   phone: PropTypes.string,
   city: PropTypes.string,
+  nip: PropTypes.string,
   listType: PropTypes.oneOf([PRODUCTS, CLIENTS]),
 };
 
@@ -107,6 +146,7 @@ ListItem.defaultProps = {
   name: null,
   phone: null,
   city: null,
+  nip: null,
   listType: PRODUCTS,
 };
 

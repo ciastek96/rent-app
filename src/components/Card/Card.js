@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
+import DropdownMenu from '../DropdownMenu/DropdownMenu';
+import MoreButton from '../MoreButton/MoreButton';
+import { routes } from '../../routes/routes';
 import EmailIcon from '../../assets/icons/svg/interfaces/at.svg';
 
 const StyledWrapper = styled.div`
@@ -14,7 +18,7 @@ const StyledWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   box-shadow: ${({ theme }) => theme.boxShadow};
-  cursor: pointer;
+  position: relative;
 
   &::before {
     content: '';
@@ -24,11 +28,16 @@ const StyledWrapper = styled.div`
   }
 `;
 
+const StyledMoreButton = styled(MoreButton)`
+  margin: 0 15px 0 auto;
+`;
+
 const StyledPhoto = styled.div`
   background-color: ${({ theme }) => theme.default};
   border-radius: 50%;
   height: 225px;
   width: 225px;
+  cursor: pointer;
 `;
 
 const StyledInnerWrapper = styled.div`
@@ -46,11 +55,32 @@ const StyledInfo = styled.div`
   grid-gap: 15px;
   font-size: ${({ theme }) => theme.fontSize.xs};
 `;
+const StyledMenuItemList = styled.li`
+  list-style: none;
+`;
+
+const StyledLink = styled(Link)`
+  display: block;
+  text-decoration: none;
+  background-color: ${({ theme }) => theme.white};
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  color: ${({ theme }) => theme.gray};
+  margin: 0;
+  padding: 20px 25px;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.default};
+  }
+`;
+
+const StyledDropdownMenu = styled(DropdownMenu)``;
 
 const Card = ({ name, phone, city }) => {
+  const [optionMenu, setOptionMenu] = useState(false);
   if (!name) return <p>Brak pozycji. </p>;
   return (
     <StyledWrapper>
+      <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
       <StyledPhoto />
       <StyledInnerWrapper>
         <h4>{name}</h4>
@@ -59,6 +89,18 @@ const Card = ({ name, phone, city }) => {
           <p>{city}</p>
         </StyledInfo>
       </StyledInnerWrapper>
+      {optionMenu && (
+        <>
+          <StyledDropdownMenu top="25px">
+            <StyledMenuItemList>
+              <StyledLink to={routes.settings}>Usuń</StyledLink>
+            </StyledMenuItemList>
+            <StyledMenuItemList>
+              <StyledLink to={routes.logout}>Edytuj</StyledLink>
+            </StyledMenuItemList>
+          </StyledDropdownMenu>
+        </>
+      )}
     </StyledWrapper>
   );
 };

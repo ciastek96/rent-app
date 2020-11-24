@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import MoreIcon from '../../assets/icons/svg/interfaces/more-v.svg';
 
 const Button = styled.button`
   min-width: 120px;
