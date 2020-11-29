@@ -22,7 +22,7 @@ const StyledLogo = styled.a`
   text-decoration: none;
 `;
 
-const Navigation = () => (
+const Navbar = () => (
   <StyledWrapper>
     <StyledLogo as={NavLink} to="/">
       fastrent
@@ -32,4 +32,4 @@ const Navigation = () => (
   </StyledWrapper>
 );
 
-export default Navigation;
+export default Navbar;

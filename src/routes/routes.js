@@ -8,4 +8,5 @@ export const routes = {
   products: '/produkty',
   settings: '/ustawienia',
   rental: '/wypożyczalnia',
+  newClient: '/klienci/nowy',
 };

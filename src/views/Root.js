@@ -8,6 +8,7 @@ import FinancesView from './FinancesView';
 import ClientsView from './ClientsView';
 import RentalView from './RentalView';
 import NotFoundView from './NotFoundView';
+import NewItemView from './NewItemView';
 
 const Root = () => (
   <Router>
@@ -17,7 +18,8 @@ const Root = () => (
       <Route path={routes.register} component={LoginView} />
       <Route path={routes.logout} component={LoginView} />
       <Route path={routes.products} component={ProductsView} />
-      <Route path={routes.clients} component={ClientsView} />
+      <Route path={routes.clients} exact component={ClientsView} />
+      <Route path={routes.newClient} exact component={NewItemView} />
       <Route path={routes.rental} component={RentalView} />
       <Route path={routes.finances} component={FinancesView} />
       <Route path="*" component={NotFoundView} />

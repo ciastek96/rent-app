@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../theme/theme';
 import GlobalStyle from '../theme/globalStyles';
-import Navigation from '../components/Navigation/Navigation';
+import Navbar from '../components/Navbar/Navbar';
 
 const StyledWrapper = styled.div`
   max-width: 1024px;
@@ -13,13 +13,13 @@ const StyledWrapper = styled.div`
 const MainTemplate = ({ children }) => (
   <ThemeProvider theme={theme}>
     <GlobalStyle />
-    <Navigation />
+    <Navbar />
     <StyledWrapper>{children}</StyledWrapper>
   </ThemeProvider>
 );
 
 MainTemplate.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default MainTemplate;

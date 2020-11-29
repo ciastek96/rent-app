@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
@@ -57,7 +58,9 @@ const ClientsView = () => {
       <StyledHeader>
         <h2>Klienci</h2>
         <Input search placeholder="Szukaj..." value={inputValue} onChange={handleChange} />
-        <Button>Dodaj nowy</Button>
+        <Button as={Link} to="/klienci/nowy">
+          Dodaj nowy
+        </Button>
       </StyledHeader>
       <LayoutButtons setActiveView={setActiveView} />
       {activeView === GRID ? (
