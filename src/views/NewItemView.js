@@ -7,6 +7,7 @@ import ClientForm from '../components/ClientForm/ClientForm';
 import ProductForm from '../components/ProductForm/ProductForm';
 import Spinner from '../components/Spinner/Spinner';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
+import { routes } from '../routes/routes';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -55,23 +56,27 @@ const StyledGridWrapper = styled.div`
   grid-template-columns: repeat(2, 1fr);
 `;
 
-const StyledLabel = styled.label`
-  display: flex;
-  flex-direction: column;
-  padding: 12px 24px;
-  font-size: ${({ theme }) => theme.fontSize.xs};
-`;
-
 const NewItemView = ({ history, match: { path } }) => {
   const [pageType, setPageType] = useState('');
 
-  const KLIENCI = 'klienci';
+  const CLIENTS = 'klienci';
+  const PRODUCTS = 'produkty';
+  const SETTINGS = 'ustawienia';
 
   useEffect(() => {
-    const first = path.indexOf('/');
-    const last = path.indexOf('/nowy');
-    const url = path.slice(first + 1, last);
-    setPageType(url);
+    switch (path) {
+      case routes.newClient:
+        setPageType(CLIENTS);
+        break;
+      case routes.settings:
+        setPageType(PRODUCTS);
+        break;
+      case routes.newProduct:
+        setPageType(SETTINGS);
+        break;
+      default:
+        break;
+    }
   }, []);
 
   if (!pageType) {
@@ -106,7 +111,7 @@ const NewItemView = ({ history, match: { path } }) => {
           </StyledClientInfo>
         </StyledInnerWrapper>
         <StyledGridWrapper>
-          {pageType === KLIENCI ? <ClientForm /> : <ProductForm />}
+          {pageType === CLIENTS ? <ClientForm /> : <ProductForm />}
         </StyledGridWrapper>
       </StyledWrapper>
     </MainTemplate>

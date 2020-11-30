@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import ListItem from '../components/ListItem/ListItem';
+import { routes } from '../routes/routes';
 
 const produkty = [
   {
@@ -31,13 +31,6 @@ const produkty = [
   },
 ];
 
-const StyledHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 const ProductsView = () => {
   const [inputValue, setInputValue] = useState('');
 
@@ -53,7 +46,7 @@ const ProductsView = () => {
         title="Produkty"
         value={inputValue}
         handleChange={handleChange}
-        path="/produkty/nowy"
+        path={routes.newProduct}
       />
       {filteredData.map(({ title, data, renter, id }) => (
         <ListItem listType="products" key={id} title={title} data={data} renter={renter} />

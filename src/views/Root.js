@@ -22,8 +22,8 @@ const Root = () => (
       <Route path={routes.clients} exact component={ClientsView} />
       <Route path={routes.newClient} exact component={NewItemView} />
       <Route path={routes.rental} component={RentalView} />
+      <Route path={routes.settings} component={NewItemView} />
       <Route path={routes.finances} component={FinancesView} />
-      <Route path={routes.settings} component={ClientsView} />
       <Route path="*" component={NotFoundView} />
     </Switch>
   </Router>

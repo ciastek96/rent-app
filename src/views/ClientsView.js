@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
-import Button from '../components/Button/Button';
-import Input from '../components/Input/Input';
 import Card from '../components/Card/Card';
 import LayoutButtons from '../components/LayoutButtons/LayoutButtons';
 import ListItem from '../components/ListItem/ListItem';
+import { routes } from '../routes/routes';
 
 const StyledGrid = styled.div`
   display: grid;
@@ -53,7 +51,7 @@ const ClientsView = () => {
         title="Klienci"
         value={inputValue}
         handleChange={handleChange}
-        path="/klienci/nowy"
+        path={routes.newClient}
       />
       <LayoutButtons setActiveView={setActiveView} />
       {activeView === GRID ? (

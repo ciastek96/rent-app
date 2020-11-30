@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { motion, Frame } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ReactComponent as SpinnerIcon } from '../../assets/icons/svg/spinner/spinner.svg';
 
 const StyledWrapper = styled.div`
