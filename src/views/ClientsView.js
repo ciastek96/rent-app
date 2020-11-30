@@ -2,18 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MainTemplate from '../templates/MainTemplate';
+import ItemsTemplate from '../templates/ItemsTemplate';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import Card from '../components/Card/Card';
 import LayoutButtons from '../components/LayoutButtons/LayoutButtons';
 import ListItem from '../components/ListItem/ListItem';
-
-const StyledHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 const StyledGrid = styled.div`
   display: grid;
@@ -55,13 +49,12 @@ const ClientsView = () => {
   const [activeView, setActiveView] = useState('list');
   return (
     <MainTemplate>
-      <StyledHeader>
-        <h2>Klienci</h2>
-        <Input search placeholder="Szukaj..." value={inputValue} onChange={handleChange} />
-        <Button as={Link} to="/klienci/nowy">
-          Dodaj nowy
-        </Button>
-      </StyledHeader>
+      <ItemsTemplate
+        title="Klienci"
+        value={inputValue}
+        handleChange={handleChange}
+        path="/klienci/nowy"
+      />
       <LayoutButtons setActiveView={setActiveView} />
       {activeView === GRID ? (
         <StyledGrid>

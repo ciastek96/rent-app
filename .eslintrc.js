@@ -13,6 +13,7 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
+    'react/prop-types': 1,
     'react/jsx-props-no-spreading': 0,
     'jsx-a11y/label-has-associated-control': 0,
     'implicit-arrow-linebreak': 0,

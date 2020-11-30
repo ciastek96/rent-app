@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import MainTemplate from '../templates/MainTemplate';
-import Button from '../components/Button/Button';
+import ItemsTemplate from '../templates/ItemsTemplate';
 import ListItem from '../components/ListItem/ListItem';
 
 const produkty = [
@@ -38,16 +38,29 @@ const StyledHeader = styled.div`
   align-items: center;
 `;
 
-const ProductsView = () => (
-  <MainTemplate>
-    <StyledHeader>
-      <h2>Produkty</h2>
-      <Button>Dodaj nowy</Button>
-    </StyledHeader>
-    {produkty.map(({ title, data, renter, id }) => (
-      <ListItem listType="products" key={id} title={title} data={data} renter={renter} />
-    ))}
-  </MainTemplate>
-);
+const ProductsView = () => {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const filteredData = produkty.filter((value) => value.title.toLowerCase().includes(inputValue));
+
+  return (
+    <MainTemplate>
+      <ItemsTemplate
+        title="Produkty"
+        value={inputValue}
+        handleChange={handleChange}
+        path="/produkty/nowy"
+      />
+      {filteredData.map(({ title, data, renter, id }) => (
+        <ListItem listType="products" key={id} title={title} data={data} renter={renter} />
+      ))}
+      {filteredData <= 0 && <p>Brak wyników...</p>}
+    </MainTemplate>
+  );
+};
 
 export default ProductsView;
