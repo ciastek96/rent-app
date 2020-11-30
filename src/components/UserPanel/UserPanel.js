@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { routes } from '../../routes/routes';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import DownIcon from '../../assets/icons/svg/directional/angle-down.svg';
-import BellIcon from '../../assets/icons/svg/interfaces/bell-alt.svg';
+import { ReactComponent as BellIcon } from '../../assets/icons/svg/interfaces/bell-alt.svg';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -18,12 +18,19 @@ const StyledNotificationButton = styled.button`
   height: 35px;
   width: 35px;
   border: 0;
-  background: url(${BellIcon});
-  opacity: 0.3;
-  background-size: 40%;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
   margin: 0 10px;
+  padding: 7px;
+  background: none;
+`;
+
+const StyledBellIcon = styled(BellIcon)`
+  fill: ${({ theme }) => theme.gray};
+  cursor: pointer;
+  transition: fill 0.25s ease-in-out;
+
+  &:hover {
+    fill: ${({ theme }) => theme.darkGray};
+  }
 `;
 
 const StyledUserButton = styled.button`
@@ -41,7 +48,7 @@ const StyledUserButton = styled.button`
 `;
 
 const StyledAvatar = styled.div`
-  width: 45px;
+  min-width: 45px;
   height: 45px;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.green};
@@ -75,7 +82,9 @@ const UserPanel = () => {
 
   return (
     <StyledWrapper>
-      <StyledNotificationButton />
+      <StyledNotificationButton>
+        <StyledBellIcon />
+      </StyledNotificationButton>
       <StyledUserButton onClick={() => setToggleMenu(!toggleMenu)}>
         <StyledAvatar />
         <p>Kamil Kołacz</p>

@@ -5,6 +5,7 @@ import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import ClientForm from '../components/ClientForm/ClientForm';
 import ProductForm from '../components/ProductForm/ProductForm';
+import UserSettingsForm from '../components/UserSettingsForm/UserSettingsForm';
 import Spinner from '../components/Spinner/Spinner';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
@@ -48,12 +49,23 @@ const StyledClientInfo = styled.div`
     color: ${({ theme }) => theme.lightGray};
     margin-bottom: 0;
   }
+
+  h4 {
+    margin-right: 18px;
+  }
+
+  span {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
 
 const StyledGridWrapper = styled.div`
-  padding: 45px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  padding-bottom: 45px;
 `;
 
 const NewItemView = ({ history, match: { path } }) => {
@@ -68,54 +80,122 @@ const NewItemView = ({ history, match: { path } }) => {
       case routes.newClient:
         setPageType(CLIENTS);
         break;
-      case routes.settings:
+      case routes.newProduct:
         setPageType(PRODUCTS);
         break;
-      case routes.newProduct:
+      case routes.settings:
         setPageType(SETTINGS);
         break;
       default:
         break;
     }
-  }, []);
+  });
 
-  if (!pageType) {
-    return (
-      <MainTemplate>
-        <Spinner />
-      </MainTemplate>
-    );
+  switch (pageType) {
+    case CLIENTS:
+      return (
+        <MainTemplate>
+          <StyledHeader>
+            <h2>{pageType}</h2>
+            <StyledButtonsWrapper>
+              <Button
+                secondary
+                onClick={() => {
+                  history.goBack(-1);
+                }}
+              >
+                Anuluj
+              </Button>
+              <StyledButton>Dodaj</StyledButton>
+            </StyledButtonsWrapper>
+          </StyledHeader>
+          <StyledWrapper>
+            <StyledInnerWrapper>
+              <ImageUploader />
+              <StyledClientInfo>
+                <h2>Adam Małysz</h2>
+                <h4>Gliwice, Sikorskiego 21a</h4>
+              </StyledClientInfo>
+            </StyledInnerWrapper>
+            <StyledGridWrapper>
+              <ClientForm />
+            </StyledGridWrapper>
+          </StyledWrapper>
+        </MainTemplate>
+      );
+    case PRODUCTS:
+      return (
+        <MainTemplate>
+          <StyledHeader>
+            <h2>{pageType}</h2>
+            <StyledButtonsWrapper>
+              <Button
+                secondary
+                onClick={() => {
+                  history.goBack(-1);
+                }}
+              >
+                Anuluj
+              </Button>
+              <StyledButton>Dodaj</StyledButton>
+            </StyledButtonsWrapper>
+          </StyledHeader>
+          <StyledWrapper>
+            <StyledInnerWrapper>
+              <ImageUploader />
+              <StyledClientInfo>
+                <h2>Adam Małysz</h2>
+                <h4>Gliwice, Sikorskiego 21a</h4>
+              </StyledClientInfo>
+            </StyledInnerWrapper>
+            <StyledGridWrapper>
+              <ProductForm />
+            </StyledGridWrapper>
+          </StyledWrapper>
+        </MainTemplate>
+      );
+    case SETTINGS:
+      return (
+        <MainTemplate>
+          <StyledHeader>
+            <h2>{pageType}</h2>
+            <StyledButtonsWrapper>
+              <Button
+                secondary
+                onClick={() => {
+                  history.goBack(-1);
+                }}
+              >
+                Anuluj
+              </Button>
+              <StyledButton>Zapisz</StyledButton>
+            </StyledButtonsWrapper>
+          </StyledHeader>
+          <StyledWrapper>
+            <StyledInnerWrapper>
+              <ImageUploader />
+              <StyledClientInfo>
+                <h2>Kamil Kołacz</h2>
+                <h4>Sikorskiego 21a, 44-120 Gliwice</h4>
+                <span>
+                  <h4>ciastek1996@gmail.com</h4>
+                  <h4>+48 570 761 833</h4>
+                </span>
+              </StyledClientInfo>
+            </StyledInnerWrapper>
+            <StyledGridWrapper>
+              <UserSettingsForm />
+            </StyledGridWrapper>
+          </StyledWrapper>
+        </MainTemplate>
+      );
+    default:
+      return (
+        <MainTemplate>
+          <Spinner />
+        </MainTemplate>
+      );
   }
-  return (
-    <MainTemplate>
-      <StyledHeader>
-        <h2>{pageType}</h2>
-        <StyledButtonsWrapper>
-          <Button
-            secondary
-            onClick={() => {
-              history.goBack(-1);
-            }}
-          >
-            Anuluj
-          </Button>
-          <StyledButton>Dodaj</StyledButton>
-        </StyledButtonsWrapper>
-      </StyledHeader>
-      <StyledWrapper>
-        <StyledInnerWrapper>
-          <ImageUploader />
-          <StyledClientInfo>
-            <h2>Adam Małysz</h2>
-            <h4>Gliwice, Sikorskiego 21a</h4>
-          </StyledClientInfo>
-        </StyledInnerWrapper>
-        <StyledGridWrapper>
-          {pageType === CLIENTS ? <ClientForm /> : <ProductForm />}
-        </StyledGridWrapper>
-      </StyledWrapper>
-    </MainTemplate>
-  );
 };
 
 NewItemView.propTypes = {
