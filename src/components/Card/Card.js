@@ -7,7 +7,7 @@ import MoreButton from '../MoreButton/MoreButton';
 import { routes } from '../../routes/routes';
 import EmailIcon from '../../assets/icons/svg/interfaces/at.svg';
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   border-radius: 6px;
   background-color: ${({ theme }) => theme.white};
   min-height: 420px;
@@ -32,7 +32,7 @@ const StyledMoreButton = styled(MoreButton)`
   margin: 0 15px 0 auto;
 `;
 
-const StyledPhoto = styled.div`
+const Photo = styled.div`
   background-color: ${({ theme }) => theme.default};
   border-radius: 50%;
   height: 225px;
@@ -40,7 +40,7 @@ const StyledPhoto = styled.div`
   cursor: pointer;
 `;
 
-const StyledInnerWrapper = styled.div`
+const InnerWrapper = styled.div`
   width: 100%;
   height: 125px;
   background-color: ${({ theme }) => theme.default};
@@ -48,14 +48,14 @@ const StyledInnerWrapper = styled.div`
   padding: 10px;
 `;
 
-const StyledInfo = styled.div`
+const Info = styled.div`
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 15px;
   font-size: ${({ theme }) => theme.fontSize.xs};
 `;
-const StyledMenuItemList = styled.li`
+const MenuItemList = styled.li`
   list-style: none;
 `;
 
@@ -79,29 +79,29 @@ const Card = ({ name, phone, city }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   if (!name) return <p>Brak pozycji. </p>;
   return (
-    <StyledWrapper>
+    <Wrapper>
       <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
-      <StyledPhoto />
-      <StyledInnerWrapper>
+      <Photo />
+      <InnerWrapper>
         <h4>{name}</h4>
-        <StyledInfo>
+        <Info>
           <p>{phone}</p>
           <p>{city}</p>
-        </StyledInfo>
-      </StyledInnerWrapper>
+        </Info>
+      </InnerWrapper>
       {optionMenu && (
         <>
           <StyledDropdownMenu top="25px">
-            <StyledMenuItemList>
+            <MenuItemList>
               <StyledLink to={routes.settings}>Usuń</StyledLink>
-            </StyledMenuItemList>
-            <StyledMenuItemList>
+            </MenuItemList>
+            <MenuItemList>
               <StyledLink to={routes.logout}>Edytuj</StyledLink>
-            </StyledMenuItemList>
+            </MenuItemList>
           </StyledDropdownMenu>
         </>
       )}
-    </StyledWrapper>
+    </Wrapper>
   );
 };
 

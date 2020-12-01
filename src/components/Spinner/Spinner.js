@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { ReactComponent as SpinnerIcon } from '../../assets/icons/svg/spinner/spinner.svg';
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   position: fixed;
@@ -22,7 +22,7 @@ const StyledSpinner = styled.div`
 `;
 
 const Spinner = () => (
-  <StyledWrapper>
+  <Wrapper>
     <StyledSpinner
       as={motion.div}
       animate={{ rotate: 360 }}
@@ -34,7 +34,7 @@ const Spinner = () => (
     >
       <SpinnerIcon />
     </StyledSpinner>
-  </StyledWrapper>
+  </Wrapper>
 );
 
 export default Spinner;

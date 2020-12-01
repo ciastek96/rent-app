@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-const StyledList = styled.ul`
+const List = styled.ul`
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
 
-const StyledListItem = styled.li`
+const ListItem = styled.li`
   padding: 0 12px;
   color: black;
   text-decoration: none;
@@ -22,23 +22,23 @@ const StyledListItem = styled.li`
 `;
 
 const Menu = () => (
-  <StyledList>
-    <StyledListItem as={NavLink} exact to="/" activeClassName="active">
+  <List>
+    <ListItem as={NavLink} exact to="/" activeClassName="active">
       Dashboard
-    </StyledListItem>
-    <StyledListItem as={NavLink} to="/wypozyczalnia" activeClassName="active">
+    </ListItem>
+    <ListItem as={NavLink} to="/wypozyczalnia" activeClassName="active">
       Wypożyczalnia
-    </StyledListItem>
-    <StyledListItem as={NavLink} to="/produkty" activeClassName="active">
+    </ListItem>
+    <ListItem as={NavLink} to="/produkty" activeClassName="active">
       Produkty
-    </StyledListItem>
-    <StyledListItem as={NavLink} to="/klienci" activeClassName="active">
+    </ListItem>
+    <ListItem as={NavLink} to="/klienci" activeClassName="active">
       Klienci
-    </StyledListItem>
-    <StyledListItem as={NavLink} to="/finanse" activeClassName="active">
+    </ListItem>
+    <ListItem as={NavLink} to="/finanse" activeClassName="active">
       Finanse
-    </StyledListItem>
-  </StyledList>
+    </ListItem>
+  </List>
 );
 
 export default Menu;

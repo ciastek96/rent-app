@@ -29,11 +29,11 @@ const StyledInput = styled.input`
     `}
 `;
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   padding: 12px 24px;
 `;
 
-const StyledLabel = styled.label`
+const Label = styled.label`
   display: flex;
   flex-direction: column;
   margin-bottom: 8px;
@@ -46,12 +46,12 @@ const StyledLabel = styled.label`
 const Input = ({ label, id, ...props }) => {
   if (label) {
     return (
-      <StyledWrapper>
-        <StyledLabel htmlFor={id}>
+      <Wrapper>
+        <Label htmlFor={id}>
           <span>{label}</span>
-        </StyledLabel>
+        </Label>
         <StyledInput {...props} />
-      </StyledWrapper>
+      </Wrapper>
     );
   }
   return <StyledInput {...props} />;

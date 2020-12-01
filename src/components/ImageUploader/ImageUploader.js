@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PlusIcon from '../../assets/icons/svg/interfaces/plus-a.svg';
 
-const StyledWrapper = styled.label`
+const Wrapper = styled.label`
   min-width: 160px;
   height: 160px;
   border-radius: 50%;
@@ -16,7 +16,7 @@ const StyledWrapper = styled.label`
   }
 `;
 
-const StyledAddButton = styled.button`
+const AddButton = styled.button`
   border: 0;
   min-width: 35px;
   min-height: 35px;
@@ -33,10 +33,10 @@ const StyledAddButton = styled.button`
 `;
 
 const ImageUploader = () => (
-  <StyledWrapper htmlFor="image">
+  <Wrapper htmlFor="image">
     <input id="image" type="file" accept="image/*" />
-    <StyledAddButton />
-  </StyledWrapper>
+    <AddButton />
+  </Wrapper>
 );
 
 export default ImageUploader;

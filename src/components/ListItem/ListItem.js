@@ -6,8 +6,8 @@ import { routes } from '../../routes/routes';
 import MoreButton from '../MoreButton/MoreButton';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 
-const StyledList = styled.div``;
-const StyledListItem = styled.div`
+const ListWrapper = styled.div``;
+const ListItemWrapper = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
@@ -23,14 +23,14 @@ const StyledListItem = styled.div`
   position: relative;
 `;
 
-const StyledPhoto = styled.div`
+const PhotoWrapper = styled.div`
   height: 60px;
   width: 60px;
   background-color: ${({ theme }) => theme.green};
   border-radius: 50%;
 `;
 
-const StyledData = styled.div`
+const Data = styled.div`
   height: 50px;
   width: 50px;
   background-color: ${({ theme }) => theme.green};
@@ -45,7 +45,7 @@ const StyledData = styled.div`
   color: ${({ theme }) => theme.default};
 `;
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   margin: 0 0 0 25px;
 
   h4 {
@@ -53,9 +53,9 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const StyledButtonWrapper = styled.div``;
+const ButtonWrapper = styled.div``;
 
-const StyledMenuItemList = styled.li`
+const MenuItemList = styled.li`
   list-style: none;
 `;
 
@@ -87,11 +87,11 @@ const CLIENTS = 'clients';
 const ListItem = ({ title, data, renter, name, phone, city, nip, listType }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   return (
-    <StyledList>
-      <StyledListItem>
-        {listType === PRODUCTS ? <StyledData>{data}</StyledData> : <StyledPhoto />}
+    <ListWrapper>
+      <ListItemWrapper>
+        {listType === PRODUCTS ? <Data>{data}</Data> : <PhotoWrapper />}
 
-        <StyledWrapper>
+        <Wrapper>
           {listType === PRODUCTS ? (
             <h4>{title}</h4>
           ) : (
@@ -103,32 +103,32 @@ const ListItem = ({ title, data, renter, name, phone, city, nip, listType }) => 
               </StyledDetails>
             </>
           )}
-        </StyledWrapper>
-        <StyledButtonWrapper>
+        </Wrapper>
+        <ButtonWrapper>
           {/* <Button color="lightGray" tertiary>
             Usuń pozycję
           </Button>
           <Button secondary>Edytuj</Button> */}
           <MoreButton onClick={() => setOptionMenu(!optionMenu)} />
-        </StyledButtonWrapper>
+        </ButtonWrapper>
         {optionMenu && (
           <>
             <StyledDropdownMenu top="50%">
-              <StyledMenuItemList>
+              <MenuItemList>
                 <StyledLink to={routes.settings}>Usuń</StyledLink>
-              </StyledMenuItemList>
-              <StyledMenuItemList>
+              </MenuItemList>
+              <MenuItemList>
                 <StyledLink to={routes.logout}>Edytuj</StyledLink>
-              </StyledMenuItemList>
+              </MenuItemList>
             </StyledDropdownMenu>
           </>
         )}
-      </StyledListItem>
-    </StyledList>
+      </ListItemWrapper>
+    </ListWrapper>
   );
 };
 
-ListItem.propTypes = {
+ListItemWrapper.propTypes = {
   title: PropTypes.string,
   data: PropTypes.string,
   renter: PropTypes.string,
@@ -139,7 +139,7 @@ ListItem.propTypes = {
   listType: PropTypes.oneOf([PRODUCTS, CLIENTS]),
 };
 
-ListItem.defaultProps = {
+ListItemWrapper.defaultProps = {
   title: null,
   data: null,
   renter: null,
@@ -150,4 +150,4 @@ ListItem.defaultProps = {
   listType: PRODUCTS,
 };
 
-export default ListItem;
+export default ListItemWrapper;

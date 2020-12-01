@@ -21,7 +21,7 @@ const StyledHeader = styled.div`
   }
 `;
 
-const StyledButtonsWrapper = styled.div`
+const ButtonsWrapper = styled.div`
   display: flex;
 `;
 
@@ -29,20 +29,20 @@ const StyledButton = styled(Button)`
   margin-left: 15px;
 `;
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   max-width: 1024px;
   background-color: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
   margin-bottom: 65px;
 `;
 
-const StyledInnerWrapper = styled.div`
+const InnerWrapper = styled.div`
   display: flex;
   flex-direction: row;
   padding: 45px;
 `;
 
-const StyledClientInfo = styled.div`
+const ClientInfo = styled.div`
   margin-left: 45px;
 
   h2 {
@@ -62,7 +62,7 @@ const StyledClientInfo = styled.div`
   }
 `;
 
-const StyledGridWrapper = styled.div`
+const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   padding-bottom: 45px;
@@ -97,7 +97,7 @@ const NewItemView = ({ history, match: { path } }) => {
         <MainTemplate>
           <StyledHeader>
             <h2>{pageType}</h2>
-            <StyledButtonsWrapper>
+            <ButtonsWrapper>
               <Button
                 secondary
                 onClick={() => {
@@ -107,20 +107,20 @@ const NewItemView = ({ history, match: { path } }) => {
                 Anuluj
               </Button>
               <StyledButton>Dodaj</StyledButton>
-            </StyledButtonsWrapper>
+            </ButtonsWrapper>
           </StyledHeader>
-          <StyledWrapper>
-            <StyledInnerWrapper>
+          <Wrapper>
+            <InnerWrapper>
               <ImageUploader />
-              <StyledClientInfo>
+              <ClientInfo>
                 <h2>Adam Małysz</h2>
                 <h4>Gliwice, Sikorskiego 21a</h4>
-              </StyledClientInfo>
-            </StyledInnerWrapper>
-            <StyledGridWrapper>
+              </ClientInfo>
+            </InnerWrapper>
+            <GridWrapper>
               <ClientForm />
-            </StyledGridWrapper>
-          </StyledWrapper>
+            </GridWrapper>
+          </Wrapper>
         </MainTemplate>
       );
     case PRODUCTS:
@@ -128,7 +128,7 @@ const NewItemView = ({ history, match: { path } }) => {
         <MainTemplate>
           <StyledHeader>
             <h2>{pageType}</h2>
-            <StyledButtonsWrapper>
+            <ButtonsWrapper>
               <Button
                 secondary
                 onClick={() => {
@@ -138,20 +138,20 @@ const NewItemView = ({ history, match: { path } }) => {
                 Anuluj
               </Button>
               <StyledButton>Dodaj</StyledButton>
-            </StyledButtonsWrapper>
+            </ButtonsWrapper>
           </StyledHeader>
-          <StyledWrapper>
-            <StyledInnerWrapper>
+          <Wrapper>
+            <InnerWrapper>
               <ImageUploader />
-              <StyledClientInfo>
+              <ClientInfo>
                 <h2>Adam Małysz</h2>
                 <h4>Gliwice, Sikorskiego 21a</h4>
-              </StyledClientInfo>
-            </StyledInnerWrapper>
-            <StyledGridWrapper>
+              </ClientInfo>
+            </InnerWrapper>
+            <GridWrapper>
               <ProductForm />
-            </StyledGridWrapper>
-          </StyledWrapper>
+            </GridWrapper>
+          </Wrapper>
         </MainTemplate>
       );
     case SETTINGS:
@@ -159,7 +159,7 @@ const NewItemView = ({ history, match: { path } }) => {
         <MainTemplate>
           <StyledHeader>
             <h2>{pageType}</h2>
-            <StyledButtonsWrapper>
+            <ButtonsWrapper>
               <Button
                 secondary
                 onClick={() => {
@@ -169,24 +169,24 @@ const NewItemView = ({ history, match: { path } }) => {
                 Anuluj
               </Button>
               <StyledButton>Zapisz</StyledButton>
-            </StyledButtonsWrapper>
+            </ButtonsWrapper>
           </StyledHeader>
-          <StyledWrapper>
-            <StyledInnerWrapper>
+          <Wrapper>
+            <InnerWrapper>
               <ImageUploader />
-              <StyledClientInfo>
+              <ClientInfo>
                 <h2>Kamil Kołacz</h2>
                 <h4>Sikorskiego 21a, 44-120 Gliwice</h4>
                 <span>
                   <h4>ciastek1996@gmail.com</h4>
                   <h4>+48 570 761 833</h4>
                 </span>
-              </StyledClientInfo>
-            </StyledInnerWrapper>
-            <StyledGridWrapper>
+              </ClientInfo>
+            </InnerWrapper>
+            <GridWrapper>
               <UserSettingsForm />
-            </StyledGridWrapper>
-          </StyledWrapper>
+            </GridWrapper>
+          </Wrapper>
         </MainTemplate>
       );
     default:

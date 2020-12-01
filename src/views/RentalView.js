@@ -4,7 +4,7 @@ import MainTemplate from '../templates/MainTemplate';
 import Modal from '../components/Modal/Modal';
 import Button from '../components/Button/Button';
 
-const StyledHeader = styled.div`
+const Header = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -13,9 +13,9 @@ const StyledHeader = styled.div`
 
 const RentalView = () => (
   <MainTemplate>
-    <StyledHeader>
+    <Header>
       <h2>Wypożyczalnia</h2>
-    </StyledHeader>
+    </Header>
     {/* <Modal>siema</Modal> */}
   </MainTemplate>
 );

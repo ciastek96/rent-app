@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../Button/Button';
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   position: fixed;
@@ -40,7 +40,7 @@ const StyledModal = styled.div`
   }
 `;
 
-const StyledButtonWrapper = styled.div`
+const ButtonWrapper = styled.div`
   width: 100%;
   height: 90px;
   background-color: ${({ theme }) => theme.default};
@@ -50,7 +50,7 @@ const StyledButtonWrapper = styled.div`
   align-items: center;
 `;
 
-const StyledMessageWrapper = styled.div`
+const MessageWrapper = styled.div`
   text-align: center;
   height: 100%;
   width: 60%;
@@ -63,20 +63,20 @@ const StyledParagraph = styled.p`
 `;
 
 const Modal = () => {
-  const [isModalOpen, setIsModalOpen] = useState();
+  const [isStyledModalOpen, setIsStyledModalOpen] = useState();
   return (
-    <StyledWrapper onClick={() => setIsModalOpen(false)}>
+    <Wrapper onClick={() => setIsStyledModalOpen(false)}>
       <StyledModal>
-        <StyledMessageWrapper>
+        <MessageWrapper>
           <h2>Uwaga!</h2>
           <StyledParagraph>Czy na pewno chcesz odrzucić zapisywanie zmian?</StyledParagraph>
-        </StyledMessageWrapper>
-        <StyledButtonWrapper>
+        </MessageWrapper>
+        <ButtonWrapper>
           <Button secondary>Anuluj</Button>
-          <Button onClick={() => setIsModalOpen(false)}>Usuń</Button>
-        </StyledButtonWrapper>
+          <Button onClick={() => setIsStyledModalOpen(false)}>Usuń</Button>
+        </ButtonWrapper>
       </StyledModal>
-    </StyledWrapper>
+    </Wrapper>
   );
 };
 

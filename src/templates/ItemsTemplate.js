@@ -7,12 +7,12 @@ import Input from '../components/Input/Input';
 import LayoutButtons from '../components/LayoutButtons/LayoutButtons';
 import ListItem from '../components/ListItem/ListItem';
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   max-width: 1024px;
   margin: 0 auto;
 `;
 
-const StyledHeader = styled.div`
+const Header = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -20,16 +20,16 @@ const StyledHeader = styled.div`
 `;
 
 const ItemsTemplate = ({ children, title, inputValue, handleChange, path }) => (
-  <StyledWrapper>
-    <StyledHeader>
+  <Wrapper>
+    <Header>
       <h2>{title}</h2>
       <Input search placeholder="Szukaj..." value={inputValue} onChange={handleChange} />
       <Button as={Link} to={path}>
         Dodaj nowy
       </Button>
-    </StyledHeader>
+    </Header>
     {children}
-  </StyledWrapper>
+  </Wrapper>
 );
 
 ItemsTemplate.propTypes = {

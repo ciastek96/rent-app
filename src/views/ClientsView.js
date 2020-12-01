@@ -7,7 +7,7 @@ import LayoutButtons from '../components/LayoutButtons/LayoutButtons';
 import ListItem from '../components/ListItem/ListItem';
 import { routes } from '../routes/routes';
 
-const StyledGrid = styled.div`
+const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 45px;
@@ -55,11 +55,11 @@ const ClientsView = () => {
       />
       <LayoutButtons setActiveView={setActiveView} />
       {activeView === GRID ? (
-        <StyledGrid>
+        <GridWrapper>
           {filteredData.map(({ name, city, phone, id }) => (
             <Card key={id} name={name} city={city} phone={phone} />
           ))}
-        </StyledGrid>
+        </GridWrapper>
       ) : (
         filteredData.map(({ name, city, phone, id }) => (
           <ListItem listType="clients" key={id} name={name} city={city} phone={phone} />

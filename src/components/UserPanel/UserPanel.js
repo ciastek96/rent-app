@@ -6,7 +6,7 @@ import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import DownIcon from '../../assets/icons/svg/directional/angle-down.svg';
 import { ReactComponent as BellIcon } from '../../assets/icons/svg/interfaces/bell-alt.svg';
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -14,12 +14,12 @@ const StyledWrapper = styled.div`
   position: relative;
 `;
 
-const StyledNotificationButton = styled.button`
+const NotificationButton = styled.button`
   height: 35px;
   width: 35px;
   border: 0;
   margin: 0 10px;
-  padding: 7px;
+  padding: 8px;
   background: none;
 `;
 
@@ -33,7 +33,7 @@ const StyledBellIcon = styled(BellIcon)`
   }
 `;
 
-const StyledUserButton = styled.button`
+const UserButton = styled.button`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -47,7 +47,7 @@ const StyledUserButton = styled.button`
   padding-right: 30px;
 `;
 
-const StyledAvatar = styled.div`
+const Avatar = styled.div`
   min-width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -55,7 +55,7 @@ const StyledAvatar = styled.div`
   margin-right: 15px;
 `;
 
-const StyledListItem = styled.li`
+const ListItem = styled.li`
   list-style: none;
 `;
 
@@ -81,27 +81,27 @@ const UserPanel = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
 
   return (
-    <StyledWrapper>
-      <StyledNotificationButton>
+    <Wrapper>
+      <NotificationButton>
         <StyledBellIcon />
-      </StyledNotificationButton>
-      <StyledUserButton onClick={() => setToggleMenu(!toggleMenu)}>
-        <StyledAvatar />
+      </NotificationButton>
+      <UserButton onClick={() => setToggleMenu(!toggleMenu)}>
+        <Avatar />
         <p>Kamil Kołacz</p>
-      </StyledUserButton>
+      </UserButton>
       {toggleMenu && (
         <>
           <StyledDropdownMenu top="150%">
-            <StyledListItem>
+            <ListItem>
               <StyledLink to={routes.settings}>Ustawienia konta</StyledLink>
-            </StyledListItem>
-            <StyledListItem>
+            </ListItem>
+            <ListItem>
               <StyledLink to={routes.logout}>Wyloguj</StyledLink>
-            </StyledListItem>
+            </ListItem>
           </StyledDropdownMenu>
         </>
       )}
-    </StyledWrapper>
+    </Wrapper>
   );
 };
 

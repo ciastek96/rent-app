@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   position: absolute;
   top: ${({ top }) => top};
   right: 35px;
@@ -12,15 +12,15 @@ const StyledWrapper = styled.div`
   z-index: 999;
 `;
 
-const StyledList = styled.ul`
+const List = styled.ul`
   margin: 0;
   padding: 0;
 `;
 
 const DropdownMenu = ({ children, top }) => (
-  <StyledWrapper top={top}>
-    <StyledList>{children}</StyledList>
-  </StyledWrapper>
+  <Wrapper top={top}>
+    <List>{children}</List>
+  </Wrapper>
 );
 
 DropdownMenu.propTypes = {

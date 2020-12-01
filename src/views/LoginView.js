@@ -6,7 +6,7 @@ import { routes } from '../routes/routes';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   height: 100vh;
   width: 100%;
   background: rgb(21, 184, 113);
@@ -17,7 +17,7 @@ const StyledWrapper = styled.div`
   align-items: center;
 `;
 
-const StyledCard = styled.div`
+const Card = styled.div`
   height: 620px;
   width: 480px;
   padding: 65px;
@@ -30,22 +30,22 @@ const StyledCard = styled.div`
   justify-content: space-between;
 `;
 
-const StyledInnerWrapper = styled.div`
+const InnerWrapper = styled.div`
   width: 100%;
 `;
 
-const StyledLogo = styled.a`
+const Logo = styled.a`
   font-size: 24px;
   color: ${({ theme }) => theme.green};
   text-decoration: none;
 `;
 
-const StyledParagraph = styled.p`
+const Paragraph = styled.p`
   color: ${({ theme }) => theme.gray};
   text-align: center;
 `;
 
-const StyledForm = styled.form`
+const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -59,7 +59,7 @@ const StyledInput = styled(Input)`
   }
 `;
 
-const StyledButtonsWrapper = styled.div`
+const ButtonsWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -79,51 +79,51 @@ const LoginView = ({ location: { pathname } }) => {
 
   return (
     <LoginTemplate>
-      <StyledWrapper>
-        <StyledCard>
-          <StyledLogo>EasyRent.</StyledLogo>
+      <Wrapper>
+        <Card>
+          <Logo>EasyRent.</Logo>
           {cardType === routes.register ? (
             <>
-              <StyledParagraph>
+              <Paragraph>
                 Stwórz bezpłatne konto i korzystaj z platformy do zarządzania twoją wypożyczalnią!
-              </StyledParagraph>
-              <StyledInnerWrapper>
-                <StyledForm>
+              </Paragraph>
+              <InnerWrapper>
+                <Form>
                   <StyledInput type="text" name="username" placeholder="Nazwa użytkownika" />
                   <StyledInput type="text" name="email" placeholder="Adres e-mail" />
                   <StyledInput type="password" name="password" placeholder="Hasło" />
                   <StyledInput type="password" name="password2" placeholder="Powtórz hasło" />
-                </StyledForm>
-                <StyledButtonsWrapper>
+                </Form>
+                <ButtonsWrapper>
                   <Button tertiary onClick={() => setCardType(routes.login)}>
                     Logowanie
                   </Button>
                   <Button>Stwórz konto</Button>
-                </StyledButtonsWrapper>
-              </StyledInnerWrapper>
+                </ButtonsWrapper>
+              </InnerWrapper>
             </>
           ) : (
             <>
-              <StyledParagraph>
+              <Paragraph>
                 {cardType === routes.logout && 'Zostałeś pomyślnie wylogowany. '}
                 Zaloguj się, aby uzyskać dostęp do twojej wypożyczalni.
-              </StyledParagraph>
-              <StyledInnerWrapper>
-                <StyledForm>
+              </Paragraph>
+              <InnerWrapper>
+                <Form>
                   <StyledInput type="text" name="username" placeholder="Nazwa użytkownika" />
                   <StyledInput type="password" name="password" placeholder="Hasło" />
-                </StyledForm>
-                <StyledButtonsWrapper>
+                </Form>
+                <ButtonsWrapper>
                   <Button tertiary onClick={() => setCardType(routes.register)}>
                     Rejestracja
                   </Button>
                   <Button>Zaloguj</Button>
-                </StyledButtonsWrapper>
-              </StyledInnerWrapper>
+                </ButtonsWrapper>
+              </InnerWrapper>
             </>
           )}
-        </StyledCard>
-      </StyledWrapper>
+        </Card>
+      </Wrapper>
     </LoginTemplate>
   );
 };

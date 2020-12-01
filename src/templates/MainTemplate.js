@@ -5,7 +5,7 @@ import { theme } from '../theme/theme';
 import GlobalStyle from '../theme/globalStyles';
 import Navbar from '../components/Navbar/Navbar';
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   max-width: 1024px;
   margin: 0 auto;
 `;
@@ -14,7 +14,7 @@ const MainTemplate = ({ children }) => (
   <ThemeProvider theme={theme}>
     <GlobalStyle />
     <Navbar />
-    <StyledWrapper>{children}</StyledWrapper>
+    <Wrapper>{children}</Wrapper>
   </ThemeProvider>
 );
 

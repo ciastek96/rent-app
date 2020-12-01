@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import MainTemplate from '../templates/MainTemplate';
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
   position: fixed;
   height: 100%;
   width: 100%;
@@ -14,18 +14,18 @@ const StyledWrapper = styled.div`
   justify-content: center;
 `;
 
-const StyledInnerWrapper = styled.div`
+const InnerWrapper = styled.div`
   height: 200px;
 `;
 
-const StyledHeading = styled.h1`
+const Heading = styled.h1`
   margin: 0;
   padding: 0;
   color: ${({ theme }) => theme.default};
   text-shadow: 0 0 5px hsla(0, 0%, 0%, 0.1);
 `;
 
-const StyledParagraph = styled.p`
+const Paragraph = styled.p`
   margin-top: 10px;
   padding: 0;
   text-align: center;
@@ -36,12 +36,12 @@ const StyledParagraph = styled.p`
 
 const NotFoundView = () => (
   <MainTemplate>
-    <StyledWrapper>
-      <StyledInnerWrapper>
-        <StyledHeading>Oops... Nic tu nie ma!</StyledHeading>
-        <StyledParagraph>Strona, której szukasz nie istnieje.</StyledParagraph>
-      </StyledInnerWrapper>
-    </StyledWrapper>
+    <Wrapper>
+      <InnerWrapper>
+        <Heading>Oops... Nic tu nie ma!</Heading>
+        <Paragraph>Strona, której szukasz nie istnieje.</Paragraph>
+      </InnerWrapper>
+    </Wrapper>
   </MainTemplate>
 );
 
