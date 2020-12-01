@@ -3,8 +3,8 @@ import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
 import LoginTemplate from '../templates/LoginTemplate';
 import { routes } from '../routes/routes';
-import Input from '../components/Input/Input';
-import Button from '../components/Button/Button';
+import LoginForm from '../components/LoginForm/LoginForm';
+import RegisterForm from '../components/RegisterForm/RegisterForm';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -45,27 +45,6 @@ const Paragraph = styled.p`
   text-align: center;
 `;
 
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledInput = styled(Input)`
-  margin: 5px 0;
-
-  &:last-of-type {
-    margin-bottom: 45px;
-  }
-`;
-
-const ButtonsWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-`;
-
 const LoginView = ({ location: { pathname } }) => {
   const [cardType, setCardType] = useState('/logowanie');
 
@@ -85,41 +64,17 @@ const LoginView = ({ location: { pathname } }) => {
           {cardType === routes.register ? (
             <>
               <Paragraph>
-                Stwórz bezpłatne konto i korzystaj z platformy do zarządzania twoją wypożyczalnią!
+                {cardType === routes.logout && 'Zostałeś pomyślnie wylogowany. '}
+                Zaloguj się, aby uzyskać dostęp do twojej wypożyczalni.
               </Paragraph>
-              <InnerWrapper>
-                <Form>
-                  <StyledInput type="text" name="username" placeholder="Nazwa użytkownika" />
-                  <StyledInput type="text" name="email" placeholder="Adres e-mail" />
-                  <StyledInput type="password" name="password" placeholder="Hasło" />
-                  <StyledInput type="password" name="password2" placeholder="Powtórz hasło" />
-                </Form>
-                <ButtonsWrapper>
-                  <Button tertiary onClick={() => setCardType(routes.login)}>
-                    Logowanie
-                  </Button>
-                  <Button>Stwórz konto</Button>
-                </ButtonsWrapper>
-              </InnerWrapper>
+              <RegisterForm setCardType={setCardType} />
             </>
           ) : (
             <>
               <Paragraph>
-                {cardType === routes.logout && 'Zostałeś pomyślnie wylogowany. '}
-                Zaloguj się, aby uzyskać dostęp do twojej wypożyczalni.
+                Stwórz bezpłatne konto i korzystaj z platformy do zarządzania twoją wypożyczalnią!
               </Paragraph>
-              <InnerWrapper>
-                <Form>
-                  <StyledInput type="text" name="username" placeholder="Nazwa użytkownika" />
-                  <StyledInput type="password" name="password" placeholder="Hasło" />
-                </Form>
-                <ButtonsWrapper>
-                  <Button tertiary onClick={() => setCardType(routes.register)}>
-                    Rejestracja
-                  </Button>
-                  <Button>Zaloguj</Button>
-                </ButtonsWrapper>
-              </InnerWrapper>
+              <LoginForm setCardType={setCardType} />
             </>
           )}
         </Card>
