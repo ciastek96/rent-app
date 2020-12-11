@@ -1,6 +1,7 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
-const mongo = require('mongodb');
 const mongoose = require('mongoose');
 
 const usersRouter = require('./routes/users');
@@ -8,8 +9,6 @@ const productsRouter = require('./routes/products');
 const clientsRouter = require('./routes/clients');
 const rentsRouter = require('./routes/rents');
 const accountsRouter = require('./routes/accounts');
-
-require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 4000;
