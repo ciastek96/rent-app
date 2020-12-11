@@ -150,4 +150,4 @@ ListItemWrapper.defaultProps = {
   listType: PRODUCTS,
 };
 
-export default ListItemWrapper;
+export default ListItem;

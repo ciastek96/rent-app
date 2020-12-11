@@ -64,15 +64,15 @@ const LoginView = ({ location: { pathname } }) => {
           {cardType === routes.register ? (
             <>
               <Paragraph>
-                {cardType === routes.logout && 'Zostałeś pomyślnie wylogowany. '}
-                Zaloguj się, aby uzyskać dostęp do twojej wypożyczalni.
+                Stwórz bezpłatne konto i korzystaj z platformy do zarządzania twoją wypożyczalnią!
               </Paragraph>
               <RegisterForm setCardType={setCardType} />
             </>
           ) : (
             <>
               <Paragraph>
-                Stwórz bezpłatne konto i korzystaj z platformy do zarządzania twoją wypożyczalnią!
+                {cardType === routes.logout && 'Zostałeś pomyślnie wylogowany. '}
+                Zaloguj się, aby uzyskać dostęp do twojej wypożyczalni.
               </Paragraph>
               <LoginForm setCardType={setCardType} />
             </>
