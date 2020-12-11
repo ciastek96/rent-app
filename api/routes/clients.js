@@ -1,0 +1,36 @@
+const router = require('express').Router();
+const Client = require('../models/clients');
+
+router.route('/').get((req, res) => {
+  Client.find()
+    .then((clients) => res.json(clients))
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
+router.route('/add').post((req, res) => {
+  const { name, surname, phone, ...values } = req.body;
+  const newClient = new Client({ name, surname, phone, ...values });
+
+  newClient
+    .save()
+    .then(() => res.json('Client added!'))
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
+router.route('/update').post((req, res) => {
+  const { clientId, ...values } = req.body;
+
+  Client.findOneAndUpdate({ _id: clientId }, { ...values }, { new: true })
+    .then(() => res.json('Client updated!'))
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
+router.route('/delete').post((req, res) => {
+  const { clientId } = req.body;
+
+  Client.findByIdAndDelete({ _id: clientId })
+    .then(() => res.json('Client deleted!'))
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
+module.exports = router;

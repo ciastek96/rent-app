@@ -1,34 +1,52 @@
 const express = require('express');
+const cors = require('cors');
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
+
+const usersRouter = require('./routes/users');
+const productsRouter = require('./routes/products');
+const clientsRouter = require('./routes/clients');
+const rentsRouter = require('./routes/rents');
+const accountsRouter = require('./routes/accounts');
+
+require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 4000;
 
-mongoose.connect('mongodb://localhost/test', {
+app.use(cors());
+app.use(express.json());
+
+const uri = process.env.NODE_DATABASE;
+
+mongoose.connect(uri, {
   useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 
 const db = mongoose.connection;
 
 db.on('error', (err) => {
-  console.log('connection error', err);
+  console.log('Connection error.', err);
 });
+
 db.once('open', () => {
   console.log('Connected to database.');
 });
 
-// const client = new mongo.MongoClient('mongodb://localhost:27017', {
-//   useNewUrlParser: true,
-// });
-
-app.listen(port, '127.0.0.1', () => {
-  console.log(`Server is listening at ${port} port `);
-});
-
-app.use(express.json());
+app.use('/users', usersRouter);
+app.use('/products', productsRouter);
+app.use('/clients', clientsRouter);
+app.use('/rents', rentsRouter);
+app.use('/accounts', accountsRouter);
 
 app.get('/', (req, res) => {
-  res.json('Witaj');
+  res.send('gitara');
   res.end();
+});
+
+app.listen(port, '127.0.0.1', () => {
+  console.log(`Server is running on port: ${port}`);
 });
