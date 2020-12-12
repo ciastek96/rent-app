@@ -27,6 +27,19 @@ const initialState = {
   ],
 };
 
-const rootReducer = (state = initialState, action) => state;
+const rootReducer = (state = [], action) => {
+  switch (action.type) {
+    case 'FETCH_PRODUCTS':
+      return action.payload;
+    case 'REMOVE_PRODUCT':
+      return state;
+    case 'ADD_PRODUCT':
+      return state;
+    case 'FETCH_CLIENTS':
+      return action.payload;
+    default:
+      return state;
+  }
+};
 
 export default rootReducer;

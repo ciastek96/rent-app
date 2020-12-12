@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { getClients } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import Card from '../components/Card/Card';
@@ -13,46 +15,48 @@ const GridWrapper = styled.div`
   grid-gap: 45px;
 `;
 
-const data = [
-  {
-    id: 0,
-    name: 'Tomasz Hajto',
-    city: 'Gliwice',
-    phone: '570 761 948',
-  },
-  {
-    id: 1,
-    name: 'Adam Małysz',
-    city: 'Warszawa',
-    phone: '450 228 570',
-  },
-  {
-    id: 2,
-    name: 'Jeam Beam',
-    city: 'Los Angeles',
-    phone: '550 228 322',
-  },
-];
+// const data = [
+//   {
+//     id: 0,
+//     name: 'Tomasz Hajto',
+//     city: 'Gliwice',
+//     phone: '570 761 948',
+//   },
+//   {
+//     id: 1,
+//     name: 'Adam Małysz',
+//     city: 'Warszawa',
+//     phone: '450 228 570',
+//   },
+//   {
+//     id: 2,
+//     name: 'Jeam Beam',
+//     city: 'Los Angeles',
+//     phone: '550 228 322',
+//   },
+// ];
 
 const ClientsView = () => {
+  const clientsList = useSelector((state) => state);
   const [inputValue, setInputValue] = useState('');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getClients());
+  }, [dispatch]);
+
   const GRID = 'grid';
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
 
-  const filteredData = data.filter((value) => value.name.toLowerCase().includes(inputValue));
+  const filteredData = clientsList.filter((value) => value.name.toLowerCase().includes(inputValue));
 
   const [activeView, setActiveView] = useState('list');
   return (
     <MainTemplate>
-      <ItemsTemplate
-        title="Klienci"
-        value={inputValue}
-        handleChange={handleChange}
-        path={routes.newClient}
-      />
+      <ItemsTemplate title="Klienci" value={inputValue} handleChange={handleChange} path={routes.newClient} />
       <LayoutButtons setActiveView={setActiveView} />
       {activeView === GRID ? (
         <GridWrapper>

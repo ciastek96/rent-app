@@ -13,6 +13,8 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
+    'max-len': 0,
+    'no-underscore-dangle': 0,
     'react/prop-types': 1,
     'react/jsx-props-no-spreading': 0,
     'jsx-a11y/label-has-associated-control': 0,
