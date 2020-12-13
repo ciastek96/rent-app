@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { getRents } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
-import Modal from '../components/Modal/Modal';
-import Button from '../components/Button/Button';
 
 const Header = styled.div`
   display: flex;
@@ -11,13 +11,25 @@ const Header = styled.div`
   align-items: center;
 `;
 
-const RentalView = () => (
-  <MainTemplate>
-    <Header>
-      <h2>Wypożyczalnia</h2>
-    </Header>
-    {/* <Modal>siema</Modal> */}
-  </MainTemplate>
-);
+const RentalView = () => {
+  const rentsList = useSelector(({ rents }) => rents);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getRents());
+  }, [dispatch]);
+
+  console.log(rentsList);
+
+  return (
+    <MainTemplate>
+      <Header>
+        <h2>Wypożyczalnia</h2>
+      </Header>
+
+      {rentsList.map((rent) => rent.clientId)}
+    </MainTemplate>
+  );
+};
 
 export default RentalView;

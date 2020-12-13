@@ -17,3 +17,22 @@ export const getClients = () => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const addClient = () => async (dispatch) => {
+  try {
+    const { data } = await axios.post('http://localhost:4000/clients/add');
+    dispatch({ type: 'ADD_CLIENT', payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getRents = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get('http://localhost:4000/rents');
+    console.log(data);
+    dispatch({ type: 'FETCH_RENTS', payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};

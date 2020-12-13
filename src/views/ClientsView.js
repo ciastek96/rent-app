@@ -37,7 +37,7 @@ const GridWrapper = styled.div`
 // ];
 
 const ClientsView = () => {
-  const clientsList = useSelector((state) => state);
+  const clientsList = useSelector(({ clients }) => clients);
   const [inputValue, setInputValue] = useState('');
   const dispatch = useDispatch();
 
