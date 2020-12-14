@@ -15,27 +15,6 @@ const GridWrapper = styled.div`
   grid-gap: 45px;
 `;
 
-// const data = [
-//   {
-//     id: 0,
-//     name: 'Tomasz Hajto',
-//     city: 'Gliwice',
-//     phone: '570 761 948',
-//   },
-//   {
-//     id: 1,
-//     name: 'Adam Małysz',
-//     city: 'Warszawa',
-//     phone: '450 228 570',
-//   },
-//   {
-//     id: 2,
-//     name: 'Jeam Beam',
-//     city: 'Los Angeles',
-//     phone: '550 228 322',
-//   },
-// ];
-
 const ClientsView = () => {
   const clientsList = useSelector(({ clients }) => clients);
   const [inputValue, setInputValue] = useState('');
@@ -60,14 +39,12 @@ const ClientsView = () => {
       <LayoutButtons setActiveView={setActiveView} />
       {activeView === GRID ? (
         <GridWrapper>
-          {filteredData.map(({ name, city, phone, id }) => (
-            <Card key={id} name={name} city={city} phone={phone} />
+          {filteredData.map(({ name, city, phone, _id }) => (
+            <Card key={_id} id={_id} name={name} city={city} phone={phone} />
           ))}
         </GridWrapper>
       ) : (
-        filteredData.map(({ name, city, phone, id }) => (
-          <ListItem listType="clients" key={id} name={name} city={city} phone={phone} />
-        ))
+        filteredData.map(({ name, city, phone, _id }) => <ListItem listType="clients" key={_id} id={_id} name={name} city={city} phone={phone} />)
       )}
       {filteredData <= 0 && <p>Brak wyników...</p>}
     </MainTemplate>

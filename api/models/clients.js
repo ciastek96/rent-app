@@ -41,7 +41,7 @@ const clientSchema = new Schema({
         type: String,
         trim: true,
       },
-      postal: {
+      postalCode: {
         type: String,
         trim: true,
       },

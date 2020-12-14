@@ -84,7 +84,7 @@ const StyledDropdownMenu = styled(DropdownMenu)``;
 const PRODUCTS = 'products';
 const CLIENTS = 'clients';
 
-const ListItem = ({ title, data, renter, name, phone, city, nip, listType }) => {
+const ListItem = ({ id, title, data, renter, name, phone, city, nip, listType }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   return (
     <ListWrapper>
@@ -105,20 +105,16 @@ const ListItem = ({ title, data, renter, name, phone, city, nip, listType }) => 
           )}
         </Wrapper>
         <ButtonWrapper>
-          {/* <Button color="lightGray" tertiary>
-            Usuń pozycję
-          </Button>
-          <Button secondary>Edytuj</Button> */}
           <MoreButton onClick={() => setOptionMenu(!optionMenu)} />
         </ButtonWrapper>
         {optionMenu && (
           <>
             <StyledDropdownMenu top="50%">
               <MenuItemList>
-                <StyledLink to={routes.settings}>Usuń</StyledLink>
+                <StyledLink>Usuń</StyledLink>
               </MenuItemList>
               <MenuItemList>
-                <StyledLink to={routes.logout}>Edytuj</StyledLink>
+                <StyledLink to={`${routes.clients}/${id}`}>Edytuj</StyledLink>
               </MenuItemList>
             </StyledDropdownMenu>
           </>

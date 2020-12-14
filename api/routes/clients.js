@@ -7,6 +7,13 @@ router.route('/').get((req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
+router.route('/client').post((req, res) => {
+  const { id } = req.body;
+  Client.findById({ _id: id })
+    .then((client) => res.json(client))
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
 router.route('/add').post((req, res) => {
   const { name, surname, phone, ...values } = req.body;
   const newClient = new Client({ name, surname, phone, ...values });

@@ -2,10 +2,14 @@ import styled, { css } from 'styled-components';
 import MoreIcon from '../../assets/icons/svg/interfaces/more-v.svg';
 
 const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
   min-width: 120px;
   height: 36px;
   background-color: ${({ theme }) => theme.green};
-  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-size: ${({ theme }) => theme.fontSize.xxs};
   color: ${({ theme, color }) => (color ? theme[color] : theme.default)};
   border: 0;
   border-radius: 25px;
