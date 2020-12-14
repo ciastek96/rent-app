@@ -11,11 +11,11 @@ const clientsReducer = (clients = [], { type, payload }) => {
     case FETCH_CLIENT:
       return payload;
     case UPDATE_CLIENT:
-      return payload;
+      return [...clients];
     case REMOVE_CLIENT:
-      return clients;
+      return [...clients];
     case ADD_CLIENT:
-      return [...clients, payload];
+      return [...clients];
     default:
       return clients;
   }

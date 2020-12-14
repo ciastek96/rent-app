@@ -12,6 +12,7 @@ import RentalView from './RentalView';
 import NotFoundView from './NotFoundView';
 import NewItemView from './NewItemView';
 import NewClientView from './NewClientView';
+import NewProductView from './NewProductView';
 import EditClientView from './EditClientView';
 
 const Root = () => (
@@ -23,8 +24,8 @@ const Root = () => (
         <Route path={routes.register} component={LoginView} />
         <Route path={routes.logout} component={LoginView} />
         <Route path={routes.products} exact component={ProductsView} />
-        <Route path={routes.product} exact component={ProductsView} />
-        <Route path={routes.newProduct} component={NewItemView} />
+        {/* <Route path={routes.product} exact component={ProductsView} /> */}
+        <Route path={routes.newProduct} exact component={NewProductView} />
         <Route path={routes.clients} exact component={ClientsView} />
         <Route path={routes.newClient} exact component={NewClientView} />
         <Route path={routes.client} exact component={EditClientView} />

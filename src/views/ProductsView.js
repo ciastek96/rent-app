@@ -20,12 +20,12 @@ const ProductsView = () => {
   };
 
   const filteredData = productsList.filter((value) => value.name.toLowerCase().includes(inputValue));
-  console.log(productsList);
+
   return (
     <MainTemplate>
       <ItemsTemplate title="Produkty" value={inputValue} handleChange={handleChange} path={routes.newProduct} />
       {filteredData.map(({ name, data, renter, id }) => (
-        <ListItem listType="products" key={id} title={name} data={data} renter={renter} />
+        <ListItem listType="products" key={id} id={id} title={name} data={data} renter={renter} />
       ))}
       {filteredData <= 0 && <p>Brak wyników...</p>}
     </MainTemplate>

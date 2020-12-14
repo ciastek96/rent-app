@@ -3,7 +3,7 @@ import axios from 'axios';
 import { PropTypes } from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import { updateClient } from '../actions';
@@ -81,9 +81,10 @@ const EditClientView = ({ match }) => {
   const [clientValues, setClientValues] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { id } = match.params;
 
   useEffect(() => {
-    const { id } = match.params;
     axios
       .post('http://localhost:4000/clients/client', {
         id,
@@ -116,6 +117,7 @@ const EditClientView = ({ match }) => {
             surname: clientValues.surname,
             email: clientValues.email,
             phone: clientValues.phone,
+            companyName: clientValues.companyName,
             nip: clientValues.nip,
             address: {
               city: clientValues.address.city,
@@ -157,6 +159,12 @@ const EditClientView = ({ match }) => {
               errors.phone = 'Podany numer telefonu jest niepoprawny.';
             }
 
+            if (values.companyName) {
+              if (values.companyName.length > 0 && values.companyName.length < 4) {
+                errors.companyName = 'Pole powinno zawierać minimum 4 znaki.';
+              }
+            }
+
             if (values.nip) {
               if (!/^[0-9]{10}$/.test(values.nip)) {
                 errors.nip = 'Podany numer NIP jest niepoprawny.';
@@ -194,7 +202,8 @@ const EditClientView = ({ match }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(updateClient(values));
+            dispatch(updateClient(id, values));
+            history.go(0);
           }}
         >
           {({ values }) => (
@@ -224,6 +233,11 @@ const EditClientView = ({ match }) => {
                 <div>
                   <Field as={Input} label="Telefon" id="phone" name="phone" type="text" />
                   <ErrorMessage name="phone" component={Error} />
+                </div>
+
+                <div>
+                  <Field as={Input} label="Nazwa firmy" id="companyName" name="companyName" type="text" autocomplete="off" />
+                  <ErrorMessage name="companyName" component={Error} />
                 </div>
 
                 <div>

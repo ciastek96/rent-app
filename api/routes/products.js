@@ -11,6 +11,7 @@ router.route('/add').post((req, res) => {
   const { name, unit, quantity, price, ...values } = req.body;
   const newProduct = new Product({ name, unit, quantity, price, ...values });
 
+  console.log(newProduct);
   newProduct
     .save()
     .then(() => res.json('Product added!'))

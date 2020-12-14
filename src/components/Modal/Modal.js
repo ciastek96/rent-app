@@ -12,8 +12,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: hsla(0, 0%, 0%, 0.5);
-  z-index: 999;
+  /* background-color: hsla(0, 0%, 0%, 0.5); */
+  z-index: 990;
 `;
 
 const StyledModal = styled.div`
@@ -28,6 +28,7 @@ const StyledModal = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  z-index: 999;
 
   &:before {
     content: '';
@@ -63,19 +64,19 @@ const StyledParagraph = styled.p`
 `;
 
 const Modal = () => {
-  const [isStyledModalOpen, setIsStyledModalOpen] = useState();
+  const [isModalOpen, setIsModalOpen] = useState();
   return (
-    <Wrapper onClick={() => setIsStyledModalOpen(false)}>
-      <StyledModal>
+    <Wrapper>
+      <Modal>
         <MessageWrapper>
           <h2>Uwaga!</h2>
-          <StyledParagraph>Czy na pewno chcesz odrzucić zapisywanie zmian?</StyledParagraph>
+          <StyledParagraph>Czy na pewno chcesz usunąć pozycję?</StyledParagraph>
         </MessageWrapper>
         <ButtonWrapper>
           <Button secondary>Anuluj</Button>
-          <Button onClick={() => setIsStyledModalOpen(false)}>Usuń</Button>
+          <Button>Usuń</Button>
         </ButtonWrapper>
-      </StyledModal>
+      </Modal>
     </Wrapper>
   );
 };

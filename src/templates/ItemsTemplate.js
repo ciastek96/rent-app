@@ -23,7 +23,7 @@ const ItemsTemplate = ({ children, title, inputValue, handleChange, path }) => (
   <Wrapper>
     <Header>
       <h2>{title}</h2>
-      <Input search placeholder="Szukaj..." value={inputValue} onChange={handleChange} />
+      <Input search placeholder="Szukaj..." onChange={handleChange} />
       <Button as={Link} to={path}>
         Dodaj nowy
       </Button>
@@ -33,7 +33,7 @@ const ItemsTemplate = ({ children, title, inputValue, handleChange, path }) => (
 );
 
 ItemsTemplate.propTypes = {
-  children: PropTypes.instanceOf(Array).isRequired,
+  children: PropTypes.instanceOf(Array),
   title: PropTypes.string.isRequired,
   inputValue: PropTypes.string,
   handleChange: PropTypes.func,
@@ -41,8 +41,9 @@ ItemsTemplate.propTypes = {
 };
 
 ItemsTemplate.defaultProps = {
-  handleChange: null,
-  inputValue: null,
+  children: null,
+  handleChange: '',
+  inputValue: '',
 };
 
 export default ItemsTemplate;

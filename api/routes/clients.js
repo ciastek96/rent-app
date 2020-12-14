@@ -25,9 +25,9 @@ router.route('/add').post((req, res) => {
 });
 
 router.route('/update').post((req, res) => {
-  const { clientId, ...values } = req.body;
-
-  Client.findOneAndUpdate({ _id: clientId }, { ...values }, { new: true })
+  const { id, values } = req.body;
+  console.log(id, values);
+  Client.findOneAndUpdate({ _id: id }, { ...values }, { new: true })
     .then(() => res.json('Client updated!'))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });

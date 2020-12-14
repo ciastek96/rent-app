@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { removeClient } from '../../actions';
 import { routes } from '../../routes/routes';
 import MoreButton from '../MoreButton/MoreButton';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
@@ -86,11 +88,12 @@ const CLIENTS = 'clients';
 
 const ListItem = ({ id, title, data, renter, name, phone, city, nip, listType }) => {
   const [optionMenu, setOptionMenu] = useState(false);
+  const dispatch = useDispatch();
+
   return (
     <ListWrapper>
       <ListItemWrapper>
         {listType === PRODUCTS ? <Data>{data}</Data> : <PhotoWrapper />}
-
         <Wrapper>
           {listType === PRODUCTS ? (
             <h4>{title}</h4>
@@ -111,7 +114,9 @@ const ListItem = ({ id, title, data, renter, name, phone, city, nip, listType })
           <>
             <StyledDropdownMenu top="50%">
               <MenuItemList>
-                <StyledLink>Usuń</StyledLink>
+                <StyledLink as="div" onClick={() => dispatch(removeClient())}>
+                  Usuń
+                </StyledLink>
               </MenuItemList>
               <MenuItemList>
                 <StyledLink to={`${routes.clients}/${id}`}>Edytuj</StyledLink>

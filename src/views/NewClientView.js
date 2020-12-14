@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import { addClient } from '../actions';
@@ -77,8 +77,10 @@ const StyledForm = styled(Form)`
   padding-bottom: 45px;
 `;
 
-const NewClientView = ({ history }) => {
+const NewClientView = () => {
   const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const history = useHistory();
 
   return (
     <MainTemplate>
@@ -101,6 +103,7 @@ const NewClientView = ({ history }) => {
             surname: '',
             email: '',
             phone: '',
+            companyName: '',
             nip: '',
             address: {
               city: '',
@@ -142,9 +145,15 @@ const NewClientView = ({ history }) => {
               errors.phone = 'Podany numer telefonu jest niepoprawny.';
             }
 
+            if (values.companyName) {
+              if (values.companyName.length > 0 && values.companyName.length < 4) {
+                errors.companyName = 'Pole powinno zawierać minimum 4 znaki.';
+              }
+            }
+
             if (values.nip) {
               if (!/^[0-9]{10}$/.test(values.nip)) {
-                errors.nip = 'Podany numer NIP jest niepoprawny.';
+                errors.nip = 'Podany NIP jest niepoprawny.';
               }
             }
 
@@ -180,6 +189,7 @@ const NewClientView = ({ history }) => {
           }}
           onSubmit={(values, { setSubmitting }) => {
             dispatch(addClient(values));
+            history.go(0);
           }}
         >
           {({ values }) => (
@@ -193,41 +203,44 @@ const NewClientView = ({ history }) => {
               </InnerWrapper>
               <StyledForm id="newClientForm">
                 <div>
-                  <Field as={Input} label="Imię" id="name" name="name" type="text" />
+                  <Field as={Input} label="Imię" id="name" name="name" type="text" autoComplete="new-password" />
                   <ErrorMessage name="name" component={Error} />
                 </div>
                 <div>
-                  <Field as={Input} label="Nazwisko" id="surname" name="surname" type="text" />
+                  <Field as={Input} label="Nazwisko" id="surname" name="surname" type="text" autoComplete="new-password" />
                   <ErrorMessage name="surname" component={Error} />
                 </div>
 
                 <div>
-                  <Field as={Input} label="Adres e-mail" id="email" name="email" type="email" />
+                  <Field as={Input} label="Adres e-mail" id="email" name="email" type="email" autoComplete="new-password" />
                   <ErrorMessage name="email" component={Error} />
                 </div>
 
                 <div>
-                  <Field as={Input} label="Telefon" id="phone" name="phone" type="text" />
+                  <Field as={Input} label="Telefon" id="phone" name="phone" type="text" autoComplete="new-password" />
                   <ErrorMessage name="phone" component={Error} />
                 </div>
 
                 <div>
-                  <Field as={Input} label="NIP" id="nip" name="nip" type="text" autocomplete="off" />
-                  <ErrorMessage name="nip" component={Error} />
+                  <Field as={Input} label="Nazwa firmy" id="companyName" name="companyName" type="text" autoComplete="new-password" />
+                  <ErrorMessage name="companyName" component={Error} />
                 </div>
 
+                <div>
+                  <Field as={Input} label="NIP" id="nip" name="nip" type="text" autoComplete="new-password" />
+                  <ErrorMessage name="nip" component={Error} />
+                </div>
+                <div>
+                  <Field as={Input} label="Ulica" id="street" name="address.street" type="text" autoComplete="new-password" />
+                  <ErrorMessage name="address.street" component={Error} />
+                </div>
                 <div>
                   <Field as={Input} label="Miasto" id="city" name="address.city" type="text" />
                   <ErrorMessage name="address.city" component={Error} />
                 </div>
 
                 <div>
-                  <Field as={Input} label="Ulica" id="street" name="address.street" type="text" />
-                  <ErrorMessage name="address.street" component={Error} />
-                </div>
-
-                <div>
-                  <Field as={Input} label="Kod pocztowy" id="postalCode" name="address.postalCode" type="text" />
+                  <Field as={Input} label="Kod pocztowy" id="postalCode" name="address.postalCode" type="text" autoComplete="new-password" />
                   <ErrorMessage name="address.postalCode" component={Error} />
                 </div>
 
@@ -242,10 +255,6 @@ const NewClientView = ({ history }) => {
       </Wrapper>
     </MainTemplate>
   );
-};
-
-NewClientView.propTypes = {
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default NewClientView;

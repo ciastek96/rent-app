@@ -9,7 +9,7 @@ const productsReducer = (products = [], { payload, type }) => {
     case REMOVE_PRODUCT:
       return products;
     case ADD_PRODUCT:
-      return payload;
+      return [...products];
     default:
       return products;
   }
