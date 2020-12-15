@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 const Client = require('../models/clients');
 
 router.route('/').get((req, res) => {
@@ -15,8 +16,8 @@ router.route('/client').post((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-  const { name, surname, phone, ...values } = req.body;
-  const newClient = new Client({ name, surname, phone, ...values });
+  const { ...values } = req.body;
+  const newClient = new Client({ ...values });
 
   newClient
     .save()
@@ -32,11 +33,13 @@ router.route('/update').post((req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route('/delete').post((req, res) => {
-  const { clientId } = req.body;
+router.route('/:id').delete((req, res) => {
+  const { id: _id } = req.params;
 
-  Client.findByIdAndDelete({ _id: clientId })
-    .then(() => res.json('Client deleted!'))
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No clients with that ID');
+
+  Client.findByIdAndRemove({ _id })
+    .then(() => res.status(201).json('Client deleted!'))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 

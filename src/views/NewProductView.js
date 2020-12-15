@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import FileBase from 'react-file-base64';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import Select from '../components/Select/Select';
@@ -63,6 +64,12 @@ const ClientInfo = styled.div`
   }
 `;
 
+const ImageWrapper = styled.div`
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+`;
+
 const Error = styled.p`
   color: red;
   font-size: ${({ theme }) => theme.fontSize.xxs};
@@ -77,6 +84,7 @@ const StyledForm = styled(Form)`
 
 const NewProductView = () => {
   const dispatch = useDispatch();
+  const [selectedFile, setSelectedFile] = useState('');
   const [redirect, setRedirect] = useState(false);
 
   if (redirect) {
@@ -106,6 +114,7 @@ const NewProductView = () => {
             unit: 'szt',
             dateOfPurchase: '',
             dateOfLastInspection: '',
+            selectedFile: '',
           }}
           validate={(values) => {
             const errors = {};
@@ -135,15 +144,22 @@ const NewProductView = () => {
             return errors;
           }}
           onSubmit={(values) => {
-            console.log(values);
-            dispatch(addProduct(values));
+            console.log({ ...values, selectedFile });
+            dispatch(addProduct({ ...values, selectedFile }));
             setRedirect(true);
           }}
         >
           {({ values }) => (
             <>
               <InnerWrapper>
-                <ImageUploader />
+                {/* <div>
+                  <FileBase as={ImageUploader} type="file" multiple={false} onDone={({ base64 }) => setSelectedFile(base64)} />
+                </div> */}
+                <ImageWrapper>
+                  <ImageUploader image={selectedFile} setSelectedFile={setSelectedFile} />
+                  <FileBase type="file" id="image" multiple={false} accept="image/*" onDone={({ base64 }) => setSelectedFile(base64)} />
+                </ImageWrapper>
+
                 <ClientInfo>
                   <h2>{values.productName ? values.productName : '  '}</h2>
                   <h4>{values.price ? `${values.price} zł / doba` : null}</h4>

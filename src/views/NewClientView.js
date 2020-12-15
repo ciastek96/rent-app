@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { PropTypes } from 'prop-types';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
+import FileBase from 'react-file-base64';
 import Input from '../components/Input/Input';
 import { addClient } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
-import ClientForm from '../components/ClientForm/ClientForm';
-import Spinner from '../components/Spinner/Spinner';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
 
@@ -71,6 +69,12 @@ const Error = styled.p`
   padding: 0 25px;
 `;
 
+const ImageWrapper = styled.div`
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+`;
+
 const StyledForm = styled(Form)`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -79,6 +83,7 @@ const StyledForm = styled(Form)`
 
 const NewClientView = () => {
   const dispatch = useDispatch();
+  const [selectedFile, setSelectedFile] = useState('');
   const [redirect, setRedirect] = useState(false);
 
   if (redirect) {
@@ -190,14 +195,18 @@ const NewClientView = () => {
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(addClient(values));
+            console.log({ ...values, selectedFile });
+            dispatch(addClient({ ...values, selectedFile }));
             // setRedirect(true);
           }}
         >
           {({ values }) => (
             <>
               <InnerWrapper>
-                <ImageUploader />
+                <ImageWrapper>
+                  <ImageUploader image={selectedFile} setSelectedFile={setSelectedFile} />
+                  <FileBase type="file" id="image" multiple={false} accept="image/*" onDone={({ base64 }) => setSelectedFile(base64)} />
+                </ImageWrapper>
                 <ClientInfo>
                   <h2>{`${values.name} ${values.surname}`}</h2>
                   <h4>{values.email}</h4>

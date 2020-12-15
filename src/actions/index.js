@@ -20,7 +20,6 @@ export const getProduct = (value) => async (dispatch) => {
 
 export const addProduct = (values) => async (dispatch) => {
   try {
-    console.log(values);
     const { data } = await axios.post('http://localhost:4000/products/add', values);
     dispatch({ type: 'ADD_PRODUCT', payload: data });
   } catch (err) {
@@ -30,9 +29,7 @@ export const addProduct = (values) => async (dispatch) => {
 
 export const updateProduct = (id, values) => async (dispatch) => {
   try {
-    console.log('action', { id }, values);
-    const { data } = await axios.post('http://localhost:4000/products/update', { id, values });
-
+    const { data } = await axios.post('http://localhost:4000/products/update', { id, ...values });
     dispatch({ type: 'UPDATE_PRODUCT', payload: data });
   } catch (err) {
     console.log(err);
@@ -69,18 +66,19 @@ export const getClient = (value) => async (dispatch) => {
 export const updateClient = (id, values) => async (dispatch) => {
   try {
     console.log('action', { id }, values);
-    const { data } = await axios.post('http://localhost:4000/clients/update', { id, values });
+    // const { data } = await axios.post('http://localhost:4000/clients/update', { id, values });
 
-    dispatch({ type: 'UPDATE_CLIENT', payload: data });
+    // dispatch({ type: 'UPDATE_CLIENT', payload: data });
   } catch (err) {
     console.log(err);
   }
 };
 
-export const removeClient = (value) => async (dispatch) => {
+export const removeClient = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.post('http://localhost:4000/clients/delete', value);
-    dispatch({ type: 'REMOVE_CLIENT', payload: data });
+    console.log(id);
+    const { data } = await axios.delete(`http://localhost:4000/clients/${id}`);
+    dispatch({ type: 'REMOVE_CLIENT', payload: id });
   } catch (err) {
     console.log(err);
   }

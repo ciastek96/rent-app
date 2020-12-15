@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import FileBase from 'react-file-base64';
 import Input from '../components/Input/Input';
 import { updateClient } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
@@ -45,6 +46,12 @@ const InnerWrapper = styled.div`
   padding: 45px;
 `;
 
+const ImageWrapper = styled.div`
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+`;
+
 const ClientInfo = styled.div`
   margin-left: 45px;
 
@@ -79,6 +86,7 @@ const StyledForm = styled(Form)`
 
 const EditClientView = ({ match }) => {
   const [clientValues, setClientValues] = useState();
+  const [selectedFile, setSelectedFile] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -89,7 +97,10 @@ const EditClientView = ({ match }) => {
       .post('http://localhost:4000/clients/client', {
         id,
       })
-      .then((res) => setClientValues(res.data))
+      .then((res) => {
+        setClientValues(res.data);
+        setSelectedFile(res.data.selectedFile);
+      })
       .then(() => setIsLoaded(true))
       .catch((err) => console.error(err));
   }, []);
@@ -209,7 +220,10 @@ const EditClientView = ({ match }) => {
           {({ values }) => (
             <>
               <InnerWrapper>
-                <ImageUploader />
+                <ImageWrapper>
+                  <ImageUploader image={selectedFile} setSelectedFile={setSelectedFile} />
+                  <FileBase type="file" id="image" multiple={false} accept="image/*" onDone={({ base64 }) => setSelectedFile(base64)} />
+                </ImageWrapper>
                 <ClientInfo>
                   <h2>{`${values.name} ${values.surname}`}</h2>
                   <h4>{values.email}</h4>

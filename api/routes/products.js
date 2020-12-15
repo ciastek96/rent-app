@@ -16,8 +16,9 @@ router.route('/product').post((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-  const { productName, unit, quantity, price, dateOfPurchase, dateOfLastInspection } = req.body;
-  const newProduct = new Product({ productName, price, quantity, unit, dateOfPurchase, dateOfLastInspection });
+  const { productName, price, quantity, unit, dateOfPurchase, dateOfLastInspection, selectedFile } = req.body;
+
+  const newProduct = new Product({ productName, price, quantity, unit, dateOfPurchase, dateOfLastInspection, selectedFile });
 
   newProduct
     .save()
@@ -26,8 +27,9 @@ router.route('/add').post((req, res) => {
 });
 
 router.route('/update').post((req, res) => {
-  const { productId, ...values } = req.body;
-  Product.findOneAndUpdate({ _id: productId }, { ...values }, { new: true })
+  const { id, productName, price, quantity, unit, dateOfPurchase, dateOfLastInspection, selectedFile } = req.body;
+
+  Product.findOneAndUpdate({ _id: id }, { productName, price, quantity, unit, dateOfPurchase, dateOfLastInspection, selectedFile }, { new: true })
     .then(() => res.status(201).json('Product updated!'))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });

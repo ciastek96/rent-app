@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { removeClient } from '../../actions';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import MoreButton from '../MoreButton/MoreButton';
 import { routes } from '../../routes/routes';
@@ -59,14 +61,15 @@ const MenuItemList = styled.li`
   list-style: none;
 `;
 
-const StyledLink = styled(Link)`
+const MenuItem = styled.a`
   display: block;
   text-decoration: none;
   background-color: ${({ theme }) => theme.white};
   font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.gray};
   margin: 0;
-  padding: 20px 25px;
+  padding: 12px 24px;
+  cursor: pointer;
 
   &:hover {
     background-color: ${({ theme }) => theme.default};
@@ -75,8 +78,10 @@ const StyledLink = styled(Link)`
 
 const StyledDropdownMenu = styled(DropdownMenu)``;
 
-const Card = ({ name, phone, city }) => {
+const Card = ({ id, name, phone, city }) => {
   const [optionMenu, setOptionMenu] = useState(false);
+  const dispatch = useDispatch();
+
   if (!name) return <p>Brak pozycji. </p>;
   return (
     <Wrapper>
@@ -93,10 +98,12 @@ const Card = ({ name, phone, city }) => {
         <>
           <StyledDropdownMenu top="25px">
             <MenuItemList>
-              <StyledLink to={routes.settings}>Usuń</StyledLink>
+              <MenuItem onClick={() => dispatch(removeClient(id))}>Usuń</MenuItem>
             </MenuItemList>
             <MenuItemList>
-              <StyledLink to={routes.logout}>Edytuj</StyledLink>
+              <MenuItem as={Link} to={`${routes.clients}/${id}`}>
+                Edytuj
+              </MenuItem>
             </MenuItemList>
           </StyledDropdownMenu>
         </>

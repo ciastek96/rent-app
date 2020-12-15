@@ -13,7 +13,7 @@ const productsReducer = (products = [], { payload, type }) => {
     case REMOVE_PRODUCT:
       return products.filter((product) => product._id !== payload);
     case ADD_PRODUCT:
-      return [...products, payload];
+      return [...products];
     case UPDATE_PRODUCT:
       return payload;
     default:

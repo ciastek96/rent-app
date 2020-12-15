@@ -44,6 +44,7 @@ const clientSchema = new Schema({
     min: 0,
     max: 100,
   },
+  selectedFile: String,
 });
 
 const Client = mongoose.model('Client', clientSchema);

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { PropTypes } from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
+import FileBase from 'react-file-base64';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
@@ -46,6 +47,12 @@ const InnerWrapper = styled.div`
   padding: 45px;
 `;
 
+const ImageWrapper = styled.div`
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+`;
+
 const ClientInfo = styled.div`
   margin-left: 45px;
 
@@ -81,6 +88,7 @@ const StyledForm = styled(Form)`
 const EditClientView = ({ match }) => {
   const [productValues, setProductValues] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [selectedFile, setSelectedFile] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = match.params;
@@ -90,7 +98,10 @@ const EditClientView = ({ match }) => {
       .post('http://localhost:4000/products/product', {
         id,
       })
-      .then((res) => setProductValues(res.data))
+      .then((res) => {
+        setProductValues(res.data);
+        setSelectedFile(res.data.selectedFile);
+      })
       .then(() => setIsLoaded(true))
       .catch((err) => console.error(err));
   }, []);
@@ -101,12 +112,12 @@ const EditClientView = ({ match }) => {
   return (
     <MainTemplate>
       <StyledHeader>
-        <h2>Edytuj klienta</h2>
+        <h2>Edytuj produkt</h2>
         <ButtonsWrapper>
           <Button as={Link} to={routes.products} secondary="true">
             Anuluj
           </Button>
-          <StyledButton type="submit" form="newClientForm">
+          <StyledButton type="submit" form="editProductForm">
             Zatwierdź
           </StyledButton>
         </ButtonsWrapper>
@@ -117,7 +128,7 @@ const EditClientView = ({ match }) => {
             productName: productValues.productName,
             price: productValues.price,
             quantity: productValues.quantity,
-            unit: productValues.unity,
+            unit: productValues.unit,
             dateOfPurchase: productValues.dateOfPurchase,
             dateOfLastInspection: productValues.dateOfLastInspection,
           }}
@@ -149,20 +160,24 @@ const EditClientView = ({ match }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(updateProduct(id, values));
-            history.go(0);
+            console.log('hm', id, { ...values, selectedFile });
+            dispatch(updateProduct(id, { ...values, selectedFile }));
+            // history.go(0);
           }}
         >
           {({ values }) => (
             <>
               <InnerWrapper>
-                <ImageUploader />
+                <ImageWrapper>
+                  <ImageUploader image={selectedFile} setSelectedFile={setSelectedFile} />
+                  <FileBase type="file" id="image" multiple={false} accept="image/*" onDone={({ base64 }) => setSelectedFile(base64)} />
+                </ImageWrapper>
                 <ClientInfo>
                   <h2>{productValues.productName}</h2>
                   <h4>{productValues.email}</h4>
                 </ClientInfo>
               </InnerWrapper>
-              <StyledForm id="newProductForm">
+              <StyledForm id="editProductForm">
                 <div>
                   <Field as={Input} label="Nazwa" id="productName" name="productName" type="text" autoComplete="new-password" />
                   <ErrorMessage name="productName" component={Error} />

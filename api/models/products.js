@@ -13,10 +13,8 @@ const productsSchema = new Schema({
     type: Number,
     required: true,
   },
-  dateOfPurchase: {
-    type: Date,
-  },
-  dateOfLastInspection: { type: Date },
+  dateOfPurchase: Date,
+  dateOfLastInspection: Date,
   quantity: {
     type: String,
     required: true,
@@ -25,6 +23,7 @@ const productsSchema = new Schema({
     type: String,
     required: true,
   },
+  selectedFile: String,
 });
 
 const Product = mongoose.model('Product', productsSchema);

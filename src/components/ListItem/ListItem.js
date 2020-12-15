@@ -115,7 +115,7 @@ const ListItem = ({ id, title, data, renter, name, phone, city, nip, listType })
           <>
             <StyledDropdownMenu top="50%">
               <MenuItemList>
-                <MenuItem onClick={() => dispatch(removeProduct(id))}>Usuń</MenuItem>
+                <MenuItem onClick={listType === PRODUCTS ? () => dispatch(removeProduct(id)) : () => dispatch(removeClient(id))}>Usuń</MenuItem>
               </MenuItemList>
               <MenuItemList>
                 <MenuItem as={Link} to={listType === PRODUCTS ? `${routes.products}/${id}` : `${routes.clients}/${id}`}>

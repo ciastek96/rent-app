@@ -19,15 +19,15 @@ const ProductsView = () => {
     setInputValue(e.target.value);
   };
 
-  console.log('productsLIst', productsList);
-  // const filteredData = productsList.filter((value) => value.name.toLowerCase().includes(inputValue));
+  const filteredData = productsList.filter((value) => value.productName.toLowerCase().includes(inputValue));
+
   return (
     <MainTemplate>
       <ItemsTemplate title="Produkty" value={inputValue} handleChange={handleChange} path={routes.newProduct} />
-      {productsList.map(({ productName, data, renter, _id }) => (
+      {filteredData.map(({ productName, data, renter, _id }) => (
         <ListItem listType="products" key={_id} id={_id} title={productName} data={data} renter={renter} />
       ))}
-      {productsList <= 0 && <p>Brak wyników...</p>}
+      {filteredData <= 0 && <p>Brak wyników...</p>}
     </MainTemplate>
   );
 };
