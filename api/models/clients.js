@@ -15,12 +15,9 @@ const clientSchema = new Schema({
   },
   companyName: {
     type: String,
-    minLength: 4,
   },
   nip: {
     type: String,
-    minLength: 10,
-    maxLength: 10,
   },
   phone: { type: String, required: true, trim: true },
   email: {

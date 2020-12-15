@@ -19,11 +19,11 @@ const Header = styled.div`
   align-items: center;
 `;
 
-const ItemsTemplate = ({ children, title, inputValue, handleChange, path }) => (
+const ItemsTemplate = ({ children, title, value, handleChange, path }) => (
   <Wrapper>
     <Header>
       <h2>{title}</h2>
-      <Input search placeholder="Szukaj..." onChange={handleChange} />
+      <Input search value={value} placeholder="Szukaj..." onChange={handleChange} />
       <Button as={Link} to={path}>
         Dodaj nowy
       </Button>
@@ -35,15 +35,15 @@ const ItemsTemplate = ({ children, title, inputValue, handleChange, path }) => (
 ItemsTemplate.propTypes = {
   children: PropTypes.instanceOf(Array),
   title: PropTypes.string.isRequired,
-  inputValue: PropTypes.string,
   handleChange: PropTypes.func,
+  value: PropTypes.string,
   path: PropTypes.string.isRequired,
 };
 
 ItemsTemplate.defaultProps = {
   children: null,
+  value: '',
   handleChange: '',
-  inputValue: '',
 };
 
 export default ItemsTemplate;

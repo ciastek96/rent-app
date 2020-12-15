@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import { addClient } from '../actions';
@@ -79,8 +79,11 @@ const StyledForm = styled(Form)`
 
 const NewClientView = () => {
   const dispatch = useDispatch();
-  const [isLoaded, setIsLoaded] = useState(false);
-  const history = useHistory();
+  const [redirect, setRedirect] = useState(false);
+
+  if (redirect) {
+    return <Redirect to={routes.products} />;
+  }
 
   return (
     <MainTemplate>
@@ -90,7 +93,6 @@ const NewClientView = () => {
           <Button as={Link} to={routes.clients} secondary="true">
             Anuluj
           </Button>
-          {/* <StyledButton onClick={() => dispatch(addClient(clientValues))}>Dodaj</StyledButton> */}
           <StyledButton type="submit" form="newClientForm">
             Dodaj
           </StyledButton>
@@ -187,9 +189,9 @@ const NewClientView = () => {
 
             return errors;
           }}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={(values) => {
             dispatch(addClient(values));
-            history.go(0);
+            // setRedirect(true);
           }}
         >
           {({ values }) => (

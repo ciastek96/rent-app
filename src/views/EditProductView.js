@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { PropTypes } from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import Select from '../components/Select/Select';
-import { addProduct } from '../actions';
+import { updateProduct } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
+import Spinner from '../components/Spinner/Spinner';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
 
@@ -75,37 +78,48 @@ const StyledForm = styled(Form)`
   padding-bottom: 45px;
 `;
 
-const NewProductView = () => {
+const EditClientView = ({ match }) => {
+  const [productValues, setProductValues] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
-  const [redirect, setRedirect] = useState(false);
+  const history = useHistory();
+  const { id } = match.params;
 
-  if (redirect) {
-    return <Redirect to={routes.products} />;
+  useEffect(() => {
+    axios
+      .post('http://localhost:4000/products/product', {
+        id,
+      })
+      .then((res) => setProductValues(res.data))
+      .then(() => setIsLoaded(true))
+      .catch((err) => console.error(err));
+  }, []);
+
+  if (!isLoaded) {
+    return <Spinner />;
   }
-
   return (
     <MainTemplate>
       <StyledHeader>
-        <h2>Nowy produkt</h2>
+        <h2>Edytuj klienta</h2>
         <ButtonsWrapper>
           <Button as={Link} to={routes.products} secondary="true">
             Anuluj
           </Button>
-          {/* <StyledButton onClick={() => dispatch(addClient(clientValues))}>Dodaj</StyledButton> */}
-          <StyledButton type="submit" form="newProductForm">
-            Dodaj
+          <StyledButton type="submit" form="newClientForm">
+            Zatwierdź
           </StyledButton>
         </ButtonsWrapper>
       </StyledHeader>
       <Wrapper>
         <Formik
           initialValues={{
-            productName: '',
-            price: '',
-            quantity: '',
-            unit: 'szt',
-            dateOfPurchase: '',
-            dateOfLastInspection: '',
+            productName: productValues.productName,
+            price: productValues.price,
+            quantity: productValues.quantity,
+            unit: productValues.unity,
+            dateOfPurchase: productValues.dateOfPurchase,
+            dateOfLastInspection: productValues.dateOfLastInspection,
           }}
           validate={(values) => {
             const errors = {};
@@ -135,9 +149,8 @@ const NewProductView = () => {
             return errors;
           }}
           onSubmit={(values) => {
-            console.log(values);
-            dispatch(addProduct(values));
-            setRedirect(true);
+            dispatch(updateProduct(id, values));
+            history.go(0);
           }}
         >
           {({ values }) => (
@@ -145,8 +158,8 @@ const NewProductView = () => {
               <InnerWrapper>
                 <ImageUploader />
                 <ClientInfo>
-                  <h2>{values.productName ? values.productName : '  '}</h2>
-                  <h4>{values.price ? `${values.price} zł / doba` : null}</h4>
+                  <h2>{productValues.productName}</h2>
+                  <h4>{productValues.email}</h4>
                 </ClientInfo>
               </InnerWrapper>
               <StyledForm id="newProductForm">
@@ -194,4 +207,8 @@ const NewProductView = () => {
   );
 };
 
-export default NewProductView;
+EditClientView.propTypes = {
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
+};
+
+export default EditClientView;

@@ -14,6 +14,7 @@ import NewItemView from './NewItemView';
 import NewClientView from './NewClientView';
 import NewProductView from './NewProductView';
 import EditClientView from './EditClientView';
+import EditProductView from './EditProductView';
 
 const Root = () => (
   <Provider store={store}>
@@ -24,8 +25,8 @@ const Root = () => (
         <Route path={routes.register} component={LoginView} />
         <Route path={routes.logout} component={LoginView} />
         <Route path={routes.products} exact component={ProductsView} />
-        {/* <Route path={routes.product} exact component={ProductsView} /> */}
         <Route path={routes.newProduct} exact component={NewProductView} />
+        <Route path={routes.product} exact component={EditProductView} />
         <Route path={routes.clients} exact component={ClientsView} />
         <Route path={routes.newClient} exact component={NewClientView} />
         <Route path={routes.client} exact component={EditClientView} />

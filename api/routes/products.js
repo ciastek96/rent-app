@@ -1,35 +1,52 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 const Product = require('../models/products');
 
 router.route('/').get((req, res) => {
   Product.find()
-    .then((products) => res.json(products))
+    .then((products) => res.status(201).json(products))
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
+router.route('/product').post((req, res) => {
+  const { id } = req.body;
+  Product.findById({ _id: id })
+    .then((product) => res.status(201).json(product))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
 router.route('/add').post((req, res) => {
-  const { name, unit, quantity, price, ...values } = req.body;
-  const newProduct = new Product({ name, unit, quantity, price, ...values });
+  const { productName, unit, quantity, price, dateOfPurchase, dateOfLastInspection } = req.body;
+  const newProduct = new Product({ productName, price, quantity, unit, dateOfPurchase, dateOfLastInspection });
 
-  console.log(newProduct);
   newProduct
     .save()
-    .then(() => res.json('Product added!'))
+    .then(() => res.status(201).json('Product added!'))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
 router.route('/update').post((req, res) => {
   const { productId, ...values } = req.body;
   Product.findOneAndUpdate({ _id: productId }, { ...values }, { new: true })
-    .then(() => res.json('Product updated!'))
+    .then(() => res.status(201).json('Product updated!'))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route('/delete').post((req, res) => {
-  const { productId } = req.body;
+// router.route('/delete').post((req, res) => {
+//   const { productId } = req.body;
 
-  Product.findByIdAndDelete({ _id: productId })
-    .then(() => res.json('Product deleted!'))
+//   Product.findByIdAndDelete({ _id: productId })
+//     .then(() => res.json('Product deleted!'))
+//     .catch((err) => res.status(400).json(`Error: ${err}`));
+// });
+
+router.route('/:id').delete((req, res) => {
+  const { id: _id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that ID');
+
+  Product.findByIdAndRemove({ _id })
+    .then(() => res.status(201).json('Product deleted!'))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 

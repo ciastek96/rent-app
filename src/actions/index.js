@@ -9,11 +9,40 @@ export const getProducts = () => async (dispatch) => {
   }
 };
 
+export const getProduct = (value) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`http://localhost:4000/products/product/${value}`);
+    dispatch({ type: 'FETCH_PRODUCT', payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const addProduct = (values) => async (dispatch) => {
   try {
     console.log(values);
     const { data } = await axios.post('http://localhost:4000/products/add', values);
     dispatch({ type: 'ADD_PRODUCT', payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateProduct = (id, values) => async (dispatch) => {
+  try {
+    console.log('action', { id }, values);
+    const { data } = await axios.post('http://localhost:4000/products/update', { id, values });
+
+    dispatch({ type: 'UPDATE_PRODUCT', payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const removeProduct = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`http://localhost:4000/products/${id}`);
+    dispatch({ type: 'REMOVE_PRODUCT', payload: id });
   } catch (err) {
     console.log(err);
   }

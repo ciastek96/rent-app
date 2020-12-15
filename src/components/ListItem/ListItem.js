@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { removeClient } from '../../actions';
+import { removeClient, removeProduct } from '../../actions';
 import { routes } from '../../routes/routes';
 import MoreButton from '../MoreButton/MoreButton';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
@@ -61,7 +61,7 @@ const MenuItemList = styled.li`
   list-style: none;
 `;
 
-const StyledLink = styled(Link)`
+const MenuItem = styled.a`
   display: block;
   text-decoration: none;
   background-color: ${({ theme }) => theme.white};
@@ -69,6 +69,7 @@ const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.gray};
   margin: 0;
   padding: 12px 24px;
+  cursor: pointer;
 
   &:hover {
     background-color: ${({ theme }) => theme.default};
@@ -114,12 +115,12 @@ const ListItem = ({ id, title, data, renter, name, phone, city, nip, listType })
           <>
             <StyledDropdownMenu top="50%">
               <MenuItemList>
-                <StyledLink as="div" onClick={() => dispatch(removeClient())}>
-                  Usuń
-                </StyledLink>
+                <MenuItem onClick={() => dispatch(removeProduct(id))}>Usuń</MenuItem>
               </MenuItemList>
               <MenuItemList>
-                <StyledLink to={`${routes.clients}/${id}`}>Edytuj</StyledLink>
+                <MenuItem as={Link} to={listType === PRODUCTS ? `${routes.products}/${id}` : `${routes.clients}/${id}`}>
+                  Edytuj
+                </MenuItem>
               </MenuItemList>
             </StyledDropdownMenu>
           </>
