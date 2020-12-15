@@ -18,11 +18,6 @@ const GridWrapper = styled.div`
 const ClientsView = () => {
   const clientsList = useSelector(({ clients }) => clients);
   const [inputValue, setInputValue] = useState('');
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getClients());
-  }, [dispatch]);
 
   const GRID = 'grid';
 
@@ -39,14 +34,12 @@ const ClientsView = () => {
       <LayoutButtons setActiveView={setActiveView} />
       {activeView === GRID ? (
         <GridWrapper>
-          {filteredData.map(({ name, surname, city, phone, _id, selectedFile }) => (
-            <Card key={_id} id={_id} name={name} surname={surname} city={city} phone={phone} photo={selectedFile} />
+          {filteredData.map(({ _id, ...props }) => (
+            <Card key={_id} id={_id} values={props} />
           ))}
         </GridWrapper>
       ) : (
-        filteredData.map(({ name, city, phone, _id, selectedFile }) => (
-          <ListItem listType="clients" key={_id} id={_id} name={name} city={city} phone={phone} photo={selectedFile} />
-        ))
+        filteredData.map(({ _id, ...props }) => <ListItem listType="clients" key={_id} id={_id} values={props} />)
       )}
       {filteredData <= 0 && <p>Brak wyników...</p>}
     </MainTemplate>

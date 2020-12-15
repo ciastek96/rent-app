@@ -29,6 +29,9 @@ const PhotoWrapper = styled.div`
   height: 60px;
   width: 60px;
   background-color: ${({ theme }) => theme.green};
+  background-image: ${({ photo }) => (photo ? `url(${photo})` : 'none')};
+  background-size: cover;
+  position: 50% 50%;
   border-radius: 50%;
 `;
 
@@ -87,20 +90,20 @@ const StyledDropdownMenu = styled(DropdownMenu)``;
 const PRODUCTS = 'products';
 const CLIENTS = 'clients';
 
-const ListItem = ({ id, title, data, renter, name, phone, city, nip, listType, photo }) => {
+const ListItem = ({ listType, id, values: { name, surname, productName, data, phone, city, selectedFile } }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
   return (
     <ListWrapper>
       <ListItemWrapper>
-        {listType === PRODUCTS ? <Data>{data}</Data> : <PhotoWrapper photo={photo} />}
+        {listType === PRODUCTS ? <Data>{data}</Data> : <PhotoWrapper photo={selectedFile} />}
         <Wrapper>
           {listType === PRODUCTS ? (
-            <h4>{title}</h4>
+            <h4>{productName}</h4>
           ) : (
             <>
-              <h4>{name}</h4>
+              <h4>{`${name} ${surname}`}</h4>
               <StyledDetails>
                 <p>{city}</p>
                 <p>{phone}</p>
@@ -131,24 +134,18 @@ const ListItem = ({ id, title, data, renter, name, phone, city, nip, listType, p
 };
 
 ListItemWrapper.propTypes = {
+  values: PropTypes.arrayOf(PropTypes.string),
   title: PropTypes.string,
-  data: PropTypes.string,
-  renter: PropTypes.string,
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  surname: PropTypes.string.isRequired,
   phone: PropTypes.string,
-  city: PropTypes.string,
-  nip: PropTypes.string,
   listType: PropTypes.oneOf([PRODUCTS, CLIENTS]),
 };
 
 ListItemWrapper.defaultProps = {
   title: null,
-  data: null,
-  renter: null,
   name: null,
   phone: null,
-  city: null,
-  nip: null,
   listType: PRODUCTS,
 };
 

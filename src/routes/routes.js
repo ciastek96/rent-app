@@ -11,5 +11,8 @@ export const routes = {
   product: '/produkty/:id',
   newProduct: '/produkty/nowy',
   settings: '/ustawienia',
-  rental: '/wypozyczalnia',
+  rents: '/wypozyczenia',
+  rent: '/wypozyczenia/:id',
+  newRent: '/wypozyczenia/nowy',
+  finances: '/finanse',
 };

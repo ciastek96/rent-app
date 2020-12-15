@@ -8,13 +8,14 @@ import LoginView from './LoginView';
 import ProductsView from './ProductsView';
 import FinancesView from './FinancesView';
 import ClientsView from './ClientsView';
-import RentalView from './RentalView';
 import NotFoundView from './NotFoundView';
 import NewItemView from './NewItemView';
 import NewClientView from './NewClientView';
 import NewProductView from './NewProductView';
 import EditClientView from './EditClientView';
 import EditProductView from './EditProductView';
+import NewRentView from './NewRentView';
+import RentsView from './RentsView';
 
 const Root = () => (
   <Provider store={store}>
@@ -25,13 +26,14 @@ const Root = () => (
         <Route path={routes.register} component={LoginView} />
         <Route path={routes.logout} component={LoginView} />
         <Route path={routes.products} exact component={ProductsView} />
-        <Route path={routes.newProduct} exact component={NewProductView} />
-        <Route path={routes.product} exact component={EditProductView} />
+        <Route path={routes.newProduct} component={NewProductView} />
+        <Route path={routes.product} component={EditProductView} />
         <Route path={routes.clients} exact component={ClientsView} />
-        <Route path={routes.newClient} exact component={NewClientView} />
-        <Route path={routes.client} exact component={EditClientView} />
-        <Route path={routes.rental} component={RentalView} />
-        <Route path={routes.settings} exact component={NewItemView} />
+        <Route path={routes.newClient} component={NewClientView} />
+        <Route path={routes.client} component={EditClientView} />
+        <Route path={routes.rents} exact component={RentsView} />
+        <Route path={routes.newRent} component={NewRentView} />
+        <Route path={routes.settings} component={NewItemView} />
         <Route path={routes.finances} component={FinancesView} />
         <Route path="*" component={NotFoundView} />
       </Switch>

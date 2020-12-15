@@ -101,3 +101,12 @@ export const getRents = () => async (dispatch) => {
     console.log(err);
   }
 };
+
+// export const addRent = () => async (dispatch) => {
+//   // try {
+//   //   const { data } = await axios.get('http://localhost:4000/rents');
+//   //   dispatch({ type: 'FETCH_RENTS', payload: data });
+//   // } catch (err) {
+//   //   console.log(err);
+//   return 0;
+// };

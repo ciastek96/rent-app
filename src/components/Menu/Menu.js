@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { routes } from '../../routes/routes';
 
 const List = styled.ul`
   display: flex;
@@ -26,16 +27,16 @@ const Menu = () => (
     <ListItem as={NavLink} exact to="/" activeClassName="active">
       Dashboard
     </ListItem>
-    <ListItem as={NavLink} to="/wypozyczalnia" activeClassName="active">
+    <ListItem as={NavLink} to={routes.rents} activeClassName="active">
       Wypożyczalnia
     </ListItem>
-    <ListItem as={NavLink} to="/produkty" activeClassName="active">
+    <ListItem as={NavLink} to={routes.products} activeClassName="active">
       Produkty
     </ListItem>
-    <ListItem as={NavLink} to="/klienci" activeClassName="active">
+    <ListItem as={NavLink} to={routes.clients} activeClassName="active">
       Klienci
     </ListItem>
-    <ListItem as={NavLink} to="/finanse" activeClassName="active">
+    <ListItem as={NavLink} to={routes.finances} activeClassName="active">
       Finanse
     </ListItem>
   </List>

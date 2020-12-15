@@ -8,12 +8,7 @@ import { routes } from '../routes/routes';
 
 const ProductsView = () => {
   const productsList = useSelector(({ products }) => products);
-  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState('');
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -24,8 +19,8 @@ const ProductsView = () => {
   return (
     <MainTemplate>
       <ItemsTemplate title="Produkty" value={inputValue} handleChange={handleChange} path={routes.newProduct} />
-      {filteredData.map(({ productName, data, renter, _id }) => (
-        <ListItem listType="products" key={_id} id={_id} title={productName} data={data} renter={renter} />
+      {filteredData.map(({ _id, ...props }) => (
+        <ListItem listType="products" key={_id} id={_id} values={props} />
       ))}
       {filteredData <= 0 && <p>Brak wyników...</p>}
     </MainTemplate>
