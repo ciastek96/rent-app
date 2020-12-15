@@ -162,7 +162,7 @@ const EditClientView = ({ match }) => {
           onSubmit={(values) => {
             console.log('hm', id, { ...values, selectedFile });
             dispatch(updateProduct(id, { ...values, selectedFile }));
-            // history.go(0);
+            history.go(0);
           }}
         >
           {({ values }) => (

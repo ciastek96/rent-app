@@ -87,7 +87,7 @@ const NewClientView = () => {
   const [redirect, setRedirect] = useState(false);
 
   if (redirect) {
-    return <Redirect to={routes.products} />;
+    return <Redirect to={routes.clients} />;
   }
 
   return (
@@ -197,7 +197,7 @@ const NewClientView = () => {
           onSubmit={(values) => {
             console.log({ ...values, selectedFile });
             dispatch(addClient({ ...values, selectedFile }));
-            // setRedirect(true);
+            setRedirect(true);
           }}
         >
           {({ values }) => (

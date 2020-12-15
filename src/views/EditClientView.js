@@ -213,7 +213,7 @@ const EditClientView = ({ match }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(updateClient(id, values));
+            dispatch(updateClient(id, { ...values, selectedFile }));
             history.go(0);
           }}
         >

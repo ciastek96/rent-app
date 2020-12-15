@@ -66,7 +66,7 @@ export const getClient = (value) => async (dispatch) => {
 export const updateClient = (id, values) => async (dispatch) => {
   try {
     console.log('action', { id }, values);
-    // const { data } = await axios.post('http://localhost:4000/clients/update', { id, values });
+    const { data } = await axios.post('http://localhost:4000/clients/update', { id, values });
 
     // dispatch({ type: 'UPDATE_CLIENT', payload: data });
   } catch (err) {

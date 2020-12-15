@@ -39,12 +39,14 @@ const ClientsView = () => {
       <LayoutButtons setActiveView={setActiveView} />
       {activeView === GRID ? (
         <GridWrapper>
-          {filteredData.map(({ name, city, phone, _id }) => (
-            <Card key={_id} id={_id} name={name} city={city} phone={phone} />
+          {filteredData.map(({ name, surname, city, phone, _id, selectedFile }) => (
+            <Card key={_id} id={_id} name={name} surname={surname} city={city} phone={phone} photo={selectedFile} />
           ))}
         </GridWrapper>
       ) : (
-        filteredData.map(({ name, city, phone, _id }) => <ListItem listType="clients" key={_id} id={_id} name={name} city={city} phone={phone} />)
+        filteredData.map(({ name, city, phone, _id, selectedFile }) => (
+          <ListItem listType="clients" key={_id} id={_id} name={name} city={city} phone={phone} photo={selectedFile} />
+        ))
       )}
       {filteredData <= 0 && <p>Brak wyników...</p>}
     </MainTemplate>

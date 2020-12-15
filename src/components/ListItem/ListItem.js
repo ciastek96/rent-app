@@ -87,14 +87,14 @@ const StyledDropdownMenu = styled(DropdownMenu)``;
 const PRODUCTS = 'products';
 const CLIENTS = 'clients';
 
-const ListItem = ({ id, title, data, renter, name, phone, city, nip, listType }) => {
+const ListItem = ({ id, title, data, renter, name, phone, city, nip, listType, photo }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
   return (
     <ListWrapper>
       <ListItemWrapper>
-        {listType === PRODUCTS ? <Data>{data}</Data> : <PhotoWrapper />}
+        {listType === PRODUCTS ? <Data>{data}</Data> : <PhotoWrapper photo={photo} />}
         <Wrapper>
           {listType === PRODUCTS ? (
             <h4>{title}</h4>

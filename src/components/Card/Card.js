@@ -36,6 +36,9 @@ const StyledMoreButton = styled(MoreButton)`
 
 const Photo = styled.div`
   background-color: ${({ theme }) => theme.default};
+  background-image: ${({ photo }) => (photo ? `url(${photo})` : 'none')};
+  background-size: cover;
+  background-position: center;
   border-radius: 50%;
   height: 225px;
   width: 225px;
@@ -78,7 +81,7 @@ const MenuItem = styled.a`
 
 const StyledDropdownMenu = styled(DropdownMenu)``;
 
-const Card = ({ id, name, phone, city }) => {
+const Card = ({ id, name, surname, phone, city, photo }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
@@ -86,9 +89,9 @@ const Card = ({ id, name, phone, city }) => {
   return (
     <Wrapper>
       <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
-      <Photo />
+      <Photo photo={photo} />
       <InnerWrapper>
-        <h4>{name}</h4>
+        <h4>{`${name} ${surname}`}</h4>
         <Info>
           <p>{phone}</p>
           <p>{city}</p>
@@ -116,6 +119,11 @@ Card.propTypes = {
   name: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,
+  photo: PropTypes.string,
+};
+
+Card.defaultProps = {
+  photo: null,
 };
 
 export default Card;
