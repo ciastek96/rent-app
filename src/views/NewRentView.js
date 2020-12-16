@@ -5,6 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import Select from 'react-select';
 import Input from '../components/Input/Input';
+import ProductsCard from '../components/ProductsCard/ProductsCard';
 // import { addRent } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
@@ -36,48 +37,21 @@ const Wrapper = styled.div`
   margin-bottom: 65px;
 `;
 
-const InnerWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 45px;
-`;
-
-const ClientInfo = styled.div`
-  margin-left: 45px;
-
-  h2 {
-    color: ${({ theme }) => theme.lightGray};
-    margin-bottom: 0;
-  }
-
-  h4 {
-    margin-right: 18px;
-  }
-
-  span {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-`;
-
 const Error = styled.p`
   color: red;
   font-size: ${({ theme }) => theme.fontSize.xxs};
   padding: 0 25px;
 `;
 
-const ImageWrapper = styled.div`
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
+const StyledForm = styled(Form)`
+  /* display: grid;
+  grid-template-columns: repeat(2, 1fr); */
+  padding-bottom: 45px;
 `;
 
-const StyledForm = styled(Form)`
+const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  padding-bottom: 45px;
 `;
 
 const StyledSelect = styled(Select)`
@@ -90,11 +64,16 @@ const NewRentView = () => {
   const productsList = useSelector((state) => state.products);
   const clientsList = useSelector((state) => state.clients);
   const [currentClient, setCurrentClient] = useState();
+  const [currentProducts, setCurrentProducts] = useState();
   const [redirect, setRedirect] = useState(false);
 
   const handleClient = (value) => {
     const selectedClient = clientsList.filter((client) => client._id === value._id);
     setCurrentClient(...selectedClient);
+  };
+
+  const handleProduct = (value) => {
+    setCurrentProducts(value);
   };
 
   if (redirect) {
@@ -136,82 +115,93 @@ const NewRentView = () => {
           {({ values }) => (
             <>
               <StyledForm id="newRentForm">
-                <div>
-                  <Field as={Input} label="Data wypożyczenia" id="firstDate" name="firstDate" type="date" autoComplete="new-password" />
-                  <ErrorMessage name="firstDate" component={Error} />
-                </div>
+                <GridWrapper>
+                  <div>
+                    <Field as={Input} label="Data wypożyczenia" id="firstDate" name="firstDate" type="date" autoComplete="new-password" />
+                    <ErrorMessage name="firstDate" component={Error} />
+                  </div>
 
-                <div>
-                  <Field as={Input} label="Data zwrotu" id="lastDate" name="lastDate" type="date" autoComplete="new-password" />
-                  <ErrorMessage name="lastDate" component={Error} />
-                </div>
+                  <div>
+                    <Field as={Input} label="Data zwrotu" id="lastDate" name="lastDate" type="date" autoComplete="new-password" />
+                    <ErrorMessage name="lastDate" component={Error} />
+                  </div>
+                </GridWrapper>
 
                 <div>
                   <StyledSelect
                     isMulti
                     name="products"
-                    options={productsList.map(({ productName }) => ({ value: productName, label: productName }))}
+                    options={productsList.map(({ productName, _id }) => ({ value: productName, label: productName, _id }))}
+                    onChange={handleProduct}
                   />
                 </div>
 
                 <div>
-                  <StyledSelect
-                    name="clients"
-                    options={clientsList.map(({ name, surname, _id }) => ({ value: `${name} ${surname}`, label: `${name} ${surname}`, _id }))}
-                    onChange={handleClient}
-                  />
+                  <label>
+                    Wybierz klienta:
+                    <StyledSelect
+                      name="clients"
+                      options={clientsList.map(({ name, surname, _id }) => ({ value: `${name} ${surname}`, label: `${name} ${surname}`, _id }))}
+                      onChange={handleClient}
+                    />
+                  </label>
                 </div>
+                {currentProducts && <ProductsCard values={currentProducts} />}
 
                 {currentClient && (
                   <div>
-                    <div>
-                      <Field as={Input} label="Imię" id="name" name="name" type="text" />
-                      <ErrorMessage name="name" component={Error} />
-                    </div>
-                    <div>
-                      <Field as={Input} label="Nazwisko" id="surname" name="surname" type="text" />
-                      <ErrorMessage name="surname" component={Error} />
-                    </div>
+                    <h3>Dane klienta: </h3>
+                    <GridWrapper>
+                      <div>
+                        <Field as={Input} label="Imię" id="name" name="name" type="text" />
+                        <ErrorMessage name="name" component={Error} />
+                      </div>
 
-                    <div>
-                      <Field as={Input} label="Adres e-mail" id="email" name="email" type="email" />
-                      <ErrorMessage name="email" component={Error} />
-                    </div>
+                      <div>
+                        <Field as={Input} label="Nazwisko" id="surname" name="surname" type="text" />
+                        <ErrorMessage name="surname" component={Error} />
+                      </div>
 
-                    <div>
-                      <Field as={Input} label="Telefon" id="phone" name="phone" type="text" />
-                      <ErrorMessage name="phone" component={Error} />
-                    </div>
+                      <div>
+                        <Field as={Input} label="Adres e-mail" id="email" name="email" type="email" />
+                        <ErrorMessage name="email" component={Error} />
+                      </div>
 
-                    <div>
-                      <Field as={Input} label="Nazwa firmy" id="companyName" name="companyName" type="text" autocomplete="off" />
-                      <ErrorMessage name="companyName" component={Error} />
-                    </div>
+                      <div>
+                        <Field as={Input} label="Telefon" id="phone" name="phone" type="text" />
+                        <ErrorMessage name="phone" component={Error} />
+                      </div>
 
-                    <div>
-                      <Field as={Input} label="NIP" id="nip" name="nip" type="text" autocomplete="off" />
-                      <ErrorMessage name="nip" component={Error} />
-                    </div>
+                      <div>
+                        <Field as={Input} label="Nazwa firmy" id="companyName" name="companyName" type="text" autocomplete="off" />
+                        <ErrorMessage name="companyName" component={Error} />
+                      </div>
 
-                    <div>
-                      <Field as={Input} label="Miasto" id="city" name="address.city" type="text" />
-                      <ErrorMessage name="address.city" component={Error} />
-                    </div>
+                      <div>
+                        <Field as={Input} label="NIP" id="nip" name="nip" type="text" autocomplete="off" />
+                        <ErrorMessage name="nip" component={Error} />
+                      </div>
 
-                    <div>
-                      <Field as={Input} label="Ulica" id="street" name="address.street" type="text" />
-                      <ErrorMessage name="address.street" component={Error} />
-                    </div>
+                      <div>
+                        <Field as={Input} label="Miasto" id="city" name="address.city" type="text" />
+                        <ErrorMessage name="address.city" component={Error} />
+                      </div>
 
-                    <div>
-                      <Field as={Input} label="Kod pocztowy" id="postalCode" name="address.postalCode" type="text" />
-                      <ErrorMessage name="address.postalCode" component={Error} />
-                    </div>
+                      <div>
+                        <Field as={Input} label="Ulica" id="street" name="address.street" type="text" />
+                        <ErrorMessage name="address.street" component={Error} />
+                      </div>
 
-                    <div>
-                      <Field as={Input} label="Rabat" id="discount" name="discount" type="number" min="0" max="100" step="5" />
-                      <ErrorMessage name="discount" component={Error} />
-                    </div>
+                      <div>
+                        <Field as={Input} label="Kod pocztowy" id="postalCode" name="address.postalCode" type="text" />
+                        <ErrorMessage name="address.postalCode" component={Error} />
+                      </div>
+
+                      <div>
+                        <Field as={Input} label="Rabat" id="discount" name="discount" type="number" min="0" max="100" step="5" />
+                        <ErrorMessage name="discount" component={Error} />
+                      </div>
+                    </GridWrapper>
                   </div>
                 )}
               </StyledForm>
