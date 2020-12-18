@@ -9,7 +9,7 @@ import MoreButton from '../MoreButton/MoreButton';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 
 const ListWrapper = styled.div``;
-const ListItemWrapper = styled.div`
+const RentListWrapper = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
@@ -91,19 +91,16 @@ const PRODUCTS = 'products';
 const CLIENTS = 'clients';
 const RENTS = 'rents';
 
-const ListItem = ({
-  listType,
-  id,
-  values: { name, surname, productName, dateOfRent, dateOfReturn, phone, companyName, nip, city, selectedFile },
-}) => {
+const RentList = ({ listType, id, values: { name, surname, productName, dateOfReturn, phone, companyName, city, selectedFile } }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
   return (
     <ListWrapper>
-      <ListItemWrapper>
+      <RentListWrapper>
         {listType === PRODUCTS || listType === RENTS ? <Data>{dateOfReturn}</Data> : <PhotoWrapper photo={selectedFile} />}
         <Wrapper>
+          {console.log(dateOfReturn)}
           {listType === PRODUCTS ? (
             <h4>{productName}</h4>
           ) : (
@@ -133,32 +130,30 @@ const ListItem = ({
             </StyledDropdownMenu>
           </>
         )}
-      </ListItemWrapper>
+      </RentListWrapper>
     </ListWrapper>
   );
 };
 
-ListItem.propTypes = {
+RentList.propTypes = {
   values: PropTypes.objectOf(PropTypes.string),
   id: PropTypes.string.isRequired,
   productName: PropTypes.string,
   name: PropTypes.string,
   surname: PropTypes.string,
   phone: PropTypes.string,
-  nip: PropTypes.string,
   selectedFile: PropTypes.string,
   listType: PropTypes.oneOf([PRODUCTS, CLIENTS]),
 };
 
-ListItem.defaultProps = {
+RentList.defaultProps = {
   values: {},
   productName: '',
   name: '',
   surname: '',
   phone: '',
-  nip: '',
   selectedFile: '',
   listType: PRODUCTS,
 };
 
-export default ListItem;
+export default RentList;

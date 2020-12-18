@@ -7,6 +7,7 @@ import ItemsTemplate from '../templates/ItemsTemplate';
 import Card from '../components/Card/Card';
 import LayoutButtons from '../components/LayoutButtons/LayoutButtons';
 import ListItem from '../components/ListItem/ListItem';
+import Spinner from '../components/Spinner/Spinner';
 import { routes } from '../routes/routes';
 
 const GridWrapper = styled.div`
@@ -16,10 +17,15 @@ const GridWrapper = styled.div`
 `;
 
 const ClientsView = () => {
+  const GRID = 'grid';
+  const dispatch = useDispatch();
   const clientsList = useSelector(({ clients }) => clients);
+  const [activeView, setActiveView] = useState(GRID);
   const [inputValue, setInputValue] = useState('');
 
-  const GRID = 'grid';
+  useEffect(() => {
+    dispatch(getClients());
+  }, [dispatch]);
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -27,7 +33,6 @@ const ClientsView = () => {
 
   const filteredData = clientsList.filter((value) => value.name.toLowerCase().includes(inputValue));
 
-  const [activeView, setActiveView] = useState('list');
   return (
     <MainTemplate>
       <ItemsTemplate title="Klienci" value={inputValue} handleChange={handleChange} path={routes.newClient} />

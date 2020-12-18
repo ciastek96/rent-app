@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import Select from 'react-select';
 import Input from '../components/Input/Input';
 import ProductsCard from '../components/ProductsCard/ProductsCard';
-// import { addRent } from '../actions';
+import { getProducts, getClients, addRent } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import { routes } from '../routes/routes';
@@ -37,15 +39,7 @@ const Wrapper = styled.div`
   margin-bottom: 65px;
 `;
 
-const Error = styled.p`
-  color: red;
-  font-size: ${({ theme }) => theme.fontSize.xxs};
-  padding: 0 25px;
-`;
-
 const StyledForm = styled(Form)`
-  /* display: grid;
-  grid-template-columns: repeat(2, 1fr); */
   padding-bottom: 45px;
 `;
 
@@ -55,26 +49,37 @@ const GridWrapper = styled.div`
 `;
 
 const StyledSelect = styled(Select)`
-  margin: 0 25px;
-  border-radius: 10px;
+  margin: 0;
+`;
+
+const DateWrapper = styled.div`
+  padding: 0 25px;
+
+  p {
+    margin: 15px 0px;
+  }
+`;
+
+const SelectWrapper = styled.div`
+  padding: 15px 25px;
+`;
+
+const Error = styled.p`
+  color: red;
+  font-size: ${({ theme }) => theme.fontSize.xxs};
+  margin: 5px 0;
 `;
 
 const NewRentView = () => {
   const dispatch = useDispatch();
   const productsList = useSelector((state) => state.products);
   const clientsList = useSelector((state) => state.clients);
-  const [currentClient, setCurrentClient] = useState();
-  const [currentProducts, setCurrentProducts] = useState();
   const [redirect, setRedirect] = useState(false);
 
-  const handleClient = (value) => {
-    const selectedClient = clientsList.filter((client) => client._id === value._id);
-    setCurrentClient(...selectedClient);
-  };
-
-  const handleProduct = (value) => {
-    setCurrentProducts(value);
-  };
+  useEffect(() => {
+    dispatch(getClients());
+    dispatch(getProducts());
+  }, [dispatch]);
 
   if (redirect) {
     return <Redirect to={routes.rents} />;
@@ -96,116 +101,113 @@ const NewRentView = () => {
       <Wrapper>
         <Formik
           initialValues={{
-            firstDate: '',
-            lastDate: '',
+            dateOfRent: new Date(),
+            dateOfReturn: '',
             products: [],
-            clientId: '',
+            client: null,
           }}
           validate={(values) => {
             const errors = {};
 
+            if (!values.dateOfRent) {
+              errors.dateOfRent = 'Pole wymagane.';
+            }
+
+            if (!values.dateOfReturn) {
+              errors.dateOfReturn = 'Pole wymagane.';
+            }
+
+            if (values.products) {
+              if (!values.products.length > 0) {
+                errors.products = 'Pole wymagane.';
+              }
+            }
+
+            if (!values.client) {
+              errors.client = 'Pole wymagane.';
+            }
+
             return errors;
           }}
           onSubmit={(values) => {
-            // console.log({ ...values, selectedFile });
-            // dispatch(addClient({ ...values, selectedFile }));
-            // setRedirect(true);
+            dispatch(addRent({ ...values }));
+            setRedirect(true);
           }}
         >
-          {({ values }) => (
-            <>
-              <StyledForm id="newRentForm">
-                <GridWrapper>
-                  <div>
-                    <Field as={Input} label="Data wypożyczenia" id="firstDate" name="firstDate" type="date" autoComplete="new-password" />
-                    <ErrorMessage name="firstDate" component={Error} />
-                  </div>
+          {({ values, setFieldValue }) => (
+            <StyledForm id="newRentForm" autoComplete="new-password">
+              <GridWrapper>
+                <DateWrapper>
+                  <p>Data wypożyczenia</p>
 
-                  <div>
-                    <Field as={Input} label="Data zwrotu" id="lastDate" name="lastDate" type="date" autoComplete="new-password" />
-                    <ErrorMessage name="lastDate" component={Error} />
-                  </div>
-                </GridWrapper>
-
-                <div>
-                  <StyledSelect
-                    isMulti
-                    name="products"
-                    options={productsList.map(({ productName, _id }) => ({ value: productName, label: productName, _id }))}
-                    onChange={handleProduct}
+                  <DatePicker
+                    selectsStart
+                    selected={values.dateOfRent}
+                    startDate={values.dateOfRent}
+                    endDate={values.dateOfReturn}
+                    // maxDate={values.dateOfRent}
+                    dateFormat="MMMM d, yyyy"
+                    className="form-control"
+                    name="dateOfRent"
+                    onChange={(date) => setFieldValue('dateOfRent', date)}
+                    customInput={<Field as={Input} />}
                   />
-                </div>
+                  <ErrorMessage name="dateOfRent" component={Error} />
+                </DateWrapper>
 
-                <div>
-                  <label>
-                    Wybierz klienta:
-                    <StyledSelect
-                      name="clients"
-                      options={clientsList.map(({ name, surname, _id }) => ({ value: `${name} ${surname}`, label: `${name} ${surname}`, _id }))}
-                      onChange={handleClient}
-                    />
-                  </label>
-                </div>
-                {currentProducts && <ProductsCard values={currentProducts} />}
+                <DateWrapper>
+                  <p>Data oddania</p>
 
-                {currentClient && (
-                  <div>
-                    <h3>Dane klienta: </h3>
-                    <GridWrapper>
-                      <div>
-                        <Field as={Input} label="Imię" id="name" name="name" type="text" />
-                        <ErrorMessage name="name" component={Error} />
-                      </div>
+                  <DatePicker
+                    selectsEnd
+                    selected={values.dateOfReturn}
+                    startDate={values.dateOfRent}
+                    endDate={values.dateOfReturn}
+                    minDate={values.dateOfRent}
+                    dateFormat="MMMM d, yyyy"
+                    className="form-control"
+                    name="dateOfReturn"
+                    onChange={(date) => setFieldValue('dateOfReturn', date)}
+                    customInput={<Field as={Input} autoComplete="new-password" />}
+                  />
+                  <ErrorMessage name="dateOfReturn" component={Error} />
+                </DateWrapper>
+              </GridWrapper>
 
-                      <div>
-                        <Field as={Input} label="Nazwisko" id="surname" name="surname" type="text" />
-                        <ErrorMessage name="surname" component={Error} />
-                      </div>
+              <SelectWrapper>
+                <StyledSelect
+                  name="client"
+                  placeholder="Wybierz klienta"
+                  options={clientsList.map(({ name, surname, _id, ...clientValues }) => ({
+                    value: `${name} ${surname}`,
+                    label: `${name} ${surname}`,
+                    _id,
+                    ...clientValues,
+                  }))}
+                  onChange={(client) => setFieldValue('client', client)}
+                />
+                <ErrorMessage name="client" component={Error} />
+              </SelectWrapper>
 
-                      <div>
-                        <Field as={Input} label="Adres e-mail" id="email" name="email" type="email" />
-                        <ErrorMessage name="email" component={Error} />
-                      </div>
+              <SelectWrapper>
+                <StyledSelect
+                  isMulti
+                  placeholder="Wybierz produkty"
+                  name="products"
+                  options={productsList.map(({ productName, _id, ...productValue }) => ({
+                    value: productName,
+                    label: productName,
+                    _id,
+                    ...productValue,
+                  }))}
+                  // onChange={handleProduct}
+                  onChange={(products) => setFieldValue('products', products)}
+                />
+                <ErrorMessage name="products" component={Error} />
+              </SelectWrapper>
 
-                      <div>
-                        <Field as={Input} label="Telefon" id="phone" name="phone" type="text" />
-                        <ErrorMessage name="phone" component={Error} />
-                      </div>
-
-                      <div>
-                        <Field as={Input} label="Nazwa firmy" id="companyName" name="companyName" type="text" autocomplete="off" />
-                        <ErrorMessage name="companyName" component={Error} />
-                      </div>
-
-                      <div>
-                        <Field as={Input} label="NIP" id="nip" name="nip" type="text" autocomplete="off" />
-                        <ErrorMessage name="nip" component={Error} />
-                      </div>
-
-                      <div>
-                        <Field as={Input} label="Miasto" id="city" name="address.city" type="text" />
-                        <ErrorMessage name="address.city" component={Error} />
-                      </div>
-
-                      <div>
-                        <Field as={Input} label="Ulica" id="street" name="address.street" type="text" />
-                        <ErrorMessage name="address.street" component={Error} />
-                      </div>
-
-                      <div>
-                        <Field as={Input} label="Kod pocztowy" id="postalCode" name="address.postalCode" type="text" />
-                        <ErrorMessage name="address.postalCode" component={Error} />
-                      </div>
-
-                      <div>
-                        <Field as={Input} label="Rabat" id="discount" name="discount" type="number" min="0" max="100" step="5" />
-                        <ErrorMessage name="discount" component={Error} />
-                      </div>
-                    </GridWrapper>
-                  </div>
-                )}
-              </StyledForm>
-            </>
+              {values.products && values.products.length > 0 && <ProductsCard values={values.products} />}
+            </StyledForm>
           )}
         </Formik>
       </Wrapper>

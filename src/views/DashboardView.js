@@ -7,6 +7,7 @@ import ItemList from '../components/ListItem/ListItem';
 const DashboardView = () => (
   <MainTemplate>
     <h2>Dashboard</h2>
+    <p>Dashboard</p>
     {/* <Modal>siema</Modal> */}
   </MainTemplate>
 );

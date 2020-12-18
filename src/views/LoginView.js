@@ -30,10 +30,6 @@ const Card = styled.div`
   justify-content: space-between;
 `;
 
-const InnerWrapper = styled.div`
-  width: 100%;
-`;
-
 const Logo = styled.a`
   font-size: 24px;
   color: ${({ theme }) => theme.green};
@@ -63,9 +59,7 @@ const LoginView = ({ location: { pathname } }) => {
           <Logo>EasyRent.</Logo>
           {cardType === routes.register ? (
             <>
-              <Paragraph>
-                Stwórz bezpłatne konto i korzystaj z platformy do zarządzania twoją wypożyczalnią!
-              </Paragraph>
+              <Paragraph>Stwórz bezpłatne konto i korzystaj z platformy do zarządzania twoją wypożyczalnią!</Paragraph>
               <RegisterForm setCardType={setCardType} />
             </>
           ) : (

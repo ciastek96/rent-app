@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 const Rent = require('../models/rents');
 
 router.route('/').get((req, res) => {
@@ -8,8 +9,11 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-  const { clientId, dateOfRent, dateOfReturn, products, ...values } = req.body;
-  const newRent = new Rent({ clientId, dateOfRent, dateOfReturn, products, ...values });
+  const {
+    values: { client, dateOfRent, dateOfReturn, products },
+  } = req.body;
+
+  const newRent = new Rent({ client, dateOfRent, dateOfReturn, products });
 
   newRent
     .save()
@@ -25,10 +29,12 @@ router.route('/update').post((req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route('/delete').post((req, res) => {
-  const { rentId } = req.body;
+router.route('/:id').delete((req, res) => {
+  const { id: _id } = req.params;
 
-  Rent.findOneAndDelete({ _id: rentId })
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No rent with that ID');
+
+  Rent.findOneAndDelete({ _id })
     .then(() => res.json('Rent deleted!'))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });

@@ -16,6 +16,7 @@ const FinancesView = () => (
     <Header>
       <h2>Finanse</h2>
     </Header>
+    <p>Finanse</p>
   </MainTemplate>
 );
 

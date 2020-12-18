@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const rentsSchema = new Schema({
-  clientId: {
-    type: mongoose.Schema.ObjectId,
+  client: {
+    type: Object,
     required: true,
   },
   dateOfRent: {
@@ -25,7 +25,7 @@ const rentsSchema = new Schema({
   },
   products: [
     {
-      type: mongoose.Schema.ObjectId,
+      type: String,
       required: true,
     },
   ],

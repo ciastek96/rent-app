@@ -7,7 +7,6 @@ import { removeClient } from '../../actions';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import MoreButton from '../MoreButton/MoreButton';
 import { routes } from '../../routes/routes';
-import EmailIcon from '../../assets/icons/svg/interfaces/at.svg';
 
 const Wrapper = styled.div`
   border-radius: 6px;
@@ -81,7 +80,7 @@ const MenuItem = styled.a`
 
 const StyledDropdownMenu = styled(DropdownMenu)``;
 
-const Card = ({ id, name, surname, phone, city, photo }) => {
+const Card = ({ values: { id, name, surname, phone, city, selectedFile } }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
@@ -89,7 +88,7 @@ const Card = ({ id, name, surname, phone, city, photo }) => {
   return (
     <Wrapper>
       <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
-      <Photo photo={photo} />
+      <Photo photo={selectedFile} />
       <InnerWrapper>
         <h4>{`${name} ${surname}`}</h4>
         <Info>
@@ -116,14 +115,16 @@ const Card = ({ id, name, surname, phone, city, photo }) => {
 };
 
 Card.propTypes = {
+  values: PropTypes.objectOf(PropTypes.string).isRequired,
   name: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
-  city: PropTypes.string.isRequired,
-  photo: PropTypes.string,
+  city: PropTypes.string,
+  selectedFile: PropTypes.string,
 };
 
 Card.defaultProps = {
-  photo: null,
+  selectedFile: null,
+  city: '',
 };
 
 export default Card;

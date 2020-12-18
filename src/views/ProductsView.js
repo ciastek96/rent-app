@@ -7,8 +7,13 @@ import ListItem from '../components/ListItem/ListItem';
 import { routes } from '../routes/routes';
 
 const ProductsView = () => {
+  const dispatch = useDispatch();
   const productsList = useSelector(({ products }) => products);
   const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
 
   const handleChange = (e) => {
     setInputValue(e.target.value);

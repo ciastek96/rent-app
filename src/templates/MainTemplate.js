@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import { useDispatch } from 'react-redux';
 import styled, { ThemeProvider } from 'styled-components';
-import { getClients, getProducts } from '../actions';
+import { getRents, getClients, getProducts } from '../actions';
 import { theme } from '../theme/theme';
 import GlobalStyle from '../theme/globalStyles';
 import Navbar from '../components/Navbar/Navbar';
@@ -13,13 +13,14 @@ const Wrapper = styled.div`
 `;
 
 const MainTemplate = ({ children }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getClients());
-    dispatch(getProducts());
-  }, []);
-
+  // useEffect(() => {
+  //   dispatch(getRents());
+  //   dispatch(getClients());
+  //   dispatch(getProducts());
+  // }, []);
+  const a = 0;
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
@@ -30,7 +31,11 @@ const MainTemplate = ({ children }) => {
 };
 
 MainTemplate.propTypes = {
-  children: PropTypes.instanceOf(Array).isRequired,
+  children: PropTypes.arrayOf(PropTypes.any),
+};
+
+MainTemplate.defaultProps = {
+  children: null,
 };
 
 export default MainTemplate;

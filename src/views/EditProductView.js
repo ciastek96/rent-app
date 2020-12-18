@@ -165,7 +165,7 @@ const EditClientView = ({ match }) => {
             history.go(0);
           }}
         >
-          {({ values }) => (
+          {() => (
             <>
               <InnerWrapper>
                 <ImageWrapper>

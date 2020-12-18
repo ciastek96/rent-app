@@ -7,9 +7,9 @@ const rentsReducer = (rents = [], { type, payload }) => {
     case FETCH_RENTS:
       return payload;
     case REMOVE_RENT:
-      return rents;
+      return rents.filter((rent) => rent._id !== payload);
     case ADD_RENT:
-      return rents;
+      return [...rents];
     default:
       return rents;
   }

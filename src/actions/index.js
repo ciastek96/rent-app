@@ -65,10 +65,8 @@ export const getClient = (value) => async (dispatch) => {
 
 export const updateClient = (id, values) => async (dispatch) => {
   try {
-    console.log('action', { id }, values);
     const { data } = await axios.post('http://localhost:4000/clients/update', { id, values });
-
-    // dispatch({ type: 'UPDATE_CLIENT', payload: data });
+    dispatch({ type: 'UPDATE_CLIENT', payload: data });
   } catch (err) {
     console.log(err);
   }
@@ -102,11 +100,20 @@ export const getRents = () => async (dispatch) => {
   }
 };
 
-// export const addRent = () => async (dispatch) => {
-//   // try {
-//   //   const { data } = await axios.get('http://localhost:4000/rents');
-//   //   dispatch({ type: 'FETCH_RENTS', payload: data });
-//   // } catch (err) {
-//   //   console.log(err);
-//   return 0;
-// };
+export const addRent = (values) => async (dispatch) => {
+  try {
+    const { data } = await axios.post('http://localhost:4000/rents/add', { values });
+    dispatch({ type: 'ADD_RENT', payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const removeRent = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.delete(`http://localhost:4000/rents/${id}`);
+    dispatch({ type: 'REMOVE_RENT', payload: id });
+  } catch (err) {
+    console.log(err);
+  }
+};

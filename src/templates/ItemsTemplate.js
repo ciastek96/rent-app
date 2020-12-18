@@ -43,7 +43,7 @@ ItemsTemplate.propTypes = {
 ItemsTemplate.defaultProps = {
   children: null,
   value: '',
-  handleChange: '',
+  handleChange: () => {},
 };
 
 export default ItemsTemplate;
