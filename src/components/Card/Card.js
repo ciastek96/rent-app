@@ -5,6 +5,7 @@ import { PropTypes } from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { removeClient } from '../../actions';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
+import Modal from '../Modal/Modal';
 import MoreButton from '../MoreButton/MoreButton';
 import { routes } from '../../routes/routes';
 
@@ -80,38 +81,52 @@ const MenuItem = styled.a`
 
 const StyledDropdownMenu = styled(DropdownMenu)``;
 
-const Card = ({ id, values }) => {
+const Card = ({ id, values, isModalOpen, setIsModalOpen }) => {
   const [optionMenu, setOptionMenu] = useState(false);
+
   const dispatch = useDispatch();
 
   const { name, surname, selectedFile, phone, email } = values;
 
+  const handleDelete = () => {
+    setOptionMenu(false);
+    setIsModalOpen(true);
+  };
+
+  const onConfirm = () => {
+    dispatch(removeClient(id));
+    setIsModalOpen(false);
+  };
+
   return (
-    <Wrapper>
-      <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
-      <Photo photo={selectedFile} />
-      <InnerWrapper>
-        <h4>{`${name} ${surname}`}</h4>
-        <Info>
-          <p>{phone}</p>
-          <p>{email}</p>
-        </Info>
-      </InnerWrapper>
-      {optionMenu && (
-        <>
-          <StyledDropdownMenu top="25px">
-            <MenuItemList>
-              <MenuItem onClick={() => dispatch(removeClient(id))}>Usuń</MenuItem>
-            </MenuItemList>
-            <MenuItemList>
-              <MenuItem as={Link} to={`${routes.clients}/${id}`}>
-                Edytuj
-              </MenuItem>
-            </MenuItemList>
-          </StyledDropdownMenu>
-        </>
-      )}
-    </Wrapper>
+    <>
+      <Wrapper>
+        <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
+        <Photo photo={selectedFile} />
+        <InnerWrapper>
+          <h4>{`${name} ${surname}`}</h4>
+          <Info>
+            <p>{phone}</p>
+            <p>{email}</p>
+          </Info>
+        </InnerWrapper>
+        {optionMenu && (
+          <>
+            <StyledDropdownMenu top="25px">
+              <MenuItemList>
+                <MenuItem onClick={handleDelete}>Usuń</MenuItem>
+              </MenuItemList>
+              <MenuItemList>
+                <MenuItem as={Link} to={`${routes.clients}/${id}`}>
+                  Edytuj
+                </MenuItem>
+              </MenuItemList>
+            </StyledDropdownMenu>
+          </>
+        )}
+      </Wrapper>
+      {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} confirmFn={onConfirm} />}
+    </>
   );
 };
 

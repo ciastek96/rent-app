@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getClients } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import Card from '../components/Card/Card';
@@ -18,14 +17,10 @@ const GridWrapper = styled.div`
 
 const ClientsView = () => {
   const GRID = 'grid';
-  const dispatch = useDispatch();
   const clientsList = useSelector(({ clients }) => clients);
   const [activeView, setActiveView] = useState(GRID);
   const [inputValue, setInputValue] = useState('');
-
-  useEffect(() => {
-    dispatch(getClients());
-  }, [dispatch]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -36,17 +31,24 @@ const ClientsView = () => {
   return (
     <MainTemplate>
       <ItemsTemplate title="Klienci" value={inputValue} handleChange={handleChange} path={routes.newClient} />
-      <LayoutButtons setActiveView={setActiveView} />
-      {activeView === GRID ? (
-        <GridWrapper>
-          {filteredData.map(({ _id, ...props }) => (
-            <Card key={_id} id={_id} values={props} />
-          ))}
-        </GridWrapper>
+      {clientsList.length <= 0 ? (
+        <Spinner />
       ) : (
-        filteredData.map(({ _id, ...props }) => <ListItem listType="clients" key={_id} id={_id} values={props} />)
+        <>
+          <LayoutButtons setActiveView={setActiveView} />
+          {activeView === GRID ? (
+            <GridWrapper>
+              {filteredData.map(({ _id, ...props }) => (
+                <Card key={_id} id={_id} values={props} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+              ))}
+            </GridWrapper>
+          ) : (
+            filteredData.map(({ _id, ...props }) => (
+              <ListItem listType="clients" isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} key={_id} id={_id} values={props} />
+            ))
+          )}
+        </>
       )}
-      {filteredData <= 0 && <p>Brak wyników...</p>}
     </MainTemplate>
   );
 };

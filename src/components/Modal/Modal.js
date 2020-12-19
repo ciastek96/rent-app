@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* background-color: hsla(0, 0%, 0%, 0.5); */
+  background-color: hsla(0, 0%, 0%, 0.5);
   z-index: 990;
 `;
 
@@ -63,22 +63,21 @@ const StyledParagraph = styled.p`
   margin-bottom: 15%;
 `;
 
-const Modal = () => {
-  const [isModalOpen, setIsModalOpen] = useState();
-  return (
-    <Wrapper>
-      <Modal>
-        <MessageWrapper>
-          <h2>Uwaga!</h2>
-          <StyledParagraph>Czy na pewno chcesz usunąć pozycję?</StyledParagraph>
-        </MessageWrapper>
-        <ButtonWrapper>
-          <Button secondary>Anuluj</Button>
-          <Button>Usuń</Button>
-        </ButtonWrapper>
-      </Modal>
-    </Wrapper>
-  );
-};
+const Modal = ({ setIsModalOpen, confirmFn }) => (
+  <Wrapper>
+    <StyledModal>
+      <MessageWrapper>
+        <h2>Uwaga!</h2>
+        <StyledParagraph>Czy na pewno chcesz usunąć pozycję?</StyledParagraph>
+      </MessageWrapper>
+      <ButtonWrapper>
+        <Button secondary onClick={() => setIsModalOpen(false)}>
+          Anuluj
+        </Button>
+        <Button onClick={confirmFn}>Usuń</Button>
+      </ButtonWrapper>
+    </StyledModal>
+  </Wrapper>
+);
 
 export default Modal;

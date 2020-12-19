@@ -1,10 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
 import { removeRent } from '../../actions';
-import { routes } from '../../routes/routes';
 import Button from '../Button/Button';
 
 const Wrapper = styled.div`

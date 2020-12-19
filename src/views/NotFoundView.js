@@ -4,6 +4,9 @@ import MainTemplate from '../templates/MainTemplate';
 
 const Wrapper = styled.div`
   position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
   height: 100%;
   width: 100%;
   background: rgb(21, 184, 113);
@@ -19,7 +22,7 @@ const InnerWrapper = styled.div`
 `;
 
 const Heading = styled.h1`
-  margin: 0;
+  margin: 50px 0 0;
   padding: 0;
   color: ${({ theme }) => theme.default};
   text-shadow: 0 0 5px hsla(0, 0%, 0%, 0.1);

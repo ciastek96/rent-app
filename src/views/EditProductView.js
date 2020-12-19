@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { PropTypes } from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -85,29 +85,23 @@ const StyledForm = styled(Form)`
   padding-bottom: 45px;
 `;
 
-const EditClientView = ({ match }) => {
-  const [productValues, setProductValues] = useState();
-  const [isLoaded, setIsLoaded] = useState(false);
+const EditProductView = ({ match }) => {
+  const { id } = match.params;
+  const productValues = useSelector(({ products }) => products.find((product) => product._id === id));
   const [selectedFile, setSelectedFile] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-  const { id } = match.params;
 
-  useEffect(() => {
-    axios
-      .post('http://localhost:4000/products/product', {
-        id,
-      })
-      .then((res) => {
-        setProductValues(res.data);
-        setSelectedFile(res.data.selectedFile);
-      })
-      .then(() => setIsLoaded(true))
-      .catch((err) => console.error(err));
-  }, []);
+  // if (productValues) {
+  //   setSelectedFile(productValues.selectedFile);
+  // }
 
-  if (!isLoaded) {
-    return <Spinner />;
+  if (!productValues) {
+    return (
+      <MainTemplate>
+        <Spinner />
+      </MainTemplate>
+    );
   }
   return (
     <MainTemplate>
@@ -129,8 +123,8 @@ const EditClientView = ({ match }) => {
             price: productValues.price,
             quantity: productValues.quantity,
             unit: productValues.unit,
-            dateOfPurchase: productValues.dateOfPurchase,
-            dateOfLastInspection: productValues.dateOfLastInspection,
+            dateOfPurchase: productValues.dateOfPurchase === null ? '' : productValues.dateOfPurchase,
+            dateOfLastInspection: productValues.dateOfLastInspection === null ? '' : productValues.dateOfLastInspection,
           }}
           validate={(values) => {
             const errors = {};
@@ -160,7 +154,7 @@ const EditClientView = ({ match }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            console.log('hm', id, { ...values, selectedFile });
+            console.log(values);
             dispatch(updateProduct(id, { ...values, selectedFile }));
             history.go(0);
           }}
@@ -169,8 +163,15 @@ const EditClientView = ({ match }) => {
             <>
               <InnerWrapper>
                 <ImageWrapper>
-                  <ImageUploader image={selectedFile} setSelectedFile={setSelectedFile} />
-                  <FileBase type="file" id="image" multiple={false} accept="image/*" onDone={({ base64 }) => setSelectedFile(base64)} />
+                  <ImageUploader image={!selectedFile ? productValues.selectedFile : selectedFile} setSelectedFile={setSelectedFile} />
+                  <FileBase
+                    onChange={() => console.log('changed')}
+                    type="file"
+                    id="image"
+                    multiple={false}
+                    accept="image/*"
+                    onDone={({ base64 }) => setSelectedFile(base64)}
+                  />
                 </ImageWrapper>
                 <ClientInfo>
                   <h2>{productValues.productName}</h2>
@@ -205,7 +206,7 @@ const EditClientView = ({ match }) => {
                 </div>
 
                 <div>
-                  <Field as={Input} label="Data zakupu" id="dateOfPurchase" name="dateOfPurchase" type="date" />
+                  <Field as={Input} format="2020-12-23T00:00:00.000" label="Data zakupu" id="dateOfPurchase" name="dateOfPurchase" type="date" />
                   <ErrorMessage name="dateOfPurchase" component={Error} />
                 </div>
 
@@ -222,8 +223,8 @@ const EditClientView = ({ match }) => {
   );
 };
 
-EditClientView.propTypes = {
+EditProductView.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default EditClientView;
+export default EditProductView;

@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../actions';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import ListItem from '../components/ListItem/ListItem';
+import Spinner from '../components/Spinner/Spinner';
 import { routes } from '../routes/routes';
 
 const ProductsView = () => {
-  const dispatch = useDispatch();
   const productsList = useSelector(({ products }) => products);
   const [inputValue, setInputValue] = useState('');
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -24,10 +20,13 @@ const ProductsView = () => {
   return (
     <MainTemplate>
       <ItemsTemplate title="Produkty" value={inputValue} handleChange={handleChange} path={routes.newProduct} />
-      {filteredData.map(({ _id, ...props }) => (
-        <ListItem listType="products" key={_id} id={_id} values={props} />
-      ))}
-      {filteredData <= 0 && <p>Brak wyników...</p>}
+      {productsList.length <= 0 ? (
+        <Spinner />
+      ) : (
+        filteredData.map(({ _id, ...props }) => (
+          <ListItem isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} listType="products" key={_id} id={_id} values={props} />
+        ))
+      )}
     </MainTemplate>
   );
 };

@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { removeClient, removeProduct } from '../../actions';
 import { routes } from '../../routes/routes';
 import MoreButton from '../MoreButton/MoreButton';
+import Modal from '../Modal/Modal';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 
 const ListWrapper = styled.div``;
@@ -91,48 +92,62 @@ const PRODUCTS = 'products';
 const CLIENTS = 'clients';
 const RENTS = 'rents';
 
-const ListItem = ({ listType, id, values }) => {
+const ListItem = ({ listType, id, values, isModalOpen, setIsModalOpen }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
   const { companyName, name, surname, selectedFile, productName, phone } = values;
 
+  const handleDelete = (_id) => {
+    setOptionMenu(false);
+    setIsModalOpen(true);
+  };
+
+  const onConfirm = () => {
+    if (listType === PRODUCTS) dispatch(removeProduct(id));
+    else dispatch(removeClient(id));
+    setIsModalOpen(false);
+  };
+
   return (
-    <ListWrapper>
-      <ListItemWrapper>
-        {listType === PRODUCTS || listType === RENTS ? <Data>12.02</Data> : <PhotoWrapper photo={selectedFile} />}
-        <Wrapper>
-          {listType === PRODUCTS ? (
-            <h4>{productName}</h4>
-          ) : (
+    <>
+      <ListWrapper>
+        <ListItemWrapper>
+          {listType === PRODUCTS || listType === RENTS ? <Data>12.02</Data> : <PhotoWrapper photo={selectedFile} />}
+          <Wrapper>
+            {listType === PRODUCTS ? (
+              <h4>{productName}</h4>
+            ) : (
+              <>
+                <h4>{companyName && companyName.length > 0 ? companyName : `${name} ${surname}`}</h4>
+                <StyledDetails>
+                  <p>{phone}</p>
+                  <p>{phone}</p>
+                </StyledDetails>
+              </>
+            )}
+          </Wrapper>
+          <ButtonWrapper>
+            <MoreButton onClick={() => setOptionMenu(!optionMenu)} />
+          </ButtonWrapper>
+          {optionMenu && (
             <>
-              <h4>{companyName && companyName.length > 0 ? companyName : `${name} ${surname}`}</h4>
-              <StyledDetails>
-                <p>{phone}</p>
-                <p>{phone}</p>
-              </StyledDetails>
+              <StyledDropdownMenu top="50%">
+                <MenuItemList>
+                  <MenuItem onClick={() => handleDelete()}>Usuń</MenuItem>
+                </MenuItemList>
+                <MenuItemList>
+                  <MenuItem as={Link} to={listType === PRODUCTS ? `${routes.products}/${id}` : `${routes.clients}/${id}`}>
+                    Edytuj
+                  </MenuItem>
+                </MenuItemList>
+              </StyledDropdownMenu>
             </>
           )}
-        </Wrapper>
-        <ButtonWrapper>
-          <MoreButton onClick={() => setOptionMenu(!optionMenu)} />
-        </ButtonWrapper>
-        {optionMenu && (
-          <>
-            <StyledDropdownMenu top="50%">
-              <MenuItemList>
-                <MenuItem onClick={listType === PRODUCTS ? () => dispatch(removeProduct(id)) : () => dispatch(removeClient(id))}>Usuń</MenuItem>
-              </MenuItemList>
-              <MenuItemList>
-                <MenuItem as={Link} to={listType === PRODUCTS ? `${routes.products}/${id}` : `${routes.clients}/${id}`}>
-                  Edytuj
-                </MenuItem>
-              </MenuItemList>
-            </StyledDropdownMenu>
-          </>
-        )}
-      </ListItemWrapper>
-    </ListWrapper>
+        </ListItemWrapper>
+      </ListWrapper>
+      {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} confirmFn={onConfirm} />}
+    </>
   );
 };
 

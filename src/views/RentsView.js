@@ -9,11 +9,6 @@ import { routes } from '../routes/routes';
 
 const RentsView = () => {
   const rentsList = useSelector(({ rents }) => rents);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getRents());
-  }, [dispatch]);
 
   return (
     <MainTemplate>

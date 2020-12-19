@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { PropTypes } from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import FileBase from 'react-file-base64';
@@ -85,28 +85,18 @@ const StyledForm = styled(Form)`
 `;
 
 const EditClientView = ({ match }) => {
-  const [clientValues, setClientValues] = useState();
-  const [selectedFile, setSelectedFile] = useState('');
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = match.params;
+  const clientValues = useSelector((state) => state.clients.find((client) => client._id === id));
 
-  useEffect(() => {
-    axios
-      .post('http://localhost:4000/clients/client', {
-        id,
-      })
-      .then((res) => {
-        setClientValues(res.data);
-        setSelectedFile(res.data.selectedFile);
-      })
-      .then(() => setIsLoaded(true))
-      .catch((err) => console.error(err));
-  }, []);
-
-  if (!isLoaded) {
-    return <Spinner />;
+  if (!clientValues) {
+    return (
+      <MainTemplate>
+        <Spinner />
+      </MainTemplate>
+    );
   }
   return (
     <MainTemplate>
@@ -221,7 +211,7 @@ const EditClientView = ({ match }) => {
             <>
               <InnerWrapper>
                 <ImageWrapper>
-                  <ImageUploader image={selectedFile} setSelectedFile={setSelectedFile} />
+                  <ImageUploader image={clientValues.selectedFile} setSelectedFile={setSelectedFile} />
                   <FileBase type="file" id="image" multiple={false} accept="image/*" onDone={({ base64 }) => setSelectedFile(base64)} />
                 </ImageWrapper>
                 <ClientInfo>

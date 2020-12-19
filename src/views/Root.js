@@ -1,8 +1,8 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { routes } from '../routes/routes';
-import store from '../store';
+import Spinner from '../components/Spinner/Spinner';
 import DashboardView from './DashboardView';
 import LoginView from './LoginView';
 import ProductsView from './ProductsView';
@@ -16,9 +16,18 @@ import EditClientView from './EditClientView';
 import EditProductView from './EditProductView';
 import NewRentView from './NewRentView';
 import RentsView from './RentsView';
+import { getClients, getProducts, getRents } from '../actions';
 
-const Root = () => (
-  <Provider store={store}>
+const Root = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getClients());
+    dispatch(getProducts());
+    dispatch(getRents());
+  }, [dispatch]);
+
+  return (
     <Router>
       <Switch>
         <Route exact path={routes.home} component={DashboardView} />
@@ -38,7 +47,7 @@ const Root = () => (
         <Route path="*" component={NotFoundView} />
       </Switch>
     </Router>
-  </Provider>
-);
+  );
+};
 
 export default Root;

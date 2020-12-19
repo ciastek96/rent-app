@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
-import LayoutButtons from '../components/LayoutButtons/LayoutButtons';
-import ListItem from '../components/ListItem/ListItem';
 
 const Wrapper = styled.div`
   max-width: 1024px;
