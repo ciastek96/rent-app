@@ -91,18 +91,16 @@ const PRODUCTS = 'products';
 const CLIENTS = 'clients';
 const RENTS = 'rents';
 
-const ListItem = ({
-  listType,
-  id,
-  values: { name, surname, productName, dateOfRent, dateOfReturn, phone, companyName, nip, city, selectedFile },
-}) => {
+const ListItem = ({ listType, id, values }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
+
+  const { companyName, name, surname, selectedFile, productName, phone } = values;
 
   return (
     <ListWrapper>
       <ListItemWrapper>
-        {listType === PRODUCTS || listType === RENTS ? <Data>{dateOfReturn}</Data> : <PhotoWrapper photo={selectedFile} />}
+        {listType === PRODUCTS || listType === RENTS ? <Data>12.02</Data> : <PhotoWrapper photo={selectedFile} />}
         <Wrapper>
           {listType === PRODUCTS ? (
             <h4>{productName}</h4>
@@ -110,7 +108,7 @@ const ListItem = ({
             <>
               <h4>{companyName && companyName.length > 0 ? companyName : `${name} ${surname}`}</h4>
               <StyledDetails>
-                <p>{city}</p>
+                <p>{phone}</p>
                 <p>{phone}</p>
               </StyledDetails>
             </>
@@ -139,25 +137,21 @@ const ListItem = ({
 };
 
 ListItem.propTypes = {
-  values: PropTypes.objectOf(PropTypes.string),
+  values: PropTypes.shape({
+    productName: PropTypes.string,
+    companyName: PropTypes.string,
+    name: PropTypes.string,
+    surname: PropTypes.string,
+    phone: PropTypes.string,
+    nip: PropTypes.string,
+    selectedFile: PropTypes.string,
+  }),
   id: PropTypes.string.isRequired,
-  productName: PropTypes.string,
-  name: PropTypes.string,
-  surname: PropTypes.string,
-  phone: PropTypes.string,
-  nip: PropTypes.string,
-  selectedFile: PropTypes.string,
   listType: PropTypes.oneOf([PRODUCTS, CLIENTS]),
 };
 
 ListItem.defaultProps = {
   values: {},
-  productName: '',
-  name: '',
-  surname: '',
-  phone: '',
-  nip: '',
-  selectedFile: '',
   listType: PRODUCTS,
 };
 

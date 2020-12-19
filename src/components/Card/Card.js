@@ -80,11 +80,12 @@ const MenuItem = styled.a`
 
 const StyledDropdownMenu = styled(DropdownMenu)``;
 
-const Card = ({ values: { id, name, surname, phone, city, selectedFile } }) => {
+const Card = ({ id, values }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
-  if (!name) return <p>Brak pozycji. </p>;
+  const { name, surname, selectedFile, phone, email } = values;
+
   return (
     <Wrapper>
       <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
@@ -93,7 +94,7 @@ const Card = ({ values: { id, name, surname, phone, city, selectedFile } }) => {
         <h4>{`${name} ${surname}`}</h4>
         <Info>
           <p>{phone}</p>
-          <p>{city}</p>
+          <p>{email}</p>
         </Info>
       </InnerWrapper>
       {optionMenu && (
@@ -115,16 +116,14 @@ const Card = ({ values: { id, name, surname, phone, city, selectedFile } }) => {
 };
 
 Card.propTypes = {
-  values: PropTypes.objectOf(PropTypes.string).isRequired,
-  name: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
-  city: PropTypes.string,
-  selectedFile: PropTypes.string,
-};
-
-Card.defaultProps = {
-  selectedFile: null,
-  city: '',
+  values: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    surname: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
+    selectedFile: PropTypes.string,
+  }).isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default Card;

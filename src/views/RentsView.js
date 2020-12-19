@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getRents } from '../actions';
 import ItemsTemplate from '../templates/ItemsTemplate';
-import Spinner from '../components/Spinner/Spinner';
 import RentItem from '../components/RentItem/RentItem';
 import MainTemplate from '../templates/MainTemplate';
 import { routes } from '../routes/routes';
@@ -18,7 +17,6 @@ const RentsView = () => {
 
   return (
     <MainTemplate>
-      {console.log(rentsList)}
       <ItemsTemplate title="Wypożyczenia" path={routes.newRent} />
       {rentsList.map(({ _id, client, dateOfRent, dateOfReturn, isFinished }) => (
         <RentItem key={_id} id={_id} title={_id} dateOfRent={dateOfRent} dateOfReturn={dateOfReturn} client={client} isFinished={isFinished} />

@@ -31,7 +31,7 @@ const ClientsView = () => {
     setInputValue(e.target.value);
   };
 
-  const filteredData = clientsList.filter((value) => value.name.toLowerCase().includes(inputValue));
+  const filteredData = clientsList.filter((value) => value.name.concat(` ${value.surname}`).toLowerCase().includes(inputValue));
 
   return (
     <MainTemplate>
