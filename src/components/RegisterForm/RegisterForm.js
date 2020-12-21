@@ -55,13 +55,8 @@ const RegisterForm = ({ setCardType }) => (
       }
       if (!values.password) {
         errors.password = 'Pole wymagane.';
-      } else if (
-        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/.test(
-          values.password,
-        )
-      ) {
-        errors.password =
-          'Pole powinno zawierać minimum jedną małą i dużo literę, cyfrę i znak specjalny.';
+      } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/.test(values.password)) {
+        errors.password = 'Pole powinno zawierać minimum jedną małą i dużo literę, cyfrę i znak specjalny.';
       }
       if (!values.password2) {
         errors.password2 = 'Pole wymagane.';
@@ -76,37 +71,13 @@ const RegisterForm = ({ setCardType }) => (
   >
     {({ isSubmitting }) => (
       <StyledForm>
-        <Field
-          as={StyledInput}
-          type="text"
-          name="username"
-          placeholder="Nazwa użytkownika"
-          autocomplete="off"
-        />
+        <Field as={StyledInput} type="text" name="username" placeholder="Nazwa użytkownika" autocomplete="off" />
         <ErrorMessage name="username" component={Error} />
-        <Field
-          as={StyledInput}
-          type="text"
-          name="email"
-          placeholder="Adres e-mail"
-          autocomplete="off"
-        />
+        <Field as={StyledInput} type="text" name="email" placeholder="Adres e-mail" autocomplete="off" />
         <ErrorMessage name="email" component={Error} />
-        <Field
-          as={StyledInput}
-          type="password"
-          name="password"
-          placeholder="Hasło"
-          autocomplete="off"
-        />
+        <Field as={StyledInput} type="password" name="password" placeholder="Hasło" autocomplete="off" />
         <ErrorMessage name="password" component={Error} />
-        <Field
-          as={StyledInput}
-          type="password"
-          name="password2"
-          placeholder="Powtórz hasło"
-          autocomplete="off"
-        />
+        <Field as={StyledInput} type="password" name="password2" placeholder="Powtórz hasło" autocomplete="off" />
         <ErrorMessage name="password2" component={Error} />
         <ButtonsWrapper>
           <Button tertiary onClick={() => setCardType(routes.login)}>

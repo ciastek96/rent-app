@@ -40,16 +40,16 @@ const LoginForm = ({ setCardType }) => (
     }}
     onSubmit={(values, { setSubmitting }) => {
       setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
+        // alert(JSON.stringify(values, null, 2));
         setSubmitting(false);
       }, 400);
     }}
   >
     {({ isSubmitting }) => (
       <StyledForm>
-        <StyledInput type="text" name="username" placeholder="Nazwa użytkownika" />
+        <Field as={StyledInput} type="text" name="username" placeholder="Nazwa użytkownika" />
         <ErrorMessage name="username" component="div" />
-        <StyledInput type="password" name="password" placeholder="Hasło" />
+        <Field as={StyledInput} type="password" name="password" placeholder="Hasło" />
         <ErrorMessage name="password" component="div" />
         <ButtonsWrapper>
           <Button tertiary onClick={() => setCardType(routes.register)}>

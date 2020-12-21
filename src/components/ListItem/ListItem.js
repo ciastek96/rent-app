@@ -77,15 +77,14 @@ const StyledDropdownMenu = styled(DropdownMenu)``;
 
 const PRODUCTS = 'products';
 const CLIENTS = 'clients';
-const RENTS = 'rents';
 
 const ListItem = ({ listType, id, values, isModalOpen, setIsModalOpen }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
-  const { companyName, name, surname, selectedFile, productName, email, phone, discount, price, quantity, unit } = values;
+  const { name, surname, selectedFile, productName, email, phone, discount, price, quantity, unit } = values;
 
-  const handleDelete = (_id) => {
+  const handleDelete = () => {
     setOptionMenu(false);
     setIsModalOpen(true);
   };
@@ -153,14 +152,23 @@ ListItem.propTypes = {
     phone: PropTypes.string,
     nip: PropTypes.string,
     selectedFile: PropTypes.string,
+    email: PropTypes.string,
+    discount: PropTypes.string,
+    price: PropTypes.string,
+    quantity: PropTypes.string,
+    unit: PropTypes.string,
   }),
   id: PropTypes.string.isRequired,
   listType: PropTypes.oneOf([PRODUCTS, CLIENTS]),
+  isModalOpen: PropTypes.func,
+  setIsModalOpen: PropTypes.func,
 };
 
 ListItem.defaultProps = {
   values: {},
   listType: PRODUCTS,
+  isModalOpen: null,
+  setIsModalOpen: null,
 };
 
 export default ListItem;

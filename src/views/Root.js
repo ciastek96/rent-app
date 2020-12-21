@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { routes } from '../routes/routes';
-import Spinner from '../components/Spinner/Spinner';
 import DashboardView from './DashboardView';
 import LoginView from './LoginView';
 import ProductsView from './ProductsView';

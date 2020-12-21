@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { removeClient, removeProduct } from '../../actions';
 import ListItem from '../ListItem/ListItem';
 
 const ListWrapper = styled.div``;
@@ -21,7 +19,6 @@ const Header = styled.div`
 
 const PRODUCTS = 'products';
 const CLIENTS = 'clients';
-const RENTS = 'rents';
 
 const List = ({ items, listType, isModalOpen, setIsModalOpen }) => (
   <ListWrapper>
@@ -63,10 +60,14 @@ List.propTypes = {
     }),
   ).isRequired,
   listType: PropTypes.oneOf([PRODUCTS, CLIENTS]),
+  isModalOpen: PropTypes.func,
+  setIsModalOpen: PropTypes.func,
 };
 
 List.defaultProps = {
   listType: PRODUCTS,
+  isModalOpen: null,
+  setIsModalOpen: null,
 };
 
 export default List;

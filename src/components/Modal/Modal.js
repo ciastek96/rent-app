@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
 import Button from '../Button/Button';
 
@@ -79,5 +80,17 @@ const Modal = ({ title, content, setIsModalOpen, confirmFn }) => (
     </StyledModal>
   </Wrapper>
 );
+
+Modal.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  setIsModalOpen: PropTypes.func,
+  confirmFn: PropTypes.func,
+};
+
+Modal.defaultProps = {
+  setIsModalOpen: null,
+  confirmFn: null,
+};
 
 export default Modal;
