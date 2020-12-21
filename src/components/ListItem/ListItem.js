@@ -9,57 +9,43 @@ import MoreButton from '../MoreButton/MoreButton';
 import Modal from '../Modal/Modal';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 
-const ListWrapper = styled.div``;
 const ListItemWrapper = styled.div`
   width: 100%;
+  border-radius: 5px;
   background-color: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
   margin: 10px 0;
   padding: 15px;
-  /* display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center; */
   display: grid;
-  grid-template-columns: 6% 92% 2%;
+  grid-template-columns: 1fr 5fr 3fr 2fr 1fr;
   align-items: center;
   position: relative;
+
+  & > p {
+    text-align: center;
+  }
 `;
 
 const PhotoWrapper = styled.div`
   height: 60px;
   width: 60px;
-  background-color: ${({ theme }) => theme.green};
+  background-color: ${({ theme }) => theme.default};
   background-image: ${({ photo }) => (photo ? `url(${photo})` : 'none')};
   background-size: cover;
   position: 50% 50%;
   border-radius: 50%;
 `;
 
-const Data = styled.div`
-  height: 50px;
-  width: 50px;
-  background-color: ${({ theme }) => theme.green};
-  font-size: ${({ theme }) => theme.fontSize.xs};
-  padding: 0 5px;
-  font-weight: 600;
-  border-radius: 6px;
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: ${({ theme }) => theme.default};
-`;
-
 const Wrapper = styled.div`
-  margin: 0 0 0 25px;
-
+  margin-left: 10px;
   h4 {
     margin: 0;
   }
 `;
 
-const ButtonWrapper = styled.div``;
+const ButtonWrapper = styled.div`
+  text-align: right;
+`;
 
 const MenuItemList = styled.li`
   list-style: none;
@@ -80,10 +66,11 @@ const MenuItem = styled.a`
   }
 `;
 
-const StyledDetails = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+const Title = styled.div`
+  text-align: left;
+  p {
+    margin-top: 5px;
+  }
 `;
 
 const StyledDropdownMenu = styled(DropdownMenu)``;
@@ -96,7 +83,7 @@ const ListItem = ({ listType, id, values, isModalOpen, setIsModalOpen }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
-  const { companyName, name, surname, selectedFile, productName, phone } = values;
+  const { companyName, name, surname, selectedFile, productName, email, phone, discount, price, quantity, unit } = values;
 
   const handleDelete = (_id) => {
     setOptionMenu(false);
@@ -111,42 +98,48 @@ const ListItem = ({ listType, id, values, isModalOpen, setIsModalOpen }) => {
 
   return (
     <>
-      <ListWrapper>
-        <ListItemWrapper>
-          {listType === PRODUCTS || listType === RENTS ? <Data>12.02</Data> : <PhotoWrapper photo={selectedFile} />}
-          <Wrapper>
-            {listType === PRODUCTS ? (
+      <ListItemWrapper>
+        <PhotoWrapper photo={selectedFile} />
+        <Wrapper>
+          {listType === PRODUCTS ? (
+            <Title>
               <h4>{productName}</h4>
-            ) : (
-              <>
-                <h4>{companyName && companyName.length > 0 ? companyName : `${name} ${surname}`}</h4>
-                <StyledDetails>
-                  <p>{phone}</p>
-                  <p>{phone}</p>
-                </StyledDetails>
-              </>
-            )}
-          </Wrapper>
-          <ButtonWrapper>
-            <MoreButton onClick={() => setOptionMenu(!optionMenu)} />
-          </ButtonWrapper>
-          {optionMenu && (
-            <>
-              <StyledDropdownMenu top="50%">
-                <MenuItemList>
-                  <MenuItem onClick={() => handleDelete()}>Usuń</MenuItem>
-                </MenuItemList>
-                <MenuItemList>
-                  <MenuItem as={Link} to={listType === PRODUCTS ? `${routes.products}/${id}` : `${routes.clients}/${id}`}>
-                    Edytuj
-                  </MenuItem>
-                </MenuItemList>
-              </StyledDropdownMenu>
-            </>
+            </Title>
+          ) : (
+            <Title>
+              <h4>{`${name} ${surname}`}</h4>
+              <p>{email}</p>
+            </Title>
           )}
-        </ListItemWrapper>
-      </ListWrapper>
-      {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} confirmFn={onConfirm} />}
+        </Wrapper>
+        {listType === PRODUCTS ? (
+          <>
+            <p>{`${quantity} ${unit}`}</p>
+            <p>{`${price} zł`}</p>
+          </>
+        ) : (
+          <>
+            <p>{phone}</p>
+            <p>{discount}</p>
+          </>
+        )}
+        <ButtonWrapper>
+          <MoreButton onClick={() => setOptionMenu(!optionMenu)} />
+        </ButtonWrapper>
+        {optionMenu && (
+          <StyledDropdownMenu top="50%">
+            <MenuItemList>
+              <MenuItem onClick={() => handleDelete()}>Usuń</MenuItem>
+            </MenuItemList>
+            <MenuItemList>
+              <MenuItem as={Link} to={listType === PRODUCTS ? `${routes.products}/${id}` : `${routes.clients}/${id}`}>
+                Edytuj
+              </MenuItem>
+            </MenuItemList>
+          </StyledDropdownMenu>
+        )}
+      </ListItemWrapper>
+      {isModalOpen && <Modal title="Uwaga!" content="Czy na pewno chcesz usunąć pozycję?" setIsModalOpen={setIsModalOpen} confirmFn={onConfirm} />}
     </>
   );
 };

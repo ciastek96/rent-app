@@ -58,17 +58,17 @@ const MessageWrapper = styled.div`
   padding-top: 15px;
 `;
 
-const StyledParagraph = styled.p`
+const Paragraph = styled.p`
   color: ${({ theme }) => theme.lightGray};
   margin-bottom: 15%;
 `;
 
-const Modal = ({ setIsModalOpen, confirmFn }) => (
+const Modal = ({ title, content, setIsModalOpen, confirmFn }) => (
   <Wrapper>
     <StyledModal>
       <MessageWrapper>
-        <h2>Uwaga!</h2>
-        <StyledParagraph>Czy na pewno chcesz usunąć pozycję?</StyledParagraph>
+        <h2>{title}</h2>
+        <Paragraph>{content}</Paragraph>
       </MessageWrapper>
       <ButtonWrapper>
         <Button secondary onClick={() => setIsModalOpen(false)}>

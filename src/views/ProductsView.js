@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
-import ListItem from '../components/ListItem/ListItem';
+import List from '../components/List/List';
 import Spinner from '../components/Spinner/Spinner';
 import { routes } from '../routes/routes';
 
@@ -23,9 +23,7 @@ const ProductsView = () => {
       {productsList.length <= 0 ? (
         <Spinner />
       ) : (
-        filteredData.map(({ _id, ...props }) => (
-          <ListItem isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} listType="products" key={_id} id={_id} values={props} />
-        ))
+        <List listType="products" items={filteredData} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       )}
     </MainTemplate>
   );

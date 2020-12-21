@@ -5,7 +5,7 @@ import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import Card from '../components/Card/Card';
 import LayoutButtons from '../components/LayoutButtons/LayoutButtons';
-import ListItem from '../components/ListItem/ListItem';
+import List from '../components/List/List';
 import Spinner from '../components/Spinner/Spinner';
 import { routes } from '../routes/routes';
 
@@ -17,8 +17,9 @@ const GridWrapper = styled.div`
 
 const ClientsView = () => {
   const GRID = 'grid';
+  const LIST = 'list';
   const clientsList = useSelector(({ clients }) => clients);
-  const [activeView, setActiveView] = useState(GRID);
+  const [activeView, setActiveView] = useState(LIST);
   const [inputValue, setInputValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -43,9 +44,7 @@ const ClientsView = () => {
               ))}
             </GridWrapper>
           ) : (
-            filteredData.map(({ _id, ...props }) => (
-              <ListItem listType="clients" isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} key={_id} id={_id} values={props} />
-            ))
+            <List listType="clients" items={filteredData} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
           )}
         </>
       )}

@@ -8,6 +8,7 @@ import { ReactComponent as RentIcon } from '../assets/icons/svg/interfaces/key.s
 import Spinner from '../components/Spinner/Spinner';
 import Box from '../components/Box/Box';
 import { routes } from '../routes/routes';
+import MyCalendar from '../components/Calendar/Calendar';
 
 const BoxGrid = styled.div`
   display: grid;
@@ -39,6 +40,8 @@ const DashboardView = () => {
           <RentIcon className="icon" />
         </Box>
       </BoxGrid>
+
+      <MyCalendar />
     </MainTemplate>
   );
 };

@@ -21,7 +21,7 @@ const ItemsTemplate = ({ children, title, value, handleChange, path }) => (
   <Wrapper>
     <Header>
       <h2>{title}</h2>
-      <Input search value={value} placeholder="Szukaj..." onChange={handleChange} />
+      {handleChange && <Input search value={value} placeholder="Szukaj..." onChange={handleChange} />}
       <Button as={Link} to={path}>
         Dodaj nowy
       </Button>
@@ -41,7 +41,7 @@ ItemsTemplate.propTypes = {
 ItemsTemplate.defaultProps = {
   children: null,
   value: '',
-  handleChange: () => {},
+  handleChange: null,
 };
 
 export default ItemsTemplate;

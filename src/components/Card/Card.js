@@ -125,7 +125,7 @@ const Card = ({ id, values, isModalOpen, setIsModalOpen }) => {
           </>
         )}
       </Wrapper>
-      {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} confirmFn={onConfirm} />}
+      {isModalOpen && <Modal title="Uwaga!" content="Czy na pewno chcesz usunąć pozycję?" setIsModalOpen={setIsModalOpen} confirmFn={onConfirm} />}
     </>
   );
 };

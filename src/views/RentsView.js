@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { getRents } from '../actions';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import RentItem from '../components/RentItem/RentItem';
 import MainTemplate from '../templates/MainTemplate';
