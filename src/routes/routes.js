@@ -14,5 +14,5 @@ export const routes = {
   rents: '/wypozyczenia',
   rent: '/wypozyczenia/:id',
   newRent: '/wypozyczenia/nowy',
-  finances: '/finanse',
+  finances: '/historia',
 };

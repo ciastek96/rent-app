@@ -42,7 +42,7 @@ const Menu = () => (
       Klienci
     </ListItem>
     <ListItem as={NavLink} to={routes.finances} activeClassName="active">
-      Finanse
+      Historia
     </ListItem>
   </List>
 );

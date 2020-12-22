@@ -6,6 +6,11 @@ export const theme = {
   gray: '#A5A5A5',
   darkGray: '#5F5F5F',
   white: '#FFFFFF',
+  status: {
+    active: '#15B871',
+    coming: '#e78c00',
+    ended: '#bf1e29',
+  },
   boxShadow: '0 0px 30px -10px hsla(0, 0%, 0%, 0.1);',
   fontSize: {
     l: '20px',

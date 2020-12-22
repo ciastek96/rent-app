@@ -25,7 +25,7 @@ const Logo = styled.a`
 const Navbar = () => (
   <Wrapper>
     <Logo as={NavLink} to="/">
-      fastrent
+      Rent-app
     </Logo>
     <Menu />
     <UserPanel />

@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import MainTemplate from '../templates/MainTemplate';
-import Modal from '../components/Modal/Modal';
-import Button from '../components/Button/Button';
 
 const Header = styled.div`
   display: flex;
@@ -11,13 +9,13 @@ const Header = styled.div`
   align-items: center;
 `;
 
-const FinancesView = () => (
+const HistoryView = () => (
   <MainTemplate>
     <Header>
-      <h2>Finanse</h2>
+      <h2>Historia zamówień</h2>
     </Header>
-    <p>Finanse</p>
+    <p>Historia zamówień</p>
   </MainTemplate>
 );
 
-export default FinancesView;
+export default HistoryView;

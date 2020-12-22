@@ -11,8 +11,8 @@ const RentsView = () => {
   return (
     <MainTemplate>
       <ItemsTemplate title="Wypożyczenia" path={routes.newRent} />
-      {rentsList.map(({ _id, client, dateOfRent, dateOfReturn, isFinished }) => (
-        <RentItem key={_id} id={_id} title={_id} dateOfRent={dateOfRent} dateOfReturn={dateOfReturn} client={client} isFinished={isFinished} />
+      {rentsList.map(({ _id, client, dateOfRent, dateOfReturn, products }) => (
+        <RentItem key={_id} id={_id} title={_id} dateOfRent={dateOfRent} dateOfReturn={dateOfReturn} client={client} products={products} />
       ))}
       {rentsList <= 0 && <p>Brak wyników...</p>}
     </MainTemplate>

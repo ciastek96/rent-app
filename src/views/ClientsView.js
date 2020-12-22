@@ -19,7 +19,7 @@ const ClientsView = () => {
   const GRID = 'grid';
   const LIST = 'list';
   const clientsList = useSelector(({ clients }) => clients);
-  const [activeView, setActiveView] = useState(LIST);
+  const [activeView, setActiveView] = useState(GRID);
   const [inputValue, setInputValue] = useState('');
 
   const handleChange = (e) => {

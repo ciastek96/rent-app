@@ -5,7 +5,7 @@ import { routes } from '../routes/routes';
 import DashboardView from './DashboardView';
 import LoginView from './LoginView';
 import ProductsView from './ProductsView';
-import FinancesView from './FinancesView';
+import HistoryView from './HistoryView';
 import ClientsView from './ClientsView';
 import NotFoundView from './NotFoundView';
 import NewItemView from './NewItemView';
@@ -42,7 +42,7 @@ const Root = () => {
         <Route path={routes.rents} exact component={RentsView} />
         <Route path={routes.newRent} component={NewRentView} />
         <Route path={routes.settings} component={NewItemView} />
-        <Route path={routes.finances} component={FinancesView} />
+        <Route path={routes.finances} component={HistoryView} />
         <Route path="*" component={NotFoundView} />
       </Switch>
     </Router>
