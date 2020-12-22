@@ -9,7 +9,6 @@ import { routes } from '../routes/routes';
 const ProductsView = () => {
   const productsList = useSelector(({ products }) => products);
   const [inputValue, setInputValue] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -20,11 +19,7 @@ const ProductsView = () => {
   return (
     <MainTemplate>
       <ItemsTemplate title="Produkty" value={inputValue} handleChange={handleChange} path={routes.newProduct} />
-      {productsList.length <= 0 ? (
-        <Spinner />
-      ) : (
-        <List listType="products" items={filteredData} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-      )}
+      {productsList.length <= 0 ? <Spinner /> : <List listType="products" items={filteredData} />}
     </MainTemplate>
   );
 };

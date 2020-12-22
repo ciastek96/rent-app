@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
 import Button from '../Button/Button';
@@ -64,22 +65,24 @@ const Paragraph = styled.p`
   margin-bottom: 15%;
 `;
 
-const Modal = ({ title, content, setIsModalOpen, confirmFn }) => (
-  <Wrapper>
-    <StyledModal>
-      <MessageWrapper>
-        <h2>{title}</h2>
-        <Paragraph>{content}</Paragraph>
-      </MessageWrapper>
-      <ButtonWrapper>
-        <Button secondary onClick={() => setIsModalOpen(false)}>
-          Anuluj
-        </Button>
-        <Button onClick={confirmFn}>Usuń</Button>
-      </ButtonWrapper>
-    </StyledModal>
-  </Wrapper>
-);
+const Modal = ({ title, content, setIsModalOpen, confirmFn }) =>
+  ReactDOM.createPortal(
+    <Wrapper>
+      <StyledModal>
+        <MessageWrapper>
+          <h2>{title}</h2>
+          <Paragraph>{content}</Paragraph>
+        </MessageWrapper>
+        <ButtonWrapper>
+          <Button secondary onClick={() => setIsModalOpen(false)}>
+            Anuluj
+          </Button>
+          <Button onClick={confirmFn}>Usuń</Button>
+        </ButtonWrapper>
+      </StyledModal>
+    </Wrapper>,
+    document.getElementById('portal'),
+  );
 
 Modal.propTypes = {
   title: PropTypes.string.isRequired,

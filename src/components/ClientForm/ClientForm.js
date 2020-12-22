@@ -1,6 +1,5 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { ErrorMessage } from 'formik';
 import Input from '../Input/Input';
 
 const ClientForm = ({ formik, setClientValues, clientValues }) => (

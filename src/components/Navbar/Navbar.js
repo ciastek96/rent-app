@@ -28,7 +28,7 @@ const Navbar = () => (
       fastrent
     </Logo>
     <Menu />
-    <UserPanel>3</UserPanel>
+    <UserPanel />
   </Wrapper>
 );
 

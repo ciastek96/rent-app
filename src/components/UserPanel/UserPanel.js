@@ -73,10 +73,6 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const StyledDropdownMenu = styled(DropdownMenu)`
-  top: 150%;
-`;
-
 const UserPanel = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
 
@@ -89,18 +85,14 @@ const UserPanel = () => {
         <Avatar />
         <p>Kamil Kołacz</p>
       </UserButton>
-      {toggleMenu && (
-        <>
-          <StyledDropdownMenu top="150%">
-            <ListItem>
-              <StyledLink to={routes.settings}>Ustawienia konta</StyledLink>
-            </ListItem>
-            <ListItem>
-              <StyledLink to={routes.logout}>Wyloguj</StyledLink>
-            </ListItem>
-          </StyledDropdownMenu>
-        </>
-      )}
+      <DropdownMenu top="150%" isOpen={toggleMenu}>
+        <ListItem>
+          <StyledLink to={routes.settings}>Ustawienia konta</StyledLink>
+        </ListItem>
+        <ListItem>
+          <StyledLink to={routes.logout}>Wyloguj</StyledLink>
+        </ListItem>
+      </DropdownMenu>
     </Wrapper>
   );
 };

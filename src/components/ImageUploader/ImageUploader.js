@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import FileBase from 'react-file-base64';
 import { PropTypes } from 'prop-types';
 import PlusIcon from '../../assets/icons/svg/interfaces/plus-a.svg';
 

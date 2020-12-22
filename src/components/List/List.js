@@ -20,7 +20,7 @@ const Header = styled.div`
 const PRODUCTS = 'products';
 const CLIENTS = 'clients';
 
-const List = ({ items, listType, isModalOpen, setIsModalOpen }) => (
+const List = ({ items, listType }) => (
   <ListWrapper>
     <Header>
       {listType === PRODUCTS ? (
@@ -42,7 +42,7 @@ const List = ({ items, listType, isModalOpen, setIsModalOpen }) => (
       )}
     </Header>
     {items.map(({ _id, ...props }) => (
-      <ListItem listType={listType} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} key={_id} id={_id} values={props} />
+      <ListItem listType={listType} key={_id} id={_id} values={props} />
     ))}
   </ListWrapper>
 );
@@ -60,14 +60,10 @@ List.propTypes = {
     }),
   ).isRequired,
   listType: PropTypes.oneOf([PRODUCTS, CLIENTS]),
-  isModalOpen: PropTypes.func,
-  setIsModalOpen: PropTypes.func,
 };
 
 List.defaultProps = {
   listType: PRODUCTS,
-  isModalOpen: null,
-  setIsModalOpen: null,
 };
 
 export default List;

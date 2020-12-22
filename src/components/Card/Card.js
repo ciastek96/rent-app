@@ -79,14 +79,11 @@ const MenuItem = styled.a`
   }
 `;
 
-const StyledDropdownMenu = styled(DropdownMenu)``;
-
-const Card = ({ id, values, isModalOpen, setIsModalOpen }) => {
+const Card = ({ id, values: { name, surname, selectedFile, phone, email } }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [optionMenu, setOptionMenu] = useState(false);
 
   const dispatch = useDispatch();
-
-  const { name, surname, selectedFile, phone, email } = values;
 
   const handleDelete = () => {
     setOptionMenu(false);
@@ -110,20 +107,16 @@ const Card = ({ id, values, isModalOpen, setIsModalOpen }) => {
             <p>{email}</p>
           </Info>
         </InnerWrapper>
-        {optionMenu && (
-          <>
-            <StyledDropdownMenu top="25px">
-              <MenuItemList>
-                <MenuItem onClick={handleDelete}>Usuń</MenuItem>
-              </MenuItemList>
-              <MenuItemList>
-                <MenuItem as={Link} to={`${routes.clients}/${id}`}>
-                  Edytuj
-                </MenuItem>
-              </MenuItemList>
-            </StyledDropdownMenu>
-          </>
-        )}
+        <DropdownMenu top="50px" right="20px" isOpen={optionMenu}>
+          <MenuItemList>
+            <MenuItem onClick={handleDelete}>Usuń</MenuItem>
+          </MenuItemList>
+          <MenuItemList>
+            <MenuItem as={Link} to={`${routes.clients}/${id}`}>
+              Edytuj
+            </MenuItem>
+          </MenuItemList>
+        </DropdownMenu>
       </Wrapper>
       {isModalOpen && <Modal title="Uwaga!" content="Czy na pewno chcesz usunąć pozycję?" setIsModalOpen={setIsModalOpen} confirmFn={onConfirm} />}
     </>

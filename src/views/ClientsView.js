@@ -21,7 +21,6 @@ const ClientsView = () => {
   const clientsList = useSelector(({ clients }) => clients);
   const [activeView, setActiveView] = useState(LIST);
   const [inputValue, setInputValue] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -40,11 +39,11 @@ const ClientsView = () => {
           {activeView === GRID ? (
             <GridWrapper>
               {filteredData.map(({ _id, ...props }) => (
-                <Card key={_id} id={_id} values={props} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+                <Card key={_id} id={_id} values={props} />
               ))}
             </GridWrapper>
           ) : (
-            <List listType="clients" items={filteredData} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+            <List listType="clients" items={filteredData} />
           )}
         </>
       )}

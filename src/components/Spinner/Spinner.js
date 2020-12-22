@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { ReactComponent as SpinnerIcon } from '../../assets/icons/svg/spinner/spinner.svg';
@@ -21,20 +22,22 @@ const StyledSpinner = styled.div`
   left: 50%;
 `;
 
-const Spinner = () => (
-  <Wrapper>
-    <StyledSpinner
-      as={motion.div}
-      animate={{ rotate: 360 }}
-      transition={{
-        duration: 1,
-        loop: Infinity,
-        ease: 'linear',
-      }}
-    >
-      <SpinnerIcon />
-    </StyledSpinner>
-  </Wrapper>
-);
+const Spinner = () =>
+  ReactDOM.createPortal(
+    <Wrapper>
+      <StyledSpinner
+        as={motion.div}
+        animate={{ rotate: 360 }}
+        transition={{
+          duration: 1,
+          loop: Infinity,
+          ease: 'linear',
+        }}
+      >
+        <SpinnerIcon />
+      </StyledSpinner>
+    </Wrapper>,
+    document.getElementById('portal'),
+  );
 
 export default Spinner;

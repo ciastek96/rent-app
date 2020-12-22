@@ -15,9 +15,14 @@ const ListItem = styled.li`
   text-decoration: none;
   list-style: none;
   color: ${({ theme }) => theme.gray};
-  font-weight: 500;
+  font-weight: 600;
+  transition: color 0.25s linear;
 
   &.active {
+    color: ${({ theme }) => theme.green};
+  }
+
+  &:hover {
     color: ${({ theme }) => theme.green};
   }
 `;

@@ -78,7 +78,8 @@ const StyledDropdownMenu = styled(DropdownMenu)``;
 const PRODUCTS = 'products';
 const CLIENTS = 'clients';
 
-const ListItem = ({ listType, id, values, isModalOpen, setIsModalOpen }) => {
+const ListItem = ({ listType, id, values }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
@@ -125,20 +126,26 @@ const ListItem = ({ listType, id, values, isModalOpen, setIsModalOpen }) => {
         <ButtonWrapper>
           <MoreButton onClick={() => setOptionMenu(!optionMenu)} />
         </ButtonWrapper>
-        {optionMenu && (
-          <StyledDropdownMenu top="50%">
-            <MenuItemList>
-              <MenuItem onClick={() => handleDelete()}>Usuń</MenuItem>
-            </MenuItemList>
-            <MenuItemList>
-              <MenuItem as={Link} to={listType === PRODUCTS ? `${routes.products}/${id}` : `${routes.clients}/${id}`}>
-                Edytuj
-              </MenuItem>
-            </MenuItemList>
-          </StyledDropdownMenu>
-        )}
+        <StyledDropdownMenu top="30px" right="35px" isOpen={optionMenu}>
+          <MenuItemList>
+            <MenuItem onClick={() => handleDelete()}>Usuń</MenuItem>
+          </MenuItemList>
+          <MenuItemList>
+            <MenuItem as={Link} to={listType === PRODUCTS ? `${routes.products}/${id}` : `${routes.clients}/${id}`}>
+              Edytuj
+            </MenuItem>
+          </MenuItemList>
+        </StyledDropdownMenu>
       </ListItemWrapper>
-      {isModalOpen && <Modal title="Uwaga!" content="Czy na pewno chcesz usunąć pozycję?" setIsModalOpen={setIsModalOpen} confirmFn={onConfirm} />}
+      {isModalOpen && (
+        <Modal
+          title="Uwaga!"
+          content="Czy na pewno chcesz usunąć pozycję?"
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          confirmFn={onConfirm}
+        />
+      )}
     </>
   );
 };
@@ -160,15 +167,11 @@ ListItem.propTypes = {
   }),
   id: PropTypes.string.isRequired,
   listType: PropTypes.oneOf([PRODUCTS, CLIENTS]),
-  isModalOpen: PropTypes.func,
-  setIsModalOpen: PropTypes.func,
 };
 
 ListItem.defaultProps = {
   values: {},
   listType: PRODUCTS,
-  isModalOpen: null,
-  setIsModalOpen: null,
 };
 
 export default ListItem;
