@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
+import axios from 'axios';
+import { saveAs } from 'file-saver';
 import moment from 'moment';
 import { removeRent } from '../../actions';
 import Button from '../Button/Button';
@@ -111,6 +113,17 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
   const onConfirm = () => {
     dispatch(removeRent(id));
     setIsModalOpen(false);
+  };
+
+  const createAndDownloadPdf = () => {
+    axios
+      .post('http://localhost:4000/create-pdf', { name: 'siema', price: '123', id: '01' })
+      .then(() => axios.get('http://localhost:4000/fetch-pdf', { responseType: 'blob' }))
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+
+        saveAs(pdfBlob, 'newPdf.pdf');
+      });
   };
 
   const stateList = ['active', 'coming', 'ended'];
@@ -224,7 +237,7 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
           </MenuItem>
         </MenuItemList>
         <MenuItemList>
-          <MenuItem as={Link} to={`${routes.rents}/${id}`}>
+          <MenuItem onClick={createAndDownloadPdf} to={`${routes.rents}/${id}`}>
             Pobierz fakturę
           </MenuItem>
         </MenuItemList>
