@@ -6,7 +6,7 @@ import MainTemplate from '../templates/MainTemplate';
 import { routes } from '../routes/routes';
 
 const RentsView = () => {
-  const rentsList = useSelector(({ rents }) => rents);
+  const rentsList = useSelector(({ rents }) => rents.filter((rent) => rent.isFinished === false));
 
   return (
     <MainTemplate>

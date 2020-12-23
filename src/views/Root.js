@@ -14,6 +14,7 @@ import NewProductView from './NewProductView';
 import EditClientView from './EditClientView';
 import EditProductView from './EditProductView';
 import NewRentView from './NewRentView';
+import EditRentView from './EditRentView';
 import RentsView from './RentsView';
 import { getClients, getProducts, getRents } from '../actions';
 
@@ -39,8 +40,9 @@ const Root = () => {
         <Route path={routes.clients} exact component={ClientsView} />
         <Route path={routes.newClient} component={NewClientView} />
         <Route path={routes.client} component={EditClientView} />
-        <Route path={routes.rents} exact component={RentsView} />
         <Route path={routes.newRent} component={NewRentView} />
+        <Route path={routes.rents} exact component={RentsView} />
+        <Route path={routes.rent} exact component={EditRentView} />
         <Route path={routes.settings} component={NewItemView} />
         <Route path={routes.finances} component={HistoryView} />
         <Route path="*" component={NotFoundView} />

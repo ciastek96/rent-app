@@ -153,7 +153,6 @@ const EditProductView = ({ match }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            console.log(values);
             dispatch(updateProduct(id, { ...values, selectedFile }));
             history.go(0);
           }}

@@ -1,21 +1,22 @@
 import React from 'react';
-import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import ItemsTemplate from '../templates/ItemsTemplate';
+import RentItem from '../components/RentItem/RentItem';
 import MainTemplate from '../templates/MainTemplate';
+import { routes } from '../routes/routes';
 
-const Header = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
+const HistoryView = () => {
+  const rentsList = useSelector(({ rents }) => rents.filter((rent) => rent.isFinished === true));
 
-const HistoryView = () => (
-  <MainTemplate>
-    <Header>
-      <h2>Historia zamówień</h2>
-    </Header>
-    <p>Historia zamówień</p>
-  </MainTemplate>
-);
+  return (
+    <MainTemplate>
+      <ItemsTemplate title="Historia" path={routes.newRent} />
+      {rentsList.map(({ _id, client, dateOfRent, dateOfReturn, products }) => (
+        <RentItem key={_id} id={_id} title={_id} dateOfRent={dateOfRent} dateOfReturn={dateOfReturn} client={client} products={products} />
+      ))}
+      {rentsList <= 0 && <p>Brak wyników...</p>}
+    </MainTemplate>
+  );
+};
 
 export default HistoryView;

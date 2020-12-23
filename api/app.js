@@ -3,7 +3,6 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const fs = require('fs');
 const pdf = require('html-pdf');
 
 const pdfTemplate = require('./documents');

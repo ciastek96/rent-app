@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import moment from 'moment';
-import { removeRent } from '../../actions';
+import { finishRent, removeRent } from '../../actions';
 import Button from '../Button/Button';
+import Spinner from '../Spinner/Spinner';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import Modal from '../Modal/Modal';
 import RentStatus from '../RentStatus/RentStatus';
@@ -98,35 +99,54 @@ const ProductsListItem = styled.div``;
 
 const RentItem = ({ id, client: { label, companyName, nip, address, discount }, dateOfRent, dateOfReturn, products }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState('active');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [optionMenu, setOptionMenu] = useState(false);
   const productList = useSelector((state) => products.map((product) => state.products.filter((item) => item._id === product)));
+  const [isRedirect, setIsRedirect] = useState(false);
 
   const dispatch = useDispatch();
 
-  const handleDelete = () => {
+  const handleRemove = () => {
     setOptionMenu(false);
-    setIsModalOpen(true);
+    setIsRemoveModalOpen(true);
   };
 
-  const onConfirm = () => {
+  const handleReturn = () => {
+    setOptionMenu(false);
+    setIsReturnModalOpen(true);
+  };
+
+  const onRemoveConfirm = () => {
     dispatch(removeRent(id));
-    setIsModalOpen(false);
+    setIsRemoveModalOpen(false);
+  };
+
+  const onReturnConfirm = () => {
+    dispatch(finishRent(id));
+    setIsReturnModalOpen(false);
+    setIsRedirect(true);
   };
 
   const createAndDownloadPdf = () => {
+    setIsLoading(true);
     axios
       .post('http://localhost:4000/create-pdf', { name: 'siema', price: '123', id: '01' })
       .then(() => axios.get('http://localhost:4000/fetch-pdf', { responseType: 'blob' }))
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-
-        saveAs(pdfBlob, 'newPdf.pdf');
+        setIsLoading(false);
+        saveAs(pdfBlob, 'faktura.pdf');
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
       });
   };
 
-  const stateList = ['active', 'coming', 'ended'];
+  const stateList = ['active', 'coming', 'ended', 'finished'];
 
   const today = moment();
   const startDay = moment(dateOfRent);
@@ -139,6 +159,11 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
     } else setStatus(stateList[2]);
   }, []);
 
+  if (isRedirect) return <Redirect to={routes.finances} />;
+
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
     <Wrapper isCollapsed={isCollapsed} activeStatus={status}>
       <RentStatus status={status} />
@@ -232,7 +257,7 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
       </ButtonWrapper>
       <DropdownMenu top="60px" right="20px" isOpen={optionMenu}>
         <MenuItemList>
-          <MenuItem as={Link} to={`${routes.rents}/${id}`}>
+          <MenuItem onClick={handleReturn} to={`${routes.rents}/${id}`}>
             Odbiór
           </MenuItem>
         </MenuItemList>
@@ -247,10 +272,28 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
           </MenuItem>
         </MenuItemList>
         <MenuItemList>
-          <MenuItem onClick={handleDelete}>Anuluj</MenuItem>
+          <MenuItem onClick={handleRemove}>Anuluj</MenuItem>
         </MenuItemList>
       </DropdownMenu>
-      {isModalOpen && <Modal title="Uwaga!" content="Czy na pewno chcesz usunąć pozycję?" setIsModalOpen={setIsModalOpen} confirmFn={onConfirm} />}
+
+      {isReturnModalOpen && (
+        <Modal
+          title="Uwaga!"
+          content="Czy na pewno chcesz zgłosić odbiór?"
+          confirmButton="Zgłoś"
+          setIsModalOpen={setIsReturnModalOpen}
+          confirmFn={onReturnConfirm}
+        />
+      )}
+      {isRemoveModalOpen && (
+        <Modal
+          title="Uwaga!"
+          content="Czy na pewno chcesz anulować wypożyczenie?"
+          confirmButton="Anuluj"
+          setIsModalOpen={setIsRemoveModalOpen}
+          confirmFn={onRemoveConfirm}
+        />
+      )}
     </Wrapper>
   );
 };

@@ -15,7 +15,7 @@ const productsReducer = (products = [], { payload, type }) => {
     case ADD_PRODUCT:
       return [...products, payload];
     case UPDATE_PRODUCT:
-      return [...products];
+      return products.map((product) => (product._id === payload._id ? payload : product));
     default:
       return products;
   }

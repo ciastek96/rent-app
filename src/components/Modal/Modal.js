@@ -65,7 +65,7 @@ const Paragraph = styled.p`
   margin-bottom: 15%;
 `;
 
-const Modal = ({ title, content, setIsModalOpen, confirmFn }) =>
+const Modal = ({ title, content, setIsModalOpen, confirmButton, confirmFn }) =>
   ReactDOM.createPortal(
     <Wrapper>
       <StyledModal>
@@ -77,7 +77,7 @@ const Modal = ({ title, content, setIsModalOpen, confirmFn }) =>
           <Button secondary onClick={() => setIsModalOpen(false)}>
             Anuluj
           </Button>
-          <Button onClick={confirmFn}>Usuń</Button>
+          <Button onClick={confirmFn}>{!confirmButton ? 'Usuń' : confirmButton}</Button>
         </ButtonWrapper>
       </StyledModal>
     </Wrapper>,
@@ -88,7 +88,12 @@ Modal.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   setIsModalOpen: PropTypes.func,
+  confirmButton: PropTypes.string,
   confirmFn: PropTypes.func,
+};
+
+Modal.defaultProps = {
+  confirmButton: 'Usuń',
 };
 
 Modal.defaultProps = {

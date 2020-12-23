@@ -2,41 +2,64 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const Rent = require('../models/rents');
 
-router.route('/').get((req, res) => {
-  Rent.find()
-    .then((rents) => res.json(rents))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
+router.get('/', async (req, res) => {
+  try {
+    const rents = await Rent.find();
+    res.status(200).json(rents);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 });
 
-router.route('/add').post((req, res) => {
+router.post('/add', async (req, res) => {
   const {
     values: { client, dateOfRent, dateOfReturn, products },
   } = req.body;
 
   const newRent = new Rent({ client, dateOfRent, dateOfReturn, products });
 
-  newRent
-    .save()
-    .then(() => res.json('Rent added!'))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
+  try {
+    newRent.save();
+    res.status(201).json(newRent);
+  } catch (err) {
+    res.status(409).json({ message: err.message });
+  }
 });
 
-router.route('/update').post((req, res) => {
-  const { rentId, ...values } = req.body;
+router.patch('/:id', async (req, res) => {
+  const { id: _id } = req.params;
+  const values = req.body;
 
-  Rent.findOneAndUpdate({ _id: rentId }, { ...values }, { new: true })
-    .then(() => res.json('Rent updated!'))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No rent with that ID');
+
+  try {
+    const updatedRent = await Rent.findByIdAndUpdate({ _id }, values, { new: true });
+    res.status(201).json(updatedRent);
+  } catch (err) {
+    res.status(409).json({ message: err.message });
+  }
 });
 
-router.route('/:id').delete((req, res) => {
+router.patch('/finish/:id', async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No rent with that ID');
 
-  Rent.findOneAndDelete({ _id })
-    .then(() => res.json('Rent deleted!'))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
+  try {
+    const finishedRent = await Rent.findByIdAndUpdate({ _id }, { isFinished: true }, { new: true });
+    res.status(201).json(finishedRent);
+  } catch (err) {
+    res.status(409).json({ message: err.message });
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  const { id: _id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No rent with that ID');
+
+  await Rent.findByIdAndRemove({ _id });
+  res.json({ message: 'Rent deleted successfully' });
 });
 
 module.exports = router;

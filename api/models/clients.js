@@ -45,6 +45,10 @@ const clientSchema = new Schema({
     max: 100,
   },
   selectedFile: String,
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 const Client = mongoose.model('Client', clientSchema);
