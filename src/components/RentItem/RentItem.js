@@ -258,23 +258,29 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
         </Button>
       </ButtonWrapper>
       <DropdownMenu top="60px" right="20px" isOpen={optionMenu}>
+        {isFinished ? (
+          <MenuItemList>
+            <MenuItem onClick={createAndDownloadPdf} to={`${routes.rents}/${id}`}>
+              Pobierz fakturę
+            </MenuItem>
+          </MenuItemList>
+        ) : (
+          <MenuItemList>
+            <MenuItem onClick={handleReturn} to={`${routes.rents}/${id}`}>
+              Odbiór
+            </MenuItem>
+          </MenuItemList>
+        )}
+
+        {!isFinished && (
+          <MenuItemList>
+            <MenuItem as={Link} to={`${routes.rents}/${id}`}>
+              Edytuj
+            </MenuItem>
+          </MenuItemList>
+        )}
         <MenuItemList>
-          <MenuItem onClick={handleReturn} to={`${routes.rents}/${id}`}>
-            Odbiór
-          </MenuItem>
-        </MenuItemList>
-        <MenuItemList>
-          <MenuItem onClick={createAndDownloadPdf} to={`${routes.rents}/${id}`}>
-            Pobierz fakturę
-          </MenuItem>
-        </MenuItemList>
-        <MenuItemList>
-          <MenuItem as={Link} to={`${routes.rents}/${id}`}>
-            Edytuj
-          </MenuItem>
-        </MenuItemList>
-        <MenuItemList>
-          <MenuItem onClick={handleRemove}>Anuluj</MenuItem>
+          <MenuItem onClick={handleRemove}>{isFinished ? 'Usuń' : 'Anuluj'}</MenuItem>
         </MenuItemList>
       </DropdownMenu>
 
@@ -290,8 +296,8 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
       {isRemoveModalOpen && (
         <Modal
           title="Uwaga!"
-          content="Czy na pewno chcesz anulować wypożyczenie?"
-          confirmButton="Anuluj"
+          content={`Czy na pewno chcesz ${isFinished ? 'usunąć' : 'anulować'} wypożyczenie?`}
+          confirmButton={isFinished ? 'Usuń' : 'Anuluj'}
           setIsModalOpen={setIsRemoveModalOpen}
           confirmFn={onRemoveConfirm}
         />
