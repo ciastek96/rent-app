@@ -8,6 +8,7 @@ export const theme = {
   white: '#FFFFFF',
   status: {
     active: '#15B871',
+    finished: '#15B871',
     coming: '#e78c00',
     ended: '#bf1e29',
   },

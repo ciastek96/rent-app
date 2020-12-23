@@ -7,12 +7,21 @@ import { routes } from '../routes/routes';
 
 const HistoryView = () => {
   const rentsList = useSelector(({ rents }) => rents.filter((rent) => rent.isFinished === true));
-
+  console.log(rentsList);
   return (
     <MainTemplate>
       <ItemsTemplate title="Historia" path={routes.newRent} />
-      {rentsList.map(({ _id, client, dateOfRent, dateOfReturn, products }) => (
-        <RentItem key={_id} id={_id} title={_id} dateOfRent={dateOfRent} dateOfReturn={dateOfReturn} client={client} products={products} />
+      {rentsList.map(({ _id, client, dateOfRent, dateOfReturn, products, isFinished }) => (
+        <RentItem
+          key={_id}
+          id={_id}
+          title={_id}
+          dateOfRent={dateOfRent}
+          dateOfReturn={dateOfReturn}
+          isFinished={isFinished}
+          client={client}
+          products={products}
+        />
       ))}
       {rentsList <= 0 && <p>Brak wyników...</p>}
     </MainTemplate>

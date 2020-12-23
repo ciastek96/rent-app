@@ -97,7 +97,7 @@ const ProductsList = styled.div`
 
 const ProductsListItem = styled.div``;
 
-const RentItem = ({ id, client: { label, companyName, nip, address, discount }, dateOfRent, dateOfReturn, products }) => {
+const RentItem = ({ id, client: { label, companyName, nip, address, discount }, dateOfRent, dateOfReturn, isFinished, products }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState('active');
@@ -146,17 +146,19 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
       });
   };
 
-  const stateList = ['active', 'coming', 'ended', 'finished'];
+  const statusList = ['active', 'coming', 'ended', 'finished'];
 
   const today = moment();
   const startDay = moment(dateOfRent);
   const endDay = moment(dateOfReturn);
 
   useEffect(() => {
-    if (endDay.diff(today, 'days') >= 0) {
-      if (startDay.diff(today, 'days')) setStatus(stateList[0]);
-      else setStatus(stateList[1]);
-    } else setStatus(stateList[2]);
+    console.log(isFinished);
+    if (isFinished) setStatus(statusList[3]);
+    else if (startDay.diff(today, 'days') > 0) setStatus(statusList[1]);
+    else if (startDay.diff(today, 'days') === 0 && today.diff(endDay, 'days') !== 0) setStatus(statusList[1]);
+    else if (today.diff(endDay, 'days') > 0) setStatus(statusList[2]);
+    else setStatus(statusList[0]);
   }, []);
 
   if (isRedirect) return <Redirect to={routes.finances} />;
@@ -303,9 +305,12 @@ RentItem.propTypes = {
   client: PropTypes.objectOf(PropTypes.any).isRequired,
   dateOfRent: PropTypes.string.isRequired,
   dateOfReturn: PropTypes.string.isRequired,
+  isFinished: PropTypes.bool,
   products: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-RentItem.defaultProps = {};
+RentItem.defaultProps = {
+  isFinished: false,
+};
 
 export default RentItem;

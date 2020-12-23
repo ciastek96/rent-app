@@ -15,7 +15,7 @@ const rentsReducer = (rents = [], { type, payload }) => {
     case REMOVE_RENT:
       return rents.filter((rent) => rent._id !== payload);
     case ADD_RENT:
-      return [...rents];
+      return [...rents, payload];
     default:
       return rents;
   }

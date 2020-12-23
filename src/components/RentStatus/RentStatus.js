@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { ReactComponent as GreenIcon } from '../../assets/icons/svg/interfaces/hourglass-half.svg';
 import { ReactComponent as RedIcon } from '../../assets/icons/svg/interfaces/hourglass-end.svg';
 import { ReactComponent as YellowIcon } from '../../assets/icons/svg/interfaces/hourglass-start.svg';
+import { ReactComponent as FinishedIcon } from '../../assets/icons/svg/interfaces/check.svg';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -38,6 +39,7 @@ const RentStatus = ({ status }) => {
   const ACTIVE = 'active';
   const COMING = 'coming';
   const ENDED = 'ended';
+  const FINISHED = 'finished';
 
   switch (status) {
     case ACTIVE:
@@ -61,6 +63,13 @@ const RentStatus = ({ status }) => {
           <span className="red">nieoddane</span>
         </Wrapper>
       );
+    case FINISHED:
+      return (
+        <Wrapper>
+          <FinishedIcon className="icon green" />
+          <span className="green">zakończone</span>
+        </Wrapper>
+      );
     default:
       return (
         <Wrapper>
@@ -72,7 +81,7 @@ const RentStatus = ({ status }) => {
 };
 
 RentStatus.propTypes = {
-  status: PropTypes.oneOf(['active', 'coming', 'ended']).isRequired,
+  status: PropTypes.oneOf(['active', 'coming', 'ended', 'finished']).isRequired,
 };
 
 export default RentStatus;

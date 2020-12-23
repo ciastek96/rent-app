@@ -23,7 +23,7 @@ const BoxGrid = styled.div`
 const DashboardView = () => {
   const productsListLen = useSelector((state) => state.products.length);
   const clientListLen = useSelector((state) => state.clients.length);
-  const rentsList = useSelector((state) => state.rents);
+  const rentsList = useSelector((state) => state.rents.filter((rent) => rent.isFinished === false));
   const events = rentsList.map((item, i) => ({
     id: i,
     title: item.client.label,
