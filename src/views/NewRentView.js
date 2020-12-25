@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
@@ -7,8 +7,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import Select from 'react-select';
 import Input from '../components/Input/Input';
+import Textarea from '../components/Textarea/Textarea';
 import ProductsCard from '../components/ProductsCard/ProductsCard';
-import { getProducts, getClients, addRent } from '../actions';
+import { addRent } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import { routes } from '../routes/routes';
@@ -41,6 +42,10 @@ const Wrapper = styled.div`
 
 const StyledForm = styled(Form)`
   padding-bottom: 45px;
+
+  h4 {
+    margin-top: 0;
+  }
 `;
 
 const GridWrapper = styled.div`
@@ -49,6 +54,7 @@ const GridWrapper = styled.div`
 `;
 
 const StyledSelect = styled(Select)`
+  font-size: 14px;
   margin: 0;
 `;
 
@@ -70,16 +76,25 @@ const Error = styled.p`
   margin: 5px 0;
 `;
 
+const Summary = styled.div`
+  padding: 25px;
+  width: 100%;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+
+  p {
+    font-weight: 500;
+  }
+`;
+
 const NewRentView = () => {
   const dispatch = useDispatch();
   const productsList = useSelector((state) => state.products);
   const clientsList = useSelector((state) => state.clients);
+  const [rentValue, setRentValue] = useState(0);
   const [redirect, setRedirect] = useState(false);
-
-  useEffect(() => {
-    dispatch(getClients());
-    dispatch(getProducts());
-  }, [dispatch]);
 
   if (redirect) {
     return <Redirect to={routes.rents} />;
@@ -105,6 +120,8 @@ const NewRentView = () => {
             dateOfReturn: '',
             products: [],
             client: null,
+            advance: 0,
+            comments: '',
           }}
           validate={(values) => {
             const errors = {};
@@ -125,6 +142,10 @@ const NewRentView = () => {
 
             if (!values.client) {
               errors.client = 'Pole wymagane.';
+            }
+
+            if (!values.advance) {
+              errors.advance = 'Uzupełnij pole.';
             }
 
             return errors;
@@ -206,7 +227,27 @@ const NewRentView = () => {
                 <ErrorMessage name="products" component={Error} />
               </SelectWrapper>
 
-              {values.products && values.products.length > 0 && <ProductsCard values={values.products} />}
+              <div>
+                <Field as={Input} label="Zaliczka" id="advance" name="advance" type="number" autoComplete="new-password" />
+                <ErrorMessage name="advance" component={Error} />
+              </div>
+
+              <div>
+                <Field as={Textarea} label="Informacje dodatkowe" id="comments" name="comments" type="text" autoComplete="new-password" />
+                <ErrorMessage name="comments" component={Error} />
+              </div>
+
+              {values.products && values.products.length > 0 && (
+                <>
+                  <ProductsCard values={values.products} setRentValue={setRentValue} rentValue={rentValue} />
+
+                  <Summary>
+                    <p>Łącznie netto: </p>
+                    <p>VAT: </p>
+                    <p>{`Łącznie brutto: ${rentValue}`}</p>
+                  </Summary>
+                </>
+              )}
             </StyledForm>
           )}
         </Formik>

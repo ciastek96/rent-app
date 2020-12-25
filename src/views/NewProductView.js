@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { Link, Redirect } from 'react-router-dom';
 import FileBase from 'react-file-base64';
 import styled from 'styled-components';
@@ -76,10 +78,25 @@ const Error = styled.p`
   padding: 0 25px;
 `;
 
+const DateWrapper = styled.div`
+  padding: 0 25px;
+
+  p {
+    margin: 15px 0px;
+  }
+`;
+
 const StyledForm = styled(Form)`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   padding-bottom: 45px;
+`;
+
+const StyledDatePicker = styled(DatePicker)`
+  * > .form-control {
+    min-width: 100%;
+    border: 2px solid red;
+  }
 `;
 
 const NewProductView = () => {
@@ -110,7 +127,10 @@ const NewProductView = () => {
           initialValues={{
             productName: '',
             price: '',
-            quantity: '',
+            netto: 0,
+            vat: 23,
+            brutto: 0,
+            quantity: 1,
             unit: 'szt',
             dateOfPurchase: '',
             dateOfLastInspection: '',
@@ -127,11 +147,23 @@ const NewProductView = () => {
               errors.productName = 'Pole powinno zawierać maksimum 256 znaków.';
             }
 
-            if (!values.price) {
-              errors.price = 'Pole wymagane.';
-            } else if (!/^[0-9]+([.][0-9]+)?$/.test(values.price)) {
-              errors.price = 'Podana cena jest niepoprawna.';
+            if (!values.brutto) {
+              errors.brutto = 'Pole wymagane.';
+            } else if (!/^[0-9]+([.][0-9]+)?$/.test(values.brutto)) {
+              errors.brutto = 'Podana cena jest niepoprawna.';
             }
+
+            if (!values.vat) {
+              errors.vat = 'Pole wymagane.';
+            } else if (!/(100)|(0*\d{1,2})$/.test(values.vat)) {
+              errors.vat = 'Podana cena jest niepoprawna.';
+            }
+
+            // if (!values.netto) {
+            //   errors.netto = 'Pole wymagane.';
+            // } else if (!/^[0-9]+([.][0-9]+)?$/.test(values.netto)) {
+            //   errors.netto = 'Podana cena jest niepoprawna.';
+            // }
 
             if (!values.quantity) {
               errors.quantity = 'Pole wymagane.';
@@ -145,11 +177,11 @@ const NewProductView = () => {
           }}
           onSubmit={(values) => {
             console.log({ ...values, selectedFile });
-            dispatch(addProduct({ ...values, selectedFile }));
-            setRedirect(true);
+            // dispatch(addProduct({ ...values, selectedFile }));
+            // setRedirect(true);
           }}
         >
-          {({ values }) => (
+          {({ values, setFieldValue }) => (
             <>
               <InnerWrapper>
                 {/* <div>
@@ -172,8 +204,27 @@ const NewProductView = () => {
                 </div>
 
                 <div>
-                  <Field as={Input} label="Cena za dobę" id="price" name="price" type="number" min="0" autoComplete="new-password" />
-                  <ErrorMessage name="price" component={Error} />
+                  <Field
+                    as={Input}
+                    label="Cena brutto"
+                    id="brutto"
+                    name="brutto"
+                    type="number"
+                    min="0"
+                    setFieldValue={('netto', 100)}
+                    autoComplete="new-password"
+                  />
+                  <ErrorMessage name="brutto" component={Error} />
+                </div>
+
+                <div>
+                  <Field as={Input} label="Stawka VAT" id="vat" name="vat" type="number" min="0" max="100" autoComplete="new-password" />
+                  <ErrorMessage name="vat" component={Error} />
+                </div>
+
+                <div>
+                  <Field as={Input} label="Cena netto" id="netto" name="netto" type="text" min="0" value={values.netto} autoComplete="new-password" />
+                  <ErrorMessage name="netto" component={Error} />
                 </div>
 
                 <div>
@@ -193,6 +244,11 @@ const NewProductView = () => {
                 </div>
 
                 <div>
+                  <Field as={Input} label="Cena zakupu" id="price" name="price" type="number" min="0" autoComplete="new-password" />
+                  <ErrorMessage name="price" component={Error} />
+                </div>
+
+                {/* <div>
                   <Field as={Input} label="Data zakupu" id="dateOfPurchase" name="dateOfPurchase" type="date" />
                   <ErrorMessage name="dateOfPurchase" component={Error} />
                 </div>
@@ -200,7 +256,35 @@ const NewProductView = () => {
                 <div>
                   <Field as={Input} label="Data ostatniego przeglądu" id="dateOfLastInspection" name="dateOfLastInspection" type="date" />
                   <ErrorMessage name="dateOfLastInspection" component={Error} />
-                </div>
+                </div> */}
+
+                <DateWrapper>
+                  <p>Data zakupu</p>
+
+                  <DatePicker
+                    selected={values.dateOfPurchase}
+                    dateFormat="MMMM d, yyyy"
+                    className="form-control"
+                    name="dateOfPurchase"
+                    onChange={(date) => setFieldValue('dateOfPurchase', date)}
+                    customInput={<Field as={Input} autoComplete="new-password" />}
+                  />
+                  <ErrorMessage name="dateOfPurchase" component={Error} />
+                </DateWrapper>
+
+                <DateWrapper>
+                  <p>Data ostatniego przeglądu</p>
+
+                  <DatePicker
+                    selected={values.dateOfLastInspection}
+                    dateFormat="MMMM d, yyyy"
+                    className="form-control"
+                    name="dateOfLastInspection"
+                    onChange={(date) => setFieldValue('dateOfLastInspection', date)}
+                    customInput={<Field as={Input} autoComplete="new-password" />}
+                  />
+                  <ErrorMessage name="dateOfLastInspection" component={Error} />
+                </DateWrapper>
               </StyledForm>
             </>
           )}

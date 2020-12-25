@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
+import ProductsCardItem from '../ProductsCardItem/ProductsCardItem';
 // import RemoveIcon from '../../assets/icons/svg/interfaces/close-a.svg';
 
 const Wrapper = styled.div`
@@ -52,7 +53,7 @@ const ProductImage = styled.div`
 //   cursor: pointer;
 // `;
 
-const ProductsCard = ({ values }) => {
+const ProductsCard = ({ values, setRentValue, rentValue }) => {
   const productsList = useSelector(({ products }) => products);
   const selectedProducts = values.map((value) => productsList.filter((item) => item._id === value._id));
 
@@ -69,15 +70,7 @@ const ProductsCard = ({ values }) => {
       </Heading>
       <Body>
         {selectedProducts.map(([product]) => (
-          <Item key={product._id}>
-            <ProductImage image={product.selectedFile} />
-            <p>{product.productName}</p>
-            <p>{product.quantity}</p>
-            <p>{product.unit}</p>
-            <p>{product.quantity}</p>
-            <p>{`${product.price} zł`}</p>
-            {/* <RemoveButton /> */}
-          </Item>
+          <ProductsCardItem key={product._id} product={product} setRentValue={setRentValue} rentValue={rentValue} />
         ))}
       </Body>
     </Wrapper>

@@ -1,27 +1,18 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { PropTypes } from 'prop-types';
-import SearchIcon from '../../assets/icons/svg/interfaces/search.svg';
 
-const StyledSelect = styled.select`
-  width: 100%;
+const StyledTextarea = styled.textarea`
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 100px;
+  max-height: 200px;
   font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.gray};
-  background-color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.gray};
   border-radius: 10px;
   padding: 12px 24px;
-
-  ${({ search }) =>
-    search &&
-    css`
-      background-image: url(${SearchIcon});
-      background-repeat: no-repeat;
-      background-size: 16px;
-      background-position: 12px 50%;
-      padding: 12px 36px;
-      max-width: 320px;
-    `}
+  font-family: 'Montserrat', sans-serif;
 
   ${({ isCorrect }) =>
     isCorrect &&
@@ -44,28 +35,28 @@ const Label = styled.label`
   }
 `;
 
-const Select = ({ label, id, ...props }) => {
+const Textarea = ({ label, id, ...props }) => {
   if (label) {
     return (
       <Wrapper>
         <Label htmlFor={id}>
           <span>{label}</span>
         </Label>
-        <StyledSelect {...props} />
+        <StyledTextarea {...props} />
       </Wrapper>
     );
   }
-  return <StyledSelect {...props} />;
+  return <StyledTextarea {...props} />;
 };
 
-Select.propTypes = {
+Textarea.propTypes = {
   label: PropTypes.string,
   id: PropTypes.string,
 };
 
-Select.defaultProps = {
+Textarea.defaultProps = {
   label: null,
   id: null,
 };
 
-export default Select;
+export default Textarea;

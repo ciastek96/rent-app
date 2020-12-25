@@ -19,7 +19,11 @@ const rentsSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  others: {
+  advance: {
+    type: String,
+    required: true,
+  },
+  comments: {
     type: String,
     trim: true,
   },

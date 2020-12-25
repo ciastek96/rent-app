@@ -13,6 +13,21 @@ const productsSchema = new Schema({
     type: Number,
     required: true,
   },
+  netto: {
+    type: Number,
+    required: true,
+  },
+  vat: {
+    type: Number,
+    default: 23,
+    min: 0,
+    max: 100,
+    required: true,
+  },
+  brutto: {
+    type: Number,
+    required: true,
+  },
   dateOfPurchase: Date,
   dateOfLastInspection: Date,
   quantity: {
