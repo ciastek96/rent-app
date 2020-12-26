@@ -62,8 +62,6 @@ const ProductsCardItem = ({ rentValue, setRentValue, product: { _id, selectedFil
   const [quantity, setQuantity] = useState(1);
   const value = (quantity * price).toFixed(2);
 
-  setRentValue(rentValue + value);
-
   const increment = () => {
     if (quantity < availableQuantity) setQuantity(quantity + 1);
   };

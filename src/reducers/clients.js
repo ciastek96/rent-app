@@ -11,7 +11,7 @@ const clientsReducer = (clients = [], { type, payload }) => {
     case FETCH_CLIENT:
       return payload;
     case UPDATE_CLIENT:
-      return clients.map((client) => (client._id === payload._id ? payload : client));
+      return clients.map((client) => (client.userID === payload.userID ? payload : client));
     case REMOVE_CLIENT:
       return clients.filter((client) => client._id !== payload);
     case ADD_CLIENT:

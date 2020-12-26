@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { routes } from '../../routes/routes';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import DownIcon from '../../assets/icons/svg/directional/angle-down.svg';
@@ -51,7 +52,10 @@ const Avatar = styled.div`
   min-width: 45px;
   height: 45px;
   border-radius: 50%;
-  background-color: ${({ theme }) => theme.green};
+  background-color: ${({ theme, photo }) => (photo ? theme.default : theme.green)};
+  background-image: ${({ photo }) => `url(${photo})`};
+  background-size: cover;
+  background-position: center;
   margin-right: 15px;
 `;
 
@@ -75,15 +79,19 @@ const StyledLink = styled(Link)`
 
 const UserPanel = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
+  const username = useSelector((state) => state.users.user.username);
+  const account = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
+
+  console.log('account', account);
 
   return (
     <Wrapper>
-      <NotificationButton>
+      {/* <NotificationButton>
         <StyledBellIcon />
-      </NotificationButton>
+      </NotificationButton> */}
       <UserButton onClick={() => setToggleMenu(!toggleMenu)}>
-        <Avatar />
-        <p>Kamil Kołacz</p>
+        <Avatar photo={account ? account.selectedFile : null} />
+        <p>{username}</p>
       </UserButton>
       <DropdownMenu top="150%" isOpen={toggleMenu}>
         <ListItem>

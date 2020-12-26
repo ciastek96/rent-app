@@ -1,4 +1,6 @@
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
+import setAuthToken from '../utils/setAuthToken';
 
 export const getProducts = () => async (dispatch) => {
   try {
@@ -130,6 +132,71 @@ export const removeRent = (id) => async (dispatch) => {
   try {
     const { data } = await axios.delete(`http://localhost:4000/rents/${id}`);
     dispatch({ type: 'REMOVE_RENT', payload: id });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const setCurrentUser = (user) => ({ type: 'SET_CURRENT_USER', user });
+
+export const signIn = (values) => async (dispatch) => {
+  try {
+    const { data, status } = await axios.post('http://localhost:4000/users/signin', values);
+    const { token } = data;
+    localStorage.setItem('jwtToken', token);
+    setAuthToken(token);
+    dispatch({ type: 'SET_CURRENT_USER', payload: jwt.decode(token) });
+  } catch (err) {
+    dispatch({ type: 'LOGIN_ERROR', payload: 'Wpisano niepoprawne dane.' });
+  }
+};
+
+export const signOut = (id) => async (dispatch) => {
+  try {
+    localStorage.removeItem('jwtToken');
+    setAuthToken(false);
+    dispatch({ type: 'LOGOUT_USER', payload: {} });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const signUp = (values) => async (dispatch) => {
+  try {
+    const { data, status } = await axios.post('http://localhost:4000/users/register', values);
+
+    if (status === 201) {
+      dispatch({ type: 'SIGNUP_USER', payload: data });
+      dispatch({ type: 'REGISTER_SUCCESS', payload: data });
+    }
+  } catch (err) {
+    console.log(err);
+    dispatch({ type: 'REGISTER_ERROR', payload: 'Podana nazwa użytkownika jest już zajęta.' });
+  }
+};
+
+export const getAccount = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.post(`http://localhost:4000/accounts/${id}`);
+    dispatch({ type: 'FETCH_ACCOUNT', payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateAccount = (userID, values) => async (dispatch) => {
+  try {
+    const { data } = await axios.patch(`http://localhost:4000/accounts/${userID}`, values);
+    dispatch({ type: 'UPDATE_ACCOUNT', payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getAccounts = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get('http://localhost:4000/accounts');
+    dispatch({ type: 'FETCH_ACCOUNTS', payload: data });
   } catch (err) {
     console.log(err);
   }

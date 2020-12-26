@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
 import { routes } from '../../routes/routes';
+import { signIn } from '../../actions';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
@@ -25,44 +28,58 @@ const ButtonsWrapper = styled.div`
   justify-content: space-around;
 `;
 
-const LoginForm = ({ setCardType }) => (
-  <Formik
-    initialValues={{ username: '', password: '' }}
-    validate={(values) => {
-      const errors = {};
-      if (!values.username) {
-        errors.username = 'Pole wymagane';
-      }
-      if (!values.password) {
-        errors.password = 'Pole wymagane';
-      }
-      return errors;
-    }}
-    onSubmit={(values, { setSubmitting }) => {
-      setTimeout(() => {
-        // alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 400);
-    }}
-  >
-    {({ isSubmitting }) => (
-      <StyledForm>
-        <Field as={StyledInput} type="text" name="username" placeholder="Nazwa użytkownika" />
-        <ErrorMessage name="username" component="div" />
-        <Field as={StyledInput} type="password" name="password" placeholder="Hasło" />
-        <ErrorMessage name="password" component="div" />
-        <ButtonsWrapper>
-          <Button tertiary onClick={() => setCardType(routes.register)}>
-            Rejestracja
-          </Button>
-          <Button type="submit" isDisabled={isSubmitting}>
-            Zaloguj
-          </Button>
-        </ButtonsWrapper>
-      </StyledForm>
-    )}
-  </Formik>
-);
+const Error = styled.p`
+  color: red;
+  font-size: ${({ theme }) => theme.fontSize.xxs};
+`;
+
+const Success = styled.p`
+  color: ${({ theme }) => theme.green};
+  font-size: ${({ theme }) => theme.fontSize.xxs};
+`;
+
+const LoginForm = ({ setCardType }) => {
+  const error = useSelector((state) => state.users.error);
+  const success = useSelector((state) => state.users.success);
+  const dispatch = useDispatch();
+
+  return (
+    <Formik
+      initialValues={{ username: '', password: '' }}
+      validate={(values) => {
+        const errors = {};
+        if (!values.username) {
+          errors.username = 'Pole wymagane';
+        }
+        if (!values.password) {
+          errors.password = 'Pole wymagane';
+        }
+        return errors;
+      }}
+      onSubmit={(values) => {
+        dispatch(signIn(values));
+        console.log(error, success);
+      }}
+    >
+      {() => (
+        <StyledForm>
+          {error && <Error>{error}</Error>}
+          {success && <Success>{success}</Success>}
+          <Field as={StyledInput} type="text" name="username" placeholder="Nazwa użytkownika" />
+          <ErrorMessage name="username" component={Error} />
+          <Field as={StyledInput} type="password" name="password" placeholder="Hasło" />
+          <ErrorMessage name="password" component={Error} />
+          <ButtonsWrapper>
+            <Button tertiary onClick={() => setCardType(routes.register)}>
+              Rejestracja
+            </Button>
+            <Button type="submit">Zaloguj</Button>
+          </ButtonsWrapper>
+        </StyledForm>
+      )}
+    </Formik>
+  );
+};
 
 LoginForm.propTypes = {
   setCardType: PropTypes.func.isRequired,

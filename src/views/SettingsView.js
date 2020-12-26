@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { PropTypes } from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
 import styled from 'styled-components';
 import FileBase from 'react-file-base64';
 import Input from '../components/Input/Input';
-import { updateClient } from '../actions';
+import { getAccount, updateAccount } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import Spinner from '../components/Spinner/Spinner';
@@ -46,12 +45,6 @@ const InnerWrapper = styled.div`
   padding: 45px;
 `;
 
-const ImageWrapper = styled.div`
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
-`;
-
 const ClientInfo = styled.div`
   margin-left: 45px;
 
@@ -78,86 +71,104 @@ const Error = styled.p`
   padding: 0 25px;
 `;
 
+const ImageWrapper = styled.div`
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+`;
+
 const StyledForm = styled(Form)`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   padding-bottom: 45px;
 `;
 
-const EditClientView = ({ match }) => {
-  const [selectedFile, setSelectedFile] = useState();
+const PasswordContainer = styled.div`
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 65px 25px;
+`;
+
+const SettingsView = () => {
+  const [selectedFile, setSelectedFile] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const PASS_VIEW = 'PASS_VIEW';
+  const ACCOUNT_VIEW = 'ACCOUNT_VIEW';
+  const currentUser = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
+  const username = useSelector((state) => state.users.user.username);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { id } = match.params;
-  const clientValues = useSelector((state) => state.clients.find((client) => client._id === id));
 
-  if (!clientValues) {
+  if (!currentUser) {
     return (
       <MainTemplate>
         <Spinner />
       </MainTemplate>
     );
   }
+
   return (
     <MainTemplate>
       <StyledHeader>
-        <h2>Edytuj klienta</h2>
+        <h2>Ustawienia</h2>
         <ButtonsWrapper>
           <Button as={Link} to={routes.clients} secondary="true">
             Anuluj
           </Button>
-          <StyledButton type="submit" form="newClientForm">
-            Zatwierdź
+          <StyledButton type="submit" form="settingsForm">
+            Zapisz
           </StyledButton>
         </ButtonsWrapper>
       </StyledHeader>
       <Wrapper>
         <Formik
           initialValues={{
-            name: clientValues.name,
-            surname: clientValues.surname,
-            email: clientValues.email,
-            phone: clientValues.phone,
-            companyName: clientValues.companyName,
-            nip: clientValues.nip,
+            name: currentUser.name || '',
+            surname: currentUser.surname || '',
+            email: currentUser.email || '',
+            phone: currentUser.phone || 'phone',
+            companyName: currentUser.companyName || '',
+            nip: currentUser.nip || '',
             address: {
-              city: clientValues.address.city,
-              street: clientValues.address.street,
-              postalCode: clientValues.address.postalCode,
+              city: currentUser.address ? currentUser.address.city : '',
+              street: currentUser.address ? currentUser.address.street : '',
+              postalCode: currentUser.address ? currentUser.address.postalCode : '',
             },
-            discount: clientValues.discount,
           }}
           validate={(values) => {
             const errors = {};
 
-            if (!values.name) {
-              errors.name = 'Pole wymagane.';
-            } else if (values.name.length < 3) {
-              errors.name = 'Pole powinno zawierać minimum 3 znaki.';
-            } else if (values.name.length > 16) {
-              errors.name = 'Pole powinno zawierać maksimum 32 znaki.';
+            if (values.name) {
+              if (!values.name) {
+                errors.name = 'Pole wymagane.';
+              } else if (values.name.length < 3) {
+                errors.name = 'Pole powinno zawierać minimum 3 znaki.';
+              } else if (values.name.length > 16) {
+                errors.name = 'Pole powinno zawierać maksimum 32 znaki.';
+              }
             }
 
-            if (!values.surname) {
-              errors.surname = 'Pole wymagane.';
-            } else if (values.surname.length < 3) {
-              errors.surname = 'Pole powinno zawierać minimum 3 znaki.';
-            } else if (values.surname.length > 16) {
-              errors.surname = 'Pole powinno maksimum 16 znaki.';
+            if (values.surname) {
+              if (values.surname.length < 3) {
+                errors.surname = 'Pole powinno zawierać minimum 3 znaki.';
+              } else if (values.surname.length > 16) {
+                errors.surname = 'Pole powinno maksimum 16 znaki.';
+              }
             }
 
-            if (!values.email) {
-              errors.email = 'Pole wymagane.';
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-              errors.email = 'Podano adres e-mail jest niepoprawny.';
+            if (values.email) {
+              if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+                errors.email = 'Podano adres e-mail jest niepoprawny.';
+              }
             }
 
-            if (!values.phone) {
-              errors.phone = 'Pole wymagane.';
-            } else if (
-              !/(?:(?:(?:\+|00)?48)|(?:\(\+?48\)))?(?:1[2-8]|2[2-69]|3[2-49]|4[1-68]|5[0-9]|6[0-35-9]|[7-8][1-9]|9[145])\d{7}/g.test(values.phone)
-            ) {
-              errors.phone = 'Podany numer telefonu jest niepoprawny.';
+            if (values.phone) {
+              if (
+                !/(?:(?:(?:\+|00)?48)|(?:\(\+?48\)))?(?:1[2-8]|2[2-69]|3[2-49]|4[1-68]|5[0-9]|6[0-35-9]|[7-8][1-9]|9[145])\d{7}/g.test(values.phone)
+              ) {
+                errors.phone = 'Podany numer telefonu jest niepoprawny.';
+              }
             }
 
             if (values.companyName) {
@@ -168,7 +179,7 @@ const EditClientView = ({ match }) => {
 
             if (values.nip) {
               if (!/^[0-9]{10}$/.test(values.nip)) {
-                errors.nip = 'Podany numer NIP jest niepoprawny.';
+                errors.nip = 'Podany NIP jest niepoprawny.';
               }
             }
 
@@ -190,20 +201,11 @@ const EditClientView = ({ match }) => {
               }
             }
 
-            if (values.discount) {
-              if (values.discount < 0) {
-                errors.discount = 'Minimalna wartość rabatu to 0%';
-              } else if (values.discount > 100) {
-                errors.discount = 'Maksymalna wartość rabatu to 100%';
-              } else if (!/\b([0-9]|[1-9][0-9]|100)\b/.test(values.discount)) {
-                errors.discount = 'Podana wartość nie jest typu liczbowego.';
-              }
-            }
-
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(updateClient(id, { ...values, selectedFile }));
+            console.log(currentUser.userID, { ...values, selectedFile });
+            dispatch(updateAccount(currentUser.userID, { ...values, selectedFile }));
             history.go(0);
           }}
         >
@@ -211,64 +213,63 @@ const EditClientView = ({ match }) => {
             <>
               <InnerWrapper>
                 <ImageWrapper>
-                  <ImageUploader image={!selectedFile ? clientValues.selectedFile : selectedFile} setSelectedFile={setSelectedFile} />
+                  <ImageUploader image={!selectedFile ? currentUser.selectedFile : selectedFile} setSelectedFile={setSelectedFile} />
                   <FileBase type="file" id="image" multiple={false} accept="image/*" onDone={({ base64 }) => setSelectedFile(base64)} />
                 </ImageWrapper>
                 <ClientInfo>
-                  <h2>{`${values.name} ${values.surname}`}</h2>
-                  <h4>{values.email}</h4>
+                  <h2>{username}</h2>
+                  <h4>{currentUser.email}</h4>
                 </ClientInfo>
               </InnerWrapper>
-              <StyledForm id="newClientForm">
+              <StyledForm id="settingsForm">
                 <div>
-                  <Field as={Input} label="Imię" id="name" name="name" type="text" />
+                  <Field as={Input} label="Imię" id="name" name="name" type="text" autoComplete="new-password" />
                   <ErrorMessage name="name" component={Error} />
                 </div>
                 <div>
-                  <Field as={Input} label="Nazwisko" id="surname" name="surname" type="text" />
+                  <Field as={Input} label="Nazwisko" id="surname" name="surname" type="text" autoComplete="new-password" />
                   <ErrorMessage name="surname" component={Error} />
                 </div>
 
                 <div>
-                  <Field as={Input} label="Adres e-mail" id="email" name="email" type="email" />
+                  <Field as={Input} label="Adres e-mail" id="email" name="email" type="email" autoComplete="new-password" />
                   <ErrorMessage name="email" component={Error} />
                 </div>
 
                 <div>
-                  <Field as={Input} label="Telefon" id="phone" name="phone" type="text" />
+                  <Field as={Input} label="Telefon" id="phone" name="phone" type="text" autoComplete="new-password" />
                   <ErrorMessage name="phone" component={Error} />
                 </div>
 
                 <div>
-                  <Field as={Input} label="Nazwa firmy" id="companyName" name="companyName" type="text" autocomplete="off" />
+                  <Field as={Input} label="Nazwa firmy" id="companyName" name="companyName" type="text" autoComplete="new-password" />
                   <ErrorMessage name="companyName" component={Error} />
                 </div>
 
                 <div>
-                  <Field as={Input} label="NIP" id="nip" name="nip" type="text" autocomplete="off" />
+                  <Field as={Input} label="NIP" id="nip" name="nip" type="text" autoComplete="new-password" />
                   <ErrorMessage name="nip" component={Error} />
                 </div>
-
+                <div>
+                  <Field as={Input} label="Ulica" id="street" name="address.street" type="text" autoComplete="new-password" />
+                  <ErrorMessage name="address.street" component={Error} />
+                </div>
                 <div>
                   <Field as={Input} label="Miasto" id="city" name="address.city" type="text" />
                   <ErrorMessage name="address.city" component={Error} />
                 </div>
 
                 <div>
-                  <Field as={Input} label="Ulica" id="street" name="address.street" type="text" />
-                  <ErrorMessage name="address.street" component={Error} />
-                </div>
-
-                <div>
-                  <Field as={Input} label="Kod pocztowy" id="postalCode" name="address.postalCode" type="text" />
+                  <Field as={Input} label="Kod pocztowy" id="postalCode" name="address.postalCode" type="text" autoComplete="new-password" />
                   <ErrorMessage name="address.postalCode" component={Error} />
                 </div>
-
-                <div>
-                  <Field as={Input} label="Rabat" id="discount" name="discount" type="number" min="0" max="100" step="5" />
-                  <ErrorMessage name="discount" component={Error} />
-                </div>
               </StyledForm>
+              <PasswordContainer>
+                <h4>Zmiana hasła: </h4>
+                <Button as={Link} to={routes.updatePassword} secondary="true">
+                  Zmień hasło
+                </Button>
+              </PasswordContainer>
             </>
           )}
         </Formik>
@@ -277,8 +278,4 @@ const EditClientView = ({ match }) => {
   );
 };
 
-EditClientView.propTypes = {
-  match: PropTypes.objectOf(PropTypes.any).isRequired,
-};
-
-export default EditClientView;
+export default SettingsView;

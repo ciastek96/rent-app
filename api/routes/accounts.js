@@ -1,15 +1,21 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 const Account = require('../models/accounts');
 
-router.route('/').get((req, res) => {
-  Account.find()
-    .then((rents) => res.json(rents))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
+router.post('/:id', async (req, res) => {
+  const { id: userID } = req.params;
+
+  const account = await Account.findOne({ userID });
+  try {
+    res.status(200).send(account);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
 });
 
 router.route('/add').post((req, res) => {
-  const { userId, name, surname, ...values } = req.body;
-  const newAccount = new Account({ userId, name, surname, ...values });
+  const { userId } = req.body;
+  const newAccount = new Account({ userId });
 
   newAccount
     .save()
@@ -17,12 +23,29 @@ router.route('/add').post((req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route('/update').post((req, res) => {
-  const { userId, ...values } = req.body;
+router.patch('/:id', async (req, res) => {
+  const { id: userID } = req.params;
+  const { ...values } = req.body;
 
-  Account.findOneAndUpdate({ userId }, { ...values }, { new: true })
-    .then(() => res.json('Account updated!'))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
+  try {
+    const updatedAccount = await Account.findOneAndUpdate({ userID }, values, { new: true });
+    res.status(201).json(updatedAccount);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+
+  // Account.findOneAndUpdate({ userId }, { ...values }, { new: true })
+  //   .then(() => res.json('Account updated!'))
+  //   .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
+router.get('/', async (req, res) => {
+  const accounts = await Account.find();
+  try {
+    res.status(200).send(accounts);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
 });
 
 router.route('/delete').post((req, res) => {

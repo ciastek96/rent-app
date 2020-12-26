@@ -53,7 +53,7 @@ const ProductImage = styled.div`
 //   cursor: pointer;
 // `;
 
-const ProductsCard = ({ values, setRentValue, rentValue }) => {
+const ProductsCard = ({ values, setRentValue, rentValue, onAdd }) => {
   const productsList = useSelector(({ products }) => products);
   const selectedProducts = values.map((value) => productsList.filter((item) => item._id === value._id));
 
@@ -70,7 +70,7 @@ const ProductsCard = ({ values, setRentValue, rentValue }) => {
       </Heading>
       <Body>
         {selectedProducts.map(([product]) => (
-          <ProductsCardItem key={product._id} product={product} setRentValue={setRentValue} rentValue={rentValue} />
+          <ProductsCardItem key={product._id} product={product} setRentValue={setRentValue} rentValue={rentValue} onAdd={onAdd} />
         ))}
       </Body>
     </Wrapper>

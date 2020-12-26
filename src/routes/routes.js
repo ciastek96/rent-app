@@ -15,4 +15,5 @@ export const routes = {
   rent: '/wypozyczenia/:id',
   newRent: '/wypozyczenia/nowy',
   finances: '/historia',
+  updatePassword: '/ustawienia/zmiana-hasla',
 };

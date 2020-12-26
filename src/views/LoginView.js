@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import LoginTemplate from '../templates/LoginTemplate';
 import { routes } from '../routes/routes';
 import LoginForm from '../components/LoginForm/LoginForm';
 import RegisterForm from '../components/RegisterForm/RegisterForm';
+import { signOut } from '../actions';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -42,15 +45,21 @@ const Paragraph = styled.p`
 `;
 
 const LoginView = ({ location: { pathname } }) => {
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.users.isAuthenticated);
   const [cardType, setCardType] = useState('/logowanie');
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     if (pathname === routes.register) {
       setCardType(routes.register);
     } else if (pathname === routes.logout) {
       setCardType(routes.logout);
+      dispatch(signOut());
     }
   }, []);
+
+  if (isAuth) return <Redirect to="/" />;
 
   return (
     <LoginTemplate>
@@ -68,7 +77,7 @@ const LoginView = ({ location: { pathname } }) => {
                 {cardType === routes.logout && 'Zostałeś pomyślnie wylogowany. '}
                 Zaloguj się, aby uzyskać dostęp do twojej wypożyczalni.
               </Paragraph>
-              <LoginForm setCardType={setCardType} />
+              <LoginForm setCardType={setCardType} setRedirect={setRedirect} />
             </>
           )}
         </Card>

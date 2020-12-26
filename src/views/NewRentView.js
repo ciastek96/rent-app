@@ -93,8 +93,18 @@ const NewRentView = () => {
   const dispatch = useDispatch();
   const productsList = useSelector((state) => state.products);
   const clientsList = useSelector((state) => state.clients);
+  const [cartItems, setCartItems] = useState([]);
   const [rentValue, setRentValue] = useState(0);
   const [redirect, setRedirect] = useState(false);
+
+  const onAdd = (product) => {
+    const exist = cartItems.find((x) => x.id === product.id);
+    if (exist) {
+      setCartItems(cartItems.map((x) => (x.id === product.id ? { ...exist, qty: exist.qty + 1 } : x)));
+    } else {
+      setCartItems([...cartItems, { ...product, qty: 1 }]);
+    }
+  };
 
   if (redirect) {
     return <Redirect to={routes.rents} />;
@@ -239,7 +249,7 @@ const NewRentView = () => {
 
               {values.products && values.products.length > 0 && (
                 <>
-                  <ProductsCard values={values.products} setRentValue={setRentValue} rentValue={rentValue} />
+                  <ProductsCard values={values.products} setRentValue={setRentValue} rentValue={rentValue} onAdd={onAdd} />
 
                   <Summary>
                     <p>Łącznie netto: </p>

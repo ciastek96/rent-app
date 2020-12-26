@@ -13,6 +13,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-family: 'Roboto', sans-serif;
 
   .icon {
     width: 18px;
