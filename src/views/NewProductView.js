@@ -81,8 +81,8 @@ const Error = styled.p`
 const DateWrapper = styled.div`
   padding: 0 25px;
 
-  p {
-    margin: 15px 0px;
+  .react-datepicker-wrapper {
+    width: 100%;
   }
 `;
 
@@ -92,11 +92,11 @@ const StyledForm = styled(Form)`
   padding-bottom: 45px;
 `;
 
-const StyledDatePicker = styled(DatePicker)`
-  * > .form-control {
-    min-width: 100%;
-    border: 2px solid red;
-  }
+const Label = styled.p`
+  margin: 8px 0;
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-family: 'Montserrat', sans-serif;
+  color: black;
 `;
 
 const NewProductView = () => {
@@ -107,6 +107,11 @@ const NewProductView = () => {
   if (redirect) {
     return <Redirect to={routes.products} />;
   }
+
+  const bruttoToNetto = (brutto, vat) => {
+    const netto = (brutto / (1 + vat / 100)).toFixed(2);
+    return netto;
+  };
 
   return (
     <MainTemplate>
@@ -204,16 +209,7 @@ const NewProductView = () => {
                 </div>
 
                 <div>
-                  <Field
-                    as={Input}
-                    label="Cena brutto"
-                    id="brutto"
-                    name="brutto"
-                    type="number"
-                    min="0"
-                    setFieldValue={('netto', 100)}
-                    autoComplete="new-password"
-                  />
+                  <Field as={Input} label="Cena brutto" id="brutto" name="brutto" type="number" min="0" autoComplete="new-password" />
                   <ErrorMessage name="brutto" component={Error} />
                 </div>
 
@@ -223,7 +219,16 @@ const NewProductView = () => {
                 </div>
 
                 <div>
-                  <Field as={Input} label="Cena netto" id="netto" name="netto" type="text" min="0" value={values.netto} autoComplete="new-password" />
+                  <Input
+                    label="Cena netto"
+                    id="netto"
+                    disabled
+                    name="netto"
+                    type="text"
+                    min="0"
+                    value={bruttoToNetto(values.brutto, values.vat)}
+                    autoComplete="new-password"
+                  />
                   <ErrorMessage name="netto" component={Error} />
                 </div>
 
@@ -259,7 +264,7 @@ const NewProductView = () => {
                 </div> */}
 
                 <DateWrapper>
-                  <p>Data zakupu</p>
+                  <Label>Data zakupu</Label>
 
                   <DatePicker
                     selected={values.dateOfPurchase}
@@ -273,7 +278,7 @@ const NewProductView = () => {
                 </DateWrapper>
 
                 <DateWrapper>
-                  <p>Data ostatniego przeglądu</p>
+                  <Label>Data ostatniego przeglądu</Label>
 
                   <DatePicker
                     selected={values.dateOfLastInspection}

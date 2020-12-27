@@ -161,7 +161,7 @@ ListItem.propTypes = {
     selectedFile: PropTypes.string,
     email: PropTypes.string,
     discount: PropTypes.string,
-    price: PropTypes.string,
+    price: PropTypes.number,
     quantity: PropTypes.string,
     unit: PropTypes.string,
   }),

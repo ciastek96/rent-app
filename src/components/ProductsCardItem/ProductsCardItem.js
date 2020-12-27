@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
+import styled from 'styled-components';
 // import RemoveIcon from '../../assets/icons/svg/interfaces/close-a.svg';
 
 const GridWrapper = styled.div`
@@ -16,10 +15,6 @@ const GridWrapper = styled.div`
     margin-left: 15px;
   }
 `;
-
-const Heading = styled(GridWrapper)``;
-
-const Body = styled.div``;
 
 const Item = styled(GridWrapper)``;
 
@@ -91,6 +86,23 @@ const ProductsCardItem = ({ rentValue, setRentValue, product: { _id, selectedFil
   );
 };
 
-ProductsCardItem.propTypes = {};
+ProductsCardItem.propTypes = {
+  rentValue: PropTypes.string,
+  setRentValue: PropTypes.func,
+  product: PropTypes.oneOf([PropTypes.array, PropTypes.object]).isRequired,
+  _id: PropTypes.string.isRequired,
+  selectedFile: PropTypes.string,
+  productName: PropTypes.string.isRequired,
+  quantity: PropTypes.number.isRequired,
+  unit: PropTypes.string.isRequired,
+  price: PropTypes.string,
+};
+
+ProductsCardItem.defaultProps = {
+  rentValue: null,
+  setRentValue: null,
+  selectedFile: null,
+  price: '',
+};
 
 export default ProductsCardItem;

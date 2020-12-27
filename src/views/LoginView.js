@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import LoginTemplate from '../templates/LoginTemplate';
 import { routes } from '../routes/routes';
+import { ReactComponent as Logotype } from '../assets/logo.svg';
 import LoginForm from '../components/LoginForm/LoginForm';
 import RegisterForm from '../components/RegisterForm/RegisterForm';
 import { signOut } from '../actions';
@@ -44,6 +45,11 @@ const Paragraph = styled.p`
   text-align: center;
 `;
 
+const StyledLogotype = styled(Logotype)`
+  max-width: 80px;
+  }
+`;
+
 const LoginView = ({ location: { pathname } }) => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.users.isAuthenticated);
@@ -65,7 +71,9 @@ const LoginView = ({ location: { pathname } }) => {
     <LoginTemplate>
       <Wrapper>
         <Card>
-          <Logo>EasyRent.</Logo>
+          <Logo>
+            <StyledLogotype />
+          </Logo>
           {cardType === routes.register ? (
             <>
               <Paragraph>Stwórz bezpłatne konto i korzystaj z platformy do zarządzania twoją wypożyczalnią!</Paragraph>

@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
 import Select from 'react-select';
 import Input from '../components/Input/Input';
 import Spinner from '../components/Spinner/Spinner';
 import ProductsCard from '../components/ProductsCard/ProductsCard';
-import { getProducts, getClients, updateRent } from '../actions';
+import { updateRent } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import { routes } from '../routes/routes';
@@ -55,6 +56,11 @@ const StyledSelect = styled(Select)`
 
 const DateWrapper = styled.div`
   padding: 0 25px;
+
+  .react-datepicker-wrapper {
+    width: 100%;
+    margin-bottom: 8px;
+  }
 
   p {
     margin: 15px 0px;
@@ -225,6 +231,12 @@ const EditRentView = ({ match }) => {
       </Wrapper>
     </MainTemplate>
   );
+};
+
+EditRentView.propTypes = {
+  match: PropTypes.oneOf([PropTypes.array, PropTypes.object]).isRequired,
+  params: PropTypes.oneOf([PropTypes.array, PropTypes.object, PropTypes.string]).isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default EditRentView;

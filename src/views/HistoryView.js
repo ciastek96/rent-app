@@ -3,14 +3,13 @@ import { useSelector } from 'react-redux';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import RentItem from '../components/RentItem/RentItem';
 import MainTemplate from '../templates/MainTemplate';
-import { routes } from '../routes/routes';
 
 const HistoryView = () => {
   const rentsList = useSelector(({ rents }) => rents.filter((rent) => rent.isFinished === true));
-  console.log(rentsList);
+
   return (
     <MainTemplate>
-      <ItemsTemplate title="Historia" path={routes.newRent} />
+      <ItemsTemplate title="Historia" />
       {rentsList.map(({ _id, client, dateOfRent, dateOfReturn, products, isFinished }) => (
         <RentItem
           key={_id}

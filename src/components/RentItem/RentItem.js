@@ -153,7 +153,6 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
   const endDay = moment(dateOfReturn);
 
   useEffect(() => {
-    console.log(isFinished);
     if (isFinished) setStatus(statusList[3]);
     else if (startDay.diff(today, 'days') > 0) setStatus(statusList[1]);
     else if (startDay.diff(today, 'days') === 0 && today.diff(endDay, 'days') !== 0) setStatus(statusList[1]);

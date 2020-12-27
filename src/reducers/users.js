@@ -4,6 +4,7 @@ const LOGOUT_USER = 'LOGOUT_USER';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const REGISTER_ERROR = 'REGISTER_ERROR';
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 
 const initialState = {
   isAuthenticated: false,
@@ -48,6 +49,8 @@ const usersReducer = (users = initialState, { type, payload }) => {
         error: [],
         success: payload,
       };
+    case UPDATE_PASSWORD:
+      return users.map((user) => (user.userID === payload.userID ? payload : user));
     default:
       return users;
   }

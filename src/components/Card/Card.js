@@ -99,7 +99,7 @@ const Card = ({ id, values: { name, surname, selectedFile, phone, email } }) => 
     <>
       <Wrapper>
         <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
-        <Photo photo={selectedFile} />
+        <Photo photo={selectedFile} as={Link} to={`${routes.clients}/${id}`} />
         <InnerWrapper>
           <h4>{`${name} ${surname}`}</h4>
           <Info>

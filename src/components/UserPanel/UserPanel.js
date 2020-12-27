@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { routes } from '../../routes/routes';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import DownIcon from '../../assets/icons/svg/directional/angle-down.svg';
-import { ReactComponent as BellIcon } from '../../assets/icons/svg/interfaces/bell-alt.svg';
+// import { ReactComponent as BellIcon } from '../../assets/icons/svg/interfaces/bell-alt.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,24 +15,24 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const NotificationButton = styled.button`
-  height: 35px;
-  width: 35px;
-  border: 0;
-  margin: 0 10px;
-  padding: 8px;
-  background: none;
-`;
+// const NotificationButton = styled.button`
+//   height: 35px;
+//   width: 35px;
+//   border: 0;
+//   margin: 0 10px;
+//   padding: 8px;
+//   background: none;
+// `;
 
-const StyledBellIcon = styled(BellIcon)`
-  fill: ${({ theme }) => theme.gray};
-  cursor: pointer;
-  transition: fill 0.25s ease-in-out;
+// const StyledBellIcon = styled(BellIcon)`
+//   fill: ${({ theme }) => theme.gray};
+//   cursor: pointer;
+//   transition: fill 0.25s ease-in-out;
 
-  &:hover {
-    fill: ${({ theme }) => theme.darkGray};
-  }
-`;
+//   &:hover {
+//     fill: ${({ theme }) => theme.darkGray};
+//   }
+// `;
 
 const UserButton = styled.button`
   display: flex;
@@ -81,8 +81,6 @@ const UserPanel = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const username = useSelector((state) => state.users.user.username);
   const account = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
-
-  console.log('account', account);
 
   return (
     <Wrapper>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
@@ -27,18 +27,6 @@ const GridWrapper = styled.div`
 const Heading = styled(GridWrapper)``;
 
 const Body = styled.div``;
-
-const Item = styled(GridWrapper)``;
-
-const ProductImage = styled.div`
-  min-height: 65px;
-  max-height: 65px;
-  min-width: 65px;
-  max-width: 65px;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.default};
-  background-image: ${({ image }) => (image ? `url(${image})` : 'none')};
-`;
 
 // const RemoveButton = styled.button`
 //   width: 28px;
@@ -79,6 +67,9 @@ const ProductsCard = ({ values, setRentValue, rentValue, onAdd }) => {
 
 ProductsCard.propTypes = {
   values: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setRentValue: PropTypes.func.isRequired,
+  rentValue: PropTypes.string.isRequired,
+  onAdd: PropTypes.func.isRequired,
 };
 
 export default ProductsCard;

@@ -28,12 +28,13 @@ DropdownMenu.propTypes = {
   children: PropTypes.arrayOf(PropTypes.element).isRequired,
   top: PropTypes.string,
   right: PropTypes.string,
-  isOpen: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool,
 };
 
 DropdownMenu.defaultProps = {
   top: '50%',
-  right: 0,
+  right: '0',
+  isOpen: false,
 };
 
 export default DropdownMenu;

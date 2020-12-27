@@ -61,6 +61,11 @@ const StyledSelect = styled(Select)`
 const DateWrapper = styled.div`
   padding: 0 25px;
 
+  .react-datepicker-wrapper {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
   p {
     margin: 15px 0px;
   }

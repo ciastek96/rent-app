@@ -12,7 +12,7 @@ function ProtectedRoute({ component: Component, ...children }) {
 }
 
 ProtectedRoute.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  component: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.element]).isRequired,
 };
 
 export default ProtectedRoute;

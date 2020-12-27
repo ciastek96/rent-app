@@ -256,7 +256,7 @@ const NewClientView = () => {
                 </div>
 
                 <div>
-                  <Field as={Input} label="Rabat" id="discount" name="discount" type="number" min="0" max="100" step="5" />
+                  <Field as={Input} label="Rabat" id="discount" name="discount" type="number" min="0" max="100" />
                   <ErrorMessage name="discount" component={Error} />
                 </div>
               </StyledForm>

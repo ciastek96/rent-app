@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
+import moment from 'moment';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 import { Link, useHistory } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import Select from '../components/Select/Select';
@@ -84,16 +87,27 @@ const StyledForm = styled(Form)`
   padding-bottom: 45px;
 `;
 
+const Label = styled.p`
+  margin: 8px 0;
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-family: 'Montserrat', sans-serif;
+  color: black;
+`;
+
+const DateWrapper = styled.div`
+  padding: 0 25px;
+
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+`;
+
 const EditProductView = ({ match }) => {
   const { id } = match.params;
   const productValues = useSelector(({ products }) => products.find((product) => product._id === id));
   const [selectedFile, setSelectedFile] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-
-  // if (productValues) {
-  //   setSelectedFile(productValues.selectedFile);
-  // }
 
   if (!productValues) {
     return (
@@ -122,8 +136,8 @@ const EditProductView = ({ match }) => {
             price: productValues.price,
             quantity: productValues.quantity,
             unit: productValues.unit,
-            dateOfPurchase: productValues.dateOfPurchase === null ? '' : productValues.dateOfPurchase,
-            dateOfLastInspection: productValues.dateOfLastInspection === null ? '' : productValues.dateOfLastInspection,
+            dateOfPurchase: productValues.dateOfPurchase === null ? '' : new Date(productValues.dateOfPurchase),
+            dateOfLastInspection: productValues.dateOfLastInspection === null ? '' : new Date(productValues.dateOfLastInspection),
           }}
           validate={(values) => {
             const errors = {};
@@ -157,7 +171,7 @@ const EditProductView = ({ match }) => {
             history.go(0);
           }}
         >
-          {() => (
+          {({ values, setFieldValue }) => (
             <>
               <InnerWrapper>
                 <ImageWrapper>
@@ -181,17 +195,14 @@ const EditProductView = ({ match }) => {
                   <Field as={Input} label="Nazwa" id="productName" name="productName" type="text" autoComplete="new-password" />
                   <ErrorMessage name="productName" component={Error} />
                 </div>
-
                 <div>
                   <Field as={Input} label="Cena za dobę" id="price" name="price" type="number" min="0" autoComplete="new-password" />
                   <ErrorMessage name="price" component={Error} />
                 </div>
-
                 <div>
                   <Field as={Input} label="Ilość" id="quantity" name="quantity" type="number" min="0" autoComplete="new-password" />
                   <ErrorMessage name="quantity" component={Error} />
                 </div>
-
                 <div>
                   <Field as={Select} label="Jednostka" id="unit" name="unit">
                     <option value="szt">szt</option>
@@ -202,8 +213,7 @@ const EditProductView = ({ match }) => {
                   </Field>
                   <ErrorMessage name="unit" component={Error} />
                 </div>
-
-                <div>
+                {/* <div>
                   <Field as={Input} format="2020-12-23T00:00:00.000" label="Data zakupu" id="dateOfPurchase" name="dateOfPurchase" type="date" />
                   <ErrorMessage name="dateOfPurchase" component={Error} />
                 </div>
@@ -211,7 +221,34 @@ const EditProductView = ({ match }) => {
                 <div>
                   <Field as={Input} label="Data ostatniego przeglądu" id="dateOfLastInspection" name="dateOfLastInspection" type="date" />
                   <ErrorMessage name="dateOfLastInspection" component={Error} />
-                </div>
+                </div> */}
+                <DateWrapper>
+                  <Label>Data zakupu</Label>
+
+                  <DatePicker
+                    selected={values.dateOfPurchase}
+                    dateFormat="MMMM d, yyyy"
+                    className="form-control"
+                    name="dateOfPurchase"
+                    onChange={(date) => setFieldValue('dateOfPurchase', date)}
+                    customInput={<Field as={Input} autoComplete="new-password" />}
+                  />
+                  <ErrorMessage name="dateOfPurchase" component={Error} />
+                </DateWrapper>
+
+                <DateWrapper>
+                  <Label>Data ostatniego przeglądu</Label>
+
+                  <DatePicker
+                    selected={values.dateOfLastInspection}
+                    dateFormat="MMMM d, yyyy"
+                    className="form-control"
+                    name="dateOfLastInspection"
+                    onChange={(date) => setFieldValue('dateOfLastInspection', date)}
+                    customInput={<Field as={Input} autoComplete="new-password" />}
+                  />
+                  <ErrorMessage name="dateOfLastInspection" component={Error} />
+                </DateWrapper>
               </StyledForm>
             </>
           )}

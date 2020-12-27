@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
@@ -265,7 +264,7 @@ const EditClientView = ({ match }) => {
                 </div>
 
                 <div>
-                  <Field as={Input} label="Rabat" id="discount" name="discount" type="number" min="0" max="100" step="5" />
+                  <Field as={Input} label="Rabat" id="discount" name="discount" type="number" min="0" max="100" />
                   <ErrorMessage name="discount" component={Error} />
                 </div>
               </StyledForm>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
-import PlusIcon from '../../assets/icons/svg/interfaces/plus-a.svg';
+// import PlusIcon from '../../assets/icons/svg/interfaces/plus-a.svg';
 
 const Wrapper = styled.label`
   min-width: 160px;
@@ -23,21 +23,21 @@ const Wrapper = styled.label`
   }
 `;
 
-const AddButton = styled.button`
-  border: 0;
-  min-width: 35px;
-  min-height: 35px;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.green};
-  background-image: url(${PlusIcon});
-  background-size: 50%;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  cursor: pointer;
-`;
+// const AddButton = styled.button`
+//   border: 0;
+//   min-width: 35px;
+//   min-height: 35px;
+//   border-radius: 50%;
+//   background-color: ${({ theme }) => theme.green};
+//   background-image: url(${PlusIcon});
+//   background-size: 50%;
+//   background-position: 50% 50%;
+//   background-repeat: no-repeat;
+//   position: absolute;
+//   right: 8px;
+//   bottom: 8px;
+//   cursor: pointer;
+// `;
 
 const ImageUploader = ({ image }) => (
   <Wrapper image={image}>

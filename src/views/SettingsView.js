@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect, useHistory } from 'react-router-dom';
-import jwt from 'jsonwebtoken';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import FileBase from 'react-file-base64';
 import Input from '../components/Input/Input';
-import { getAccount, updateAccount } from '../actions';
+import { updateAccount } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import Spinner from '../components/Spinner/Spinner';
@@ -92,9 +91,6 @@ const PasswordContainer = styled.div`
 
 const SettingsView = () => {
   const [selectedFile, setSelectedFile] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  const PASS_VIEW = 'PASS_VIEW';
-  const ACCOUNT_VIEW = 'ACCOUNT_VIEW';
   const currentUser = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
   const username = useSelector((state) => state.users.user.username);
   const dispatch = useDispatch();
@@ -209,7 +205,7 @@ const SettingsView = () => {
             history.go(0);
           }}
         >
-          {({ values }) => (
+          {() => (
             <>
               <InnerWrapper>
                 <ImageWrapper>

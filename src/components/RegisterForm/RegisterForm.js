@@ -68,7 +68,7 @@ const RegisterForm = ({ setCardType }) => {
         if (!values.password) {
           errors.password = 'Pole wymagane.';
         } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/.test(values.password)) {
-          errors.password = 'Pole powinno zawierać minimum jedną małą i dużo literę, cyfrę i znak specjalny.';
+          errors.password = 'Pole powinno zawierać minimum jedną małą i dużą literę, cyfrę i znak specjalny.';
         }
         if (!values.password2) {
           errors.password2 = 'Pole wymagane.';
@@ -77,12 +77,12 @@ const RegisterForm = ({ setCardType }) => {
         }
         return errors;
       }}
-      onSubmit={(values, setFieldError) => {
+      onSubmit={(values) => {
         console.log(values);
         dispatch(signUp(values));
       }}
     >
-      {({ isSubmitting }) => (
+      {() => (
         <StyledForm>
           {error && <Error>{error}</Error>}
           {success && <Success>{success}</Success>}

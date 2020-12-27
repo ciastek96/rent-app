@@ -76,7 +76,7 @@ export const updateClient = (id, values) => async (dispatch) => {
 
 export const removeClient = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.delete(`http://localhost:4000/clients/${id}`);
+    await axios.delete(`http://localhost:4000/clients/${id}`);
     dispatch({ type: 'REMOVE_CLIENT', payload: id });
   } catch (err) {
     console.log(err);
@@ -130,7 +130,7 @@ export const finishRent = (id, values) => async (dispatch) => {
 
 export const removeRent = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.delete(`http://localhost:4000/rents/${id}`);
+    await axios.delete(`http://localhost:4000/rents/${id}`);
     dispatch({ type: 'REMOVE_RENT', payload: id });
   } catch (err) {
     console.log(err);
@@ -141,7 +141,7 @@ export const setCurrentUser = (user) => ({ type: 'SET_CURRENT_USER', user });
 
 export const signIn = (values) => async (dispatch) => {
   try {
-    const { data, status } = await axios.post('http://localhost:4000/users/signin', values);
+    const { data } = await axios.post('http://localhost:4000/users/signin', values);
     const { token } = data;
     localStorage.setItem('jwtToken', token);
     setAuthToken(token);
@@ -151,7 +151,7 @@ export const signIn = (values) => async (dispatch) => {
   }
 };
 
-export const signOut = (id) => async (dispatch) => {
+export const signOut = () => async (dispatch) => {
   try {
     localStorage.removeItem('jwtToken');
     setAuthToken(false);
@@ -197,6 +197,16 @@ export const getAccounts = () => async (dispatch) => {
   try {
     const { data } = await axios.get('http://localhost:4000/accounts');
     dispatch({ type: 'FETCH_ACCOUNTS', payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updatePassword = (id, values) => async (dispatch) => {
+  try {
+    console.log(id);
+    const { data } = await axios.patch(`http://localhost:4000/users/updatePassword/${id}`, values);
+    dispatch({ type: 'UPDATE_PASSWORD', payload: data });
   } catch (err) {
     console.log(err);
   }

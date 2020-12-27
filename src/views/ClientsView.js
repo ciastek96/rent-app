@@ -17,7 +17,7 @@ const GridWrapper = styled.div`
 
 const ClientsView = () => {
   const GRID = 'grid';
-  const LIST = 'list';
+  // const LIST = 'list';
   const clientsList = useSelector(({ clients }) => clients);
   const [activeView, setActiveView] = useState(GRID);
   const [inputValue, setInputValue] = useState('');
