@@ -32,6 +32,7 @@ const Counter = styled.div`
   border: 1px solid ${({ theme }) => theme.lightGray};
   width: 94px;
   display: flex;
+  margin: 0 auto;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -53,16 +54,43 @@ const Counter = styled.div`
   }
 `;
 
-const ProductsCardItem = ({ rentValue, setRentValue, product: { _id, selectedFile, productName, quantity: availableQuantity, unit, price } }) => {
+const ProductsCardItem = ({
+  cartItems,
+  setFieldValue,
+  values,
+  rentValue,
+  setRentValue,
+  product: { _id, selectedFile, productName, quantity: availableQuantity, unit, brutto, netto },
+}) => {
   const [quantity, setQuantity] = useState(1);
-  const value = (quantity * price).toFixed(2);
+  const value = (quantity * brutto).toFixed(2);
+
+  const onChangeQty = (qty) => {
+    cartItems.forEach((product) => {
+      const exist = values.find((item) => item._id === product._id);
+      if (exist) {
+        setFieldValue(
+          'products',
+          values.map((x) => (x._id === product._id ? { ...exist, qty } : x)),
+        );
+      } else {
+        setFieldValue('products', [...values.products, { ...product, qty: 1 }]);
+      }
+    });
+  };
 
   const increment = () => {
-    if (quantity < availableQuantity) setQuantity(quantity + 1);
+    if (quantity < availableQuantity) {
+      onChangeQty(quantity + 1);
+      setQuantity(quantity + 1);
+    }
   };
 
   const decrement = () => {
-    if (quantity > 1) setQuantity(quantity - 1);
+    if (quantity > 1) {
+      onChangeQty(quantity - 1);
+      setQuantity(quantity - 1);
+    }
   };
 
   return (
@@ -80,7 +108,7 @@ const ProductsCardItem = ({ rentValue, setRentValue, product: { _id, selectedFil
       </Counter>
       <p>{unit}</p>
       <p>{availableQuantity}</p>
-      <p>{`${value} zł`}</p>
+      <p>{value}</p>
       {/* <RemoveButton /> */}
     </Item>
   );
@@ -95,14 +123,13 @@ ProductsCardItem.propTypes = {
   productName: PropTypes.string.isRequired,
   quantity: PropTypes.number.isRequired,
   unit: PropTypes.string.isRequired,
-  price: PropTypes.string,
+  brutto: PropTypes.number.isRequired,
 };
 
 ProductsCardItem.defaultProps = {
   rentValue: null,
   setRentValue: null,
   selectedFile: null,
-  price: '',
 };
 
 export default ProductsCardItem;

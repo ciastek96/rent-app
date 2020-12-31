@@ -12,11 +12,12 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/add', async (req, res) => {
-  const {
-    values: { client, dateOfRent, dateOfReturn, products },
-  } = req.body;
+  // const {
+  //   values: { client, dateOfRent, dateOfReturn, products },
+  // } = req.body;
+  const values = req.body;
 
-  const newRent = new Rent({ client, dateOfRent, dateOfReturn, products });
+  const newRent = new Rent(values);
 
   try {
     newRent.save();

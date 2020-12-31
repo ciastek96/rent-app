@@ -109,7 +109,7 @@ const NewProductView = () => {
   }
 
   const bruttoToNetto = (brutto, vat) => {
-    const netto = (brutto / (1 + vat / 100)).toFixed(2);
+    const netto = (brutto * (1 - vat / 100)).toFixed(2);
     return netto;
   };
 
@@ -132,7 +132,6 @@ const NewProductView = () => {
           initialValues={{
             productName: '',
             price: '',
-            netto: 0,
             vat: 23,
             brutto: 0,
             quantity: 1,
@@ -181,9 +180,9 @@ const NewProductView = () => {
             return errors;
           }}
           onSubmit={(values) => {
-            console.log({ ...values, selectedFile });
-            // dispatch(addProduct({ ...values, selectedFile }));
-            // setRedirect(true);
+            // console.log({ ...values, selectedFile });
+            dispatch(addProduct({ ...values, selectedFile }));
+            setRedirect(true);
           }}
         >
           {({ values, setFieldValue }) => (

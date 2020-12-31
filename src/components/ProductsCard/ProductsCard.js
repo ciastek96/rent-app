@@ -41,7 +41,7 @@ const Body = styled.div``;
 //   cursor: pointer;
 // `;
 
-const ProductsCard = ({ values, setRentValue, rentValue, onAdd }) => {
+const ProductsCard = ({ values, setRentValue, rentValue, onAdd, setFieldValue, cartItems }) => {
   const productsList = useSelector(({ products }) => products);
   const selectedProducts = values.map((value) => productsList.filter((item) => item._id === value._id));
 
@@ -58,7 +58,16 @@ const ProductsCard = ({ values, setRentValue, rentValue, onAdd }) => {
       </Heading>
       <Body>
         {selectedProducts.map(([product]) => (
-          <ProductsCardItem key={product._id} product={product} setRentValue={setRentValue} rentValue={rentValue} onAdd={onAdd} />
+          <ProductsCardItem
+            key={product._id}
+            product={product}
+            setRentValue={setRentValue}
+            rentValue={rentValue}
+            onAdd={onAdd}
+            setFieldValue={setFieldValue}
+            values={values}
+            cartItems={cartItems}
+          />
         ))}
       </Body>
     </Wrapper>

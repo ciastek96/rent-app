@@ -11,7 +11,6 @@ const productsSchema = new Schema({
   },
   price: {
     type: Number,
-    required: true,
   },
   netto: {
     type: Number,

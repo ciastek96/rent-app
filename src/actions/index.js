@@ -31,7 +31,7 @@ export const addProduct = (values) => async (dispatch) => {
 
 export const updateProduct = (id, values) => async (dispatch) => {
   try {
-    const { data } = await axios.patch(`http://localhost:4000/products/${id}`, { ...values });
+    const { data } = await axios.patch(`http://localhost:4000/products/${id}`, values);
     dispatch({ type: 'UPDATE_PRODUCT', payload: data });
   } catch (err) {
     console.log(err);
@@ -103,7 +103,7 @@ export const getRents = () => async (dispatch) => {
 
 export const addRent = (values) => async (dispatch) => {
   try {
-    const { data } = await axios.post('http://localhost:4000/rents/add', { values });
+    const { data } = await axios.post('http://localhost:4000/rents/add', values);
     dispatch({ type: 'ADD_RENT', payload: data });
   } catch (err) {
     console.log(err);

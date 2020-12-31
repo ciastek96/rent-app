@@ -109,6 +109,11 @@ const EditProductView = ({ match }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const bruttoToNetto = (brutto, vat) => {
+    const netto = (brutto * (1 - vat / 100)).toFixed(2);
+    return netto;
+  };
+
   if (!productValues) {
     return (
       <MainTemplate>
@@ -134,6 +139,8 @@ const EditProductView = ({ match }) => {
           initialValues={{
             productName: productValues.productName,
             price: productValues.price,
+            vat: productValues.vat,
+            brutto: productValues.brutto,
             quantity: productValues.quantity,
             unit: productValues.unit,
             dateOfPurchase: productValues.dateOfPurchase === null ? '' : new Date(productValues.dateOfPurchase),
@@ -150,10 +157,16 @@ const EditProductView = ({ match }) => {
               errors.productName = 'Pole powinno zawierać maksimum 256 znaków.';
             }
 
-            if (!values.price) {
-              errors.price = 'Pole wymagane.';
-            } else if (!/^[0-9]+([.][0-9]+)?$/.test(values.price)) {
-              errors.price = 'Podana cena jest niepoprawna.';
+            if (!values.brutto) {
+              errors.brutto = 'Pole wymagane.';
+            } else if (!/^[0-9]+([.][0-9]+)?$/.test(values.brutto)) {
+              errors.brutto = 'Podana cena jest niepoprawna.';
+            }
+
+            if (!values.vat) {
+              errors.vat = 'Pole wymagane.';
+            } else if (!/(100)|(0*\d{1,2})$/.test(values.vat)) {
+              errors.vat = 'Podana cena jest niepoprawna.';
             }
 
             if (!values.quantity) {
@@ -195,9 +208,29 @@ const EditProductView = ({ match }) => {
                   <Field as={Input} label="Nazwa" id="productName" name="productName" type="text" autoComplete="new-password" />
                   <ErrorMessage name="productName" component={Error} />
                 </div>
+
                 <div>
-                  <Field as={Input} label="Cena za dobę" id="price" name="price" type="number" min="0" autoComplete="new-password" />
-                  <ErrorMessage name="price" component={Error} />
+                  <Field as={Input} label="Cena brutto" id="brutto" name="brutto" type="number" min="0" autoComplete="new-password" />
+                  <ErrorMessage name="brutto" component={Error} />
+                </div>
+
+                <div>
+                  <Field as={Input} label="Stawka VAT" id="vat" name="vat" type="number" min="0" max="100" autoComplete="new-password" />
+                  <ErrorMessage name="vat" component={Error} />
+                </div>
+
+                <div>
+                  <Input
+                    label="Cena netto"
+                    id="netto"
+                    disabled
+                    name="netto"
+                    type="text"
+                    min="0"
+                    value={bruttoToNetto(values.brutto, values.vat)}
+                    autoComplete="new-password"
+                  />
+                  <ErrorMessage name="netto" component={Error} />
                 </div>
                 <div>
                   <Field as={Input} label="Ilość" id="quantity" name="quantity" type="number" min="0" autoComplete="new-password" />
@@ -222,6 +255,12 @@ const EditProductView = ({ match }) => {
                   <Field as={Input} label="Data ostatniego przeglądu" id="dateOfLastInspection" name="dateOfLastInspection" type="date" />
                   <ErrorMessage name="dateOfLastInspection" component={Error} />
                 </div> */}
+
+                <div>
+                  <Field as={Input} label="Cena zakupu" id="price" name="price" type="number" min="0" autoComplete="new-password" />
+                  <ErrorMessage name="price" component={Error} />
+                </div>
+
                 <DateWrapper>
                   <Label>Data zakupu</Label>
 

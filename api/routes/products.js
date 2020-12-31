@@ -23,9 +23,11 @@ router.post('/product', async (req, res) => {
 });
 
 router.post('/add', async (req, res) => {
-  const { productName, price, quantity, unit, dateOfPurchase, dateOfLastInspection, selectedFile } = req.body;
+  const values = req.body;
+  const { brutto, vat } = values;
+  const netto = (brutto * (1 - vat / 100)).toFixed(2);
 
-  const newProduct = new Product({ productName, price, quantity, unit, dateOfPurchase, dateOfLastInspection, selectedFile });
+  const newProduct = new Product({ ...values, netto });
 
   try {
     newProduct.save();
@@ -37,12 +39,15 @@ router.post('/add', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   const { id: _id } = req.params;
-  const { ...values } = req.body;
+  const values = req.body;
+  const { brutto, vat } = values;
+
+  const netto = (brutto * (1 - vat / 100)).toFixed(2);
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No products with that ID');
 
   try {
-    const updatedProduct = await Product.findByIdAndUpdate({ _id }, values, { new: true });
+    const updatedProduct = await Product.findByIdAndUpdate({ _id }, { ...values, netto }, { new: true });
     res.status(201).json(updatedProduct);
   } catch (err) {
     res.status(409).json({ message: err.message });

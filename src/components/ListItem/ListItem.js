@@ -83,7 +83,7 @@ const ListItem = ({ listType, id, values }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
-  const { name, surname, selectedFile, productName, email, phone, discount, price, quantity, unit } = values;
+  const { name, surname, selectedFile, productName, email, phone, discount, brutto, netto, vat, price, quantity, unit } = values;
 
   const handleDelete = () => {
     setOptionMenu(false);
@@ -115,7 +115,7 @@ const ListItem = ({ listType, id, values }) => {
         {listType === PRODUCTS ? (
           <>
             <p>{`${quantity} ${unit}`}</p>
-            <p>{`${price} zł`}</p>
+            <p>{`${brutto} zł`}</p>
           </>
         ) : (
           <>

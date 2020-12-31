@@ -33,6 +33,26 @@ const rentsSchema = new Schema({
       required: true,
     },
   ],
+  brutto: {
+    type: Number,
+    required: true,
+  },
+  netto: {
+    type: Number,
+    required: true,
+  },
+  vat: {
+    type: Number,
+    required: true,
+  },
+  discount: {
+    type: Number,
+    required: true,
+  },
+  rentsDurr: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Rent = mongoose.model('Rent', rentsSchema);
