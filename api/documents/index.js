@@ -1,5 +1,41 @@
-module.exports = ({ name, price, id }) => {
-  const today = new Date();
+module.exports = ({
+  values: {
+    currentUser,
+    id,
+    client: { label, companyName, nip, address, phone, email, discount: clientDiscount },
+    dateOfRent,
+    dateOfReturn,
+    isFinished,
+    productList,
+    price,
+    brutto,
+    netto,
+    advance,
+    vat,
+    discount,
+    td,
+  },
+}) => {
+  const products = productList.map(
+    (product, nr) =>
+      `<tr class="item">
+          <td>${nr + 1}</td>
+
+          <td colspan="12">${product[0].productName}</td>
+
+          <td colspan="1">${product[0].unit}</td>
+
+          <td colspan="2">${product[0].qty ? product[0].gty : 1}</td>
+
+          <td colspan="2">${product[0].netto.toFixed(2)}</td>
+
+          <td colspan="2">${product[0].vat}%</td>
+
+          <td colspan="2">${product[0].netto.toFixed(2)}</td>
+
+          <td colspan="2">${product[0].brutto.toFixed(2)}</td>
+        </tr>`,
+  );
   return `
   <!doctype html>
 <html>
@@ -165,13 +201,13 @@ module.exports = ({ name, price, id }) => {
                         <tr>
                             <td class="title">
                                 <!-- <img src="../../src/assets/icons/svg" style="width:100%; max-width:300px;"> -->
-                                <p>Fastrent</p>
+                                <p>Rentapp</p>
                             </td>
 
                             <td>
-                                Faktura nr FV: 123<br>
-                                Data wystawienia: 23.12.2020<br>
-                                Data sprzedaży: 23.12.2020
+                                Faktura nr FV: ..............<br>
+                                Data wystawienia: ${td}<br>
+                                Data sprzedaży: ................
                             </td>
                         </tr>
                     </table>
@@ -184,20 +220,24 @@ module.exports = ({ name, price, id }) => {
                         <tr>
                             <td>
                                 <span>Sprzedawca</span><br>
-                                Usługi remontowo-ociepleniowe MK.<br>
-                                Marek Kołacz<br>
-                                ul. Kochanowskiego 2/2/1<br>
-                                44-120 Pyskowice <br>
-                                NIP: 9690413143
+                                ${currentUser.companyName}<br>
+                                ${currentUser.name} ${currentUser.surname}<br>
+                                ${currentUser.address.street}<br>
+                                ${currentUser.address.postalCode} ${currentUser.address.city}<br>
+                                NIP: ${currentUser.nip}<br>
+                                Tel: ${currentUser.phone}<br>
+                                Email: ${currentUser.email}
                             </td>
 
                             <td>
                                 <span>Nabywca</span><br>
-                                Małysz Corp.<br>
-                                Adam Małysz<br>
-                                ul. Wiejska 24a<br>
-                                44-122 Gliwice<br>
-                                NIP: 9690445643
+                                ${companyName}<br >
+                                ${label}<br>
+                                ${address.street}<br>
+                                ${address.postalCode} ${address.city}<br>
+                                NIP: ${nip}<br>
+                                Tel: ${phone}<br>
+                                Email: ${email}
                             </td>
                         </tr>
                     </table>
@@ -258,40 +298,27 @@ module.exports = ({ name, price, id }) => {
                 </td>
             </tr>
 
+            <!--
             <tr class="item">
-                <td>
-                    1
-                </td>
+              <td>1</td>
 
-                <td colspan="12">
-                    Wiertarka Makita
-                </td>
+              <td colspan="12"></td>
 
-                <td colspan="1">
-                    szt
-                </td>
+              <td colspan="1"></td>
 
-                <td colspan="2">
-                    3
-                </td>
+              <td colspan="2"></td>
 
-                <td colspan="2">
-                    35,00
-                </td>
+              <td colspan="2"></td>
 
-                <td colspan="2">
-                    23%
-                </td>
+              <td colspan="2"></td>
 
-                <td colspan="2">
-                   105,00
-                </td>
+              <td colspan="2"></td>
 
-                <td colspan="2">
-                    129,15
-                </td>
-
+              <td colspan="2"></td>
             </tr>
+            -->
+
+            ${products}
 
             <!-- <tr class="total">
                 <td colspan="20">
@@ -349,7 +376,7 @@ module.exports = ({ name, price, id }) => {
             </tr> -->
 
             <table class="under">
-                <td colspan="4" class="left">
+                <!-- <td colspan="4" class="left">
                     <table>
                         <tr>
                             <td>Stawka VAT</td>
@@ -371,7 +398,7 @@ module.exports = ({ name, price, id }) => {
                             <td>3</td>
                         </tr>
                     </table>
-                </td>
+                </td> -->
                 <td>
                     <table class="right">
                         <tr class="total">
@@ -379,7 +406,7 @@ module.exports = ({ name, price, id }) => {
                                 Zapłacono:
                             </td>
                             <td>
-                                385.00 zł
+                                ${parseFloat(advance).toFixed(2)}
                              </td>
                         </tr>
                         <tr class="total">
@@ -387,7 +414,7 @@ module.exports = ({ name, price, id }) => {
                                 Do zapłaty:
                             </td>
                             <td>
-                                385.00 zł
+                                ${(price - advance).toFixed(2)}
                             </td>
                         </tr>
                         <tr class="total">
@@ -395,7 +422,7 @@ module.exports = ({ name, price, id }) => {
                                 Razem:
                             </td>
                             <td>
-                                385.00 zł
+                                ${price.toFixed(2)}
                              </td>
                         </tr>
                     </table>

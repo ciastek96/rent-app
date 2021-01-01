@@ -37,6 +37,7 @@ const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
   margin-bottom: 65px;
+  padding: 25px;
 `;
 
 const InnerWrapper = styled.div`
@@ -81,6 +82,7 @@ const StyledForm = styled(Form)`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   padding-bottom: 45px;
+  grid-gap: 0 45px;
 `;
 
 const EditClientView = ({ match }) => {

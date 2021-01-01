@@ -31,7 +31,7 @@ const StyledSelect = styled.select`
 `;
 
 const Wrapper = styled.div`
-  padding: 12px 24px;
+  margin: 12px 0;
 `;
 
 const Label = styled.label`

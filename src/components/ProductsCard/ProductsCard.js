@@ -8,7 +8,7 @@ import ProductsCardItem from '../ProductsCardItem/ProductsCardItem';
 const Wrapper = styled.div`
   border: 1px solid ${({ theme }) => theme.lightGray};
   border-radius: 5px;
-  margin: 25px;
+  /* margin: 25px; */
 `;
 
 const GridWrapper = styled.div`

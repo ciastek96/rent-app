@@ -97,7 +97,20 @@ const ProductsList = styled.div`
 
 const ProductsListItem = styled.div``;
 
-const RentItem = ({ id, client: { label, companyName, nip, address, discount }, dateOfRent, dateOfReturn, isFinished, products }) => {
+const RentItem = ({
+  id,
+  client: { label, companyName, email, phone, nip, address, discount: clientDiscount },
+  dateOfRent,
+  dateOfReturn,
+  isFinished,
+  products,
+  price,
+  brutto,
+  netto,
+  vat,
+  discount,
+  advance,
+}) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState('active');
@@ -105,7 +118,9 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [optionMenu, setOptionMenu] = useState(false);
   const productList = useSelector((state) => products.map((product) => state.products.filter((item) => item._id === product)));
+  const currentUser = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
   const [isRedirect, setIsRedirect] = useState(false);
+  const td = moment().format('DD.MM.YYYY');
 
   const dispatch = useDispatch();
 
@@ -132,8 +147,25 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
 
   const createAndDownloadPdf = () => {
     setIsLoading(true);
+
+    const values = {
+      currentUser,
+      id,
+      client: { label, companyName, email, phone, nip, address, discount: clientDiscount },
+      dateOfRent,
+      dateOfReturn,
+      isFinished,
+      productList,
+      price,
+      brutto,
+      netto,
+      vat,
+      discount,
+      advance,
+      td,
+    };
     axios
-      .post('http://localhost:4000/create-pdf', { name: 'siema', price: '123', id: '01' })
+      .post('http://localhost:4000/create-pdf', { values })
       .then(() => axios.get('http://localhost:4000/fetch-pdf', { responseType: 'blob' }))
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
@@ -173,7 +205,7 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
 
         <DetailsGrid>
           <div>
-            <h5>ID zamówienia</h5>
+            <h5>Nr zamówienia</h5>
             <p>{id}</p>
           </div>
 
@@ -189,7 +221,7 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
 
           <div>
             <h5>Kwota</h5>
-            <p>540,00zł</p>
+            <p>{`${brutto?.toFixed(2)}zł`}</p>
           </div>
 
           {isCollapsed && (
@@ -242,11 +274,13 @@ const RentItem = ({ id, client: { label, companyName, nip, address, discount }, 
           <ProductsList>
             <h5>Produkty: </h5>
             {productList.map(([product], i) => (
-              <ProductsListItem key={product._id}>
-                <p>{`${i + 1}. ${product.productName}`}</p>
-                <p>{`${product.price} zł`}</p>
-              </ProductsListItem>
+              <p key={product._id}>{`${i + 1}. ${product.productName}`}</p>
             ))}
+            <br />
+            <h5>Kwota</h5>
+            <p>{`Netto: ${netto?.toFixed(2)} zł`}</p>
+            <p>{`VAT: ${vat?.toFixed(2)} zł`}</p>
+            <p>{`Brutto: ${brutto?.toFixed(2)} zł`}</p>
           </ProductsList>
         )}
       </Details>

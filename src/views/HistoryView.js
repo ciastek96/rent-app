@@ -10,7 +10,7 @@ const HistoryView = () => {
   return (
     <MainTemplate>
       <ItemsTemplate title="Historia" />
-      {rentsList.map(({ _id, client, dateOfRent, dateOfReturn, products, isFinished }) => (
+      {rentsList.map(({ _id, client, dateOfRent, dateOfReturn, products, isFinished, brutto, netto, vat, price, advance }) => (
         <RentItem
           key={_id}
           id={_id}
@@ -20,6 +20,11 @@ const HistoryView = () => {
           isFinished={isFinished}
           client={client}
           products={products}
+          brutto={brutto}
+          netto={netto}
+          price={price}
+          vat={vat}
+          advance={advance}
         />
       ))}
       {rentsList <= 0 && <p>Brak wyników...</p>}

@@ -39,6 +39,7 @@ const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
   margin-bottom: 65px;
+  padding: 25px;
 `;
 
 const StyledForm = styled(Form)`
@@ -52,6 +53,7 @@ const StyledForm = styled(Form)`
 const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-gap: 45px;
 `;
 
 const StyledSelect = styled(Select)`
@@ -60,7 +62,14 @@ const StyledSelect = styled(Select)`
 `;
 
 const DateWrapper = styled.div`
-  padding: 0 25px;
+  /* padding: 0 25px; */
+  /* &:first-child {
+    margin-right: 25px;
+  }
+
+  &:last-child {
+    margin-left: 25px;
+  } */
 
   .react-datepicker-wrapper {
     width: 100%;
@@ -73,7 +82,8 @@ const DateWrapper = styled.div`
 `;
 
 const SelectWrapper = styled.div`
-  padding: 15px 25px;
+  /* padding: 15px 25px; */
+  padding: 15px 0;
 `;
 
 const Error = styled.p`
@@ -83,7 +93,7 @@ const Error = styled.p`
 `;
 
 const Summary = styled.div`
-  padding: 25px;
+  /* padding: 25px; */
   width: 100%;
   text-align: right;
   display: flex;
@@ -161,7 +171,7 @@ const NewRentView = () => {
 
   const getFinalPrice = (values) => {
     const brutto = getBrutto(values.products);
-    const price = (brutto - (brutto * values.client.discount) / 100).toFixed(2);
+    const price = (brutto - (brutto * values.client.discount) / 100 - values.advance).toFixed(2);
     return price;
   };
 
@@ -186,7 +196,7 @@ const NewRentView = () => {
             Anuluj
           </Button>
           <StyledButton type="submit" form="newRentForm">
-            Dodaj
+            Zapisz
           </StyledButton>
         </ButtonsWrapper>
       </StyledHeader>
@@ -224,9 +234,9 @@ const NewRentView = () => {
               errors.client = 'Pole wymagane.';
             }
 
-            if (!values.advance) {
-              errors.advance = 'Uzupełnij pole.';
-            }
+            // if (values.advance > getBrutto(values.products)) {
+            //   errors.advance = `Maksymalna kwota zaliczki to ${getBrutto(values.products)}`;
+            // }
 
             return errors;
           }}
@@ -236,9 +246,8 @@ const NewRentView = () => {
             const discount = getDiscount(values);
             const vat = getVAT(values.products);
             const price = getFinalPrice(values);
-            console.log({ ...values, brutto, netto, vat, discount, price, rentsDurr });
             dispatch(addRent({ ...values, brutto, netto, vat, discount, price, rentsDurr }));
-            // setRedirect(true);
+            setRedirect(true);
           }}
         >
           {({ values, setFieldValue }) => (
@@ -302,26 +311,28 @@ const NewRentView = () => {
                 <ErrorMessage name="client" component={Error} />
               </SelectWrapper>
 
-              <SelectWrapper>
-                <StyledSelect
-                  isMulti
-                  placeholder="Wybierz produkty"
-                  name="products"
-                  options={productsList.map(({ productName, _id, ...productValue }) => ({
-                    value: productName,
-                    label: productName,
-                    _id,
-                    ...productValue,
-                  }))}
-                  // onChange={handleProduct}
-                  // onChange={(products) => setFieldValue('products', products)}
-                  onChange={(products) => {
-                    setCartItems(products);
-                    setFieldValue('products', products);
-                  }}
-                />
-                <ErrorMessage name="products" component={Error} />
-              </SelectWrapper>
+              {values.client && (
+                <SelectWrapper>
+                  <StyledSelect
+                    isMulti
+                    placeholder="Wybierz produkty"
+                    name="products"
+                    options={productsList.map(({ productName, _id, ...productValue }) => ({
+                      value: productName,
+                      label: productName,
+                      _id,
+                      ...productValue,
+                    }))}
+                    // onChange={handleProduct}
+                    // onChange={(products) => setFieldValue('products', products)}
+                    onChange={(products) => {
+                      setCartItems(products);
+                      setFieldValue('products', products);
+                    }}
+                  />
+                  <ErrorMessage name="products" component={Error} />
+                </SelectWrapper>
+              )}
 
               {values.products && values.products.length > 0 && (
                 <>
@@ -347,10 +358,10 @@ const NewRentView = () => {
                     <ErrorMessage name="advance" component={Error} />
                   </div>
 
-                  <div>
+                  {/* <div>
                     <Field as={Textarea} label="Informacje dodatkowe" id="comments" name="comments" type="text" autoComplete="new-password" />
                     <ErrorMessage name="comments" component={Error} />
-                  </div>
+                  </div> */}
 
                   <Summary>
                     <SummaryItem>
@@ -375,7 +386,7 @@ const NewRentView = () => {
 
                     <SummaryItem>
                       <p>Zaliczka</p>
-                      <p>{`${values.advance.toFixed(2)} zł`}</p>
+                      <p>{`${values.advance} zł`}</p>
                     </SummaryItem>
 
                     <SummaryItem>
