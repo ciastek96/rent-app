@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import List from '../components/List/List';
-import Spinner from '../components/Spinner/Spinner';
 import { routes } from '../routes/routes';
 
 const ProductsView = () => {
@@ -19,7 +18,7 @@ const ProductsView = () => {
   return (
     <MainTemplate>
       <ItemsTemplate title="Produkty" value={inputValue} handleChange={handleChange} path={routes.newProduct} />
-      {productsList.length <= 0 ? <Spinner /> : <List listType="products" items={filteredData} />}
+      {productsList.length > 0 ? <List listType="products" items={filteredData} /> : <p>Brak wyników...</p>}
     </MainTemplate>
   );
 };

@@ -6,13 +6,13 @@ import ItemsTemplate from '../templates/ItemsTemplate';
 import Card from '../components/Card/Card';
 import LayoutButtons from '../components/LayoutButtons/LayoutButtons';
 import List from '../components/List/List';
-import Spinner from '../components/Spinner/Spinner';
 import { routes } from '../routes/routes';
 
 const GridWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 45px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 300px));
+  justify-content: space-evenly;
+  grid-gap: 35px;
 `;
 
 const ClientsView = () => {
@@ -31,9 +31,7 @@ const ClientsView = () => {
   return (
     <MainTemplate>
       <ItemsTemplate title="Klienci" value={inputValue} handleChange={handleChange} path={routes.newClient} />
-      {clientsList.length <= 0 ? (
-        <Spinner />
-      ) : (
+      {clientsList.length > 0 ? (
         <>
           <LayoutButtons setActiveView={setActiveView} />
           {activeView === GRID ? (
@@ -46,6 +44,8 @@ const ClientsView = () => {
             <List listType="clients" items={filteredData} />
           )}
         </>
+      ) : (
+        <p>Brak wyników...</p>
       )}
     </MainTemplate>
   );

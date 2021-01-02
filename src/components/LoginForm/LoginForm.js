@@ -23,7 +23,7 @@ const ButtonsWrapper = styled.div`
   width: 100%;
   margin-top: 45px;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   justify-content: space-around;
 `;
 
@@ -68,10 +68,10 @@ const LoginForm = ({ setCardType }) => {
           <Field as={StyledInput} type="password" name="password" placeholder="Hasło" />
           <ErrorMessage name="password" component={Error} />
           <ButtonsWrapper>
+            <Button type="submit">Zaloguj</Button>
             <Button tertiary onClick={() => setCardType(routes.register)}>
               Rejestracja
             </Button>
-            <Button type="submit">Zaloguj</Button>
           </ButtonsWrapper>
         </StyledForm>
       )}

@@ -28,11 +28,12 @@ const Root = () => {
   useEffect(() => {
     if (localStorage.jwtToken) {
       setAuthToken(localStorage.jwtToken);
-      dispatch({ type: 'SET_CURRENT_USER', payload: jwt.decode(localStorage.jwtToken) });
-      dispatch(getClients());
-      dispatch(getProducts());
-      dispatch(getRents());
-      dispatch(getAccounts());
+      const user = jwt.decode(localStorage.jwtToken);
+      dispatch({ type: 'SET_CURRENT_USER', payload: user });
+      dispatch(getClients(user.userID));
+      dispatch(getProducts(user.userID));
+      dispatch(getRents(user.userID));
+      dispatch(getAccounts(user.userID));
     }
   });
 
@@ -43,16 +44,16 @@ const Root = () => {
         <Route path={routes.register} component={LoginView} />
         <Route path={routes.logout} component={LoginView} />
         <ProtectedRoute exact path={routes.home} component={DashboardView} />
-        <ProtectedRoute path={routes.products} exact component={ProductsView} />
+        <ProtectedRoute exact path={routes.products} component={ProductsView} />
         <ProtectedRoute path={routes.newProduct} component={NewProductView} />
         <ProtectedRoute path={routes.product} component={EditProductView} />
-        <ProtectedRoute path={routes.clients} exact component={ClientsView} />
+        <ProtectedRoute exact path={routes.clients} component={ClientsView} />
         <ProtectedRoute path={routes.newClient} component={NewClientView} />
         <ProtectedRoute path={routes.client} component={EditClientView} />
         <ProtectedRoute path={routes.newRent} component={NewRentView} />
-        <ProtectedRoute path={routes.rents} exact component={RentsView} />
-        <ProtectedRoute path={routes.rent} exact component={EditRentView} />
-        <ProtectedRoute path={routes.settings} exact component={SettingsView} />
+        <ProtectedRoute exact path={routes.rents} component={RentsView} />
+        <ProtectedRoute exact path={routes.rent} component={EditRentView} />
+        <ProtectedRoute exact path={routes.settings} component={SettingsView} />
         <ProtectedRoute path={routes.updatePassword} component={UpdatePasswordView} />
         <ProtectedRoute path={routes.finances} component={HistoryView} />
         <Route path="*" component={NotFoundView} />

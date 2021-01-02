@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
-import moment from 'moment';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
@@ -22,6 +21,7 @@ const StyledHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 
   h2::first-letter {
     text-transform: uppercase;
@@ -30,6 +30,7 @@ const StyledHeader = styled.div`
 
 const ButtonsWrapper = styled.div`
   display: flex;
+  margin: 15px 0;
 `;
 
 const StyledButton = styled(Button)`
@@ -87,6 +88,10 @@ const StyledForm = styled(Form)`
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 0 45px;
   padding-bottom: 45px;
+
+  @media (max-width: 620px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const Label = styled.p`
@@ -102,7 +107,7 @@ const DateWrapper = styled.div`
   }
 `;
 
-const EditProductView = ({ match }) => {
+const EditProductView = ({ match, user: { userID } }) => {
   const { id } = match.params;
   const productValues = useSelector(({ products }) => products.find((product) => product._id === id));
   const [selectedFile, setSelectedFile] = useState('');
@@ -180,7 +185,7 @@ const EditProductView = ({ match }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(updateProduct(id, { ...values, selectedFile }));
+            dispatch(updateProduct(id, { userID, ...values, selectedFile }));
             history.go(0);
           }}
         >
@@ -299,6 +304,7 @@ const EditProductView = ({ match }) => {
 
 EditProductView.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default EditProductView;

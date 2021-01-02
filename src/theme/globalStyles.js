@@ -35,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
         font-size: 32px;
         font-weight: 600;
         color: #727272;
-        margin: 30px 0;
+        margin: 15px 0;
     }
     h3 {
         font-family: 'Barlow', sans-serif;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import DatePicker from 'react-datepicker';
+import PropTypes from 'prop-types';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Link, Redirect } from 'react-router-dom';
 import FileBase from 'react-file-base64';
@@ -19,6 +20,7 @@ const StyledHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 
   h2::first-letter {
     text-transform: uppercase;
@@ -27,6 +29,7 @@ const StyledHeader = styled.div`
 
 const ButtonsWrapper = styled.div`
   display: flex;
+  margin: 15px 0;
 `;
 
 const StyledButton = styled(Button)`
@@ -90,6 +93,10 @@ const StyledForm = styled(Form)`
   grid-template-columns: repeat(2, 1fr);
   padding-bottom: 45px;
   grid-gap: 0 45px;
+
+  @media (max-width: 620px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const Label = styled.p`
@@ -99,7 +106,7 @@ const Label = styled.p`
   color: black;
 `;
 
-const NewProductView = () => {
+const NewProductView = ({ user: { userID } }) => {
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState('');
   const [redirect, setRedirect] = useState(false);
@@ -181,7 +188,7 @@ const NewProductView = () => {
           }}
           onSubmit={(values) => {
             // console.log({ ...values, selectedFile });
-            dispatch(addProduct({ ...values, selectedFile }));
+            dispatch(addProduct({ userID, ...values, selectedFile }));
             setRedirect(true);
           }}
         >
@@ -296,6 +303,10 @@ const NewProductView = () => {
       </Wrapper>
     </MainTemplate>
   );
+};
+
+NewProductView.propTypes = {
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default NewProductView;

@@ -2,9 +2,9 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import setAuthToken from '../utils/setAuthToken';
 
-export const getProducts = () => async (dispatch) => {
+export const getProducts = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.get('http://localhost:4000/products');
+    const { data } = await axios.get(`http://localhost:4000/products/${id}`);
     dispatch({ type: 'FETCH_PRODUCTS', payload: data });
   } catch (err) {
     console.log(err);
@@ -47,9 +47,9 @@ export const removeProduct = (id) => async (dispatch) => {
   }
 };
 
-export const getClients = () => async (dispatch) => {
+export const getClients = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.get('http://localhost:4000/clients');
+    const { data } = await axios.get(`http://localhost:4000/clients/${id}`);
     dispatch({ type: 'FETCH_CLIENTS', payload: data });
   } catch (err) {
     console.log(err);
@@ -92,9 +92,9 @@ export const addClient = (values) => async (dispatch) => {
   }
 };
 
-export const getRents = () => async (dispatch) => {
+export const getRents = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.get('http://localhost:4000/rents');
+    const { data } = await axios.get(`http://localhost:4000/rents/${id}`);
     dispatch({ type: 'FETCH_RENTS', payload: data });
   } catch (err) {
     console.log(err);

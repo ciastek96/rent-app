@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
@@ -15,6 +16,7 @@ const StyledHeader = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
 
   h2::first-letter {
@@ -24,6 +26,7 @@ const StyledHeader = styled.div`
 
 const ButtonsWrapper = styled.div`
   display: flex;
+  margin-bottom: 15px;
 `;
 
 const StyledButton = styled(Button)`
@@ -42,18 +45,29 @@ const InnerWrapper = styled.div`
   display: flex;
   flex-direction: row;
   padding: 45px;
+
+  @media (max-width: 720px) {
+    flex-direction: column;
+    padding: 25px;
+  }
 `;
 
 const ClientInfo = styled.div`
   margin-left: 45px;
 
+  @media (max-width: 600px) {
+    margin: 0;
+  }
+
   h2 {
     color: ${({ theme }) => theme.lightGray};
     margin-bottom: 0;
+    word-wrap: break-word;
   }
 
   h4 {
     margin-right: 18px;
+    word-wrap: break-word;
   }
 
   span {
@@ -81,9 +95,13 @@ const StyledForm = styled(Form)`
   grid-template-columns: repeat(2, 1fr);
   padding-bottom: 45px;
   grid-gap: 0 45px;
+
+  @media (max-width: 620px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
-const NewClientView = () => {
+const NewClientView = ({ user: { userID } }) => {
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState('');
   const [redirect, setRedirect] = useState(false);
@@ -198,7 +216,7 @@ const NewClientView = () => {
           }}
           onSubmit={(values) => {
             console.log({ ...values, selectedFile });
-            dispatch(addClient({ ...values, selectedFile }));
+            dispatch(addClient({ userID, ...values, selectedFile }));
             setRedirect(true);
           }}
         >
@@ -268,6 +286,10 @@ const NewClientView = () => {
       </Wrapper>
     </MainTemplate>
   );
+};
+
+NewClientView.propTypes = {
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default NewClientView;

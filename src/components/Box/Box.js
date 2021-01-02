@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   text-decoration: none;
+  margin-bottom: 25px;
 
   &::before {
     content: '';

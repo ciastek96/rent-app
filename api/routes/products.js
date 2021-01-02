@@ -2,9 +2,11 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const Product = require('../models/products');
 
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const products = await Product.find();
+    const products = await Product.find({ userID: id });
     res.status(200).json(products);
   } catch (err) {
     res.status(404).json({ message: err.message });

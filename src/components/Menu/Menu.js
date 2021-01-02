@@ -1,13 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { routes } from '../../routes/routes';
-
-const List = styled.ul`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
 
 const ListItem = styled.li`
   padding: 0 12px;
@@ -27,8 +21,25 @@ const ListItem = styled.li`
   }
 `;
 
-const Menu = () => (
-  <List>
+const List = styled.ul`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  ${({ isSidebar }) =>
+    isSidebar &&
+    css`
+      text-align: center;
+      flex-direction: column;
+
+      ${ListItem} {
+        padding: 16px;
+      }
+    `}
+`;
+
+const Menu = ({ isSidebar }) => (
+  <List isSidebar={isSidebar}>
     <ListItem as={NavLink} exact to="/" activeClassName="active">
       Dashboard
     </ListItem>

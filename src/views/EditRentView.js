@@ -120,7 +120,7 @@ const SummaryItem = styled.div`
   }
 `;
 
-const EditRentView = ({ match }) => {
+const EditRentView = ({ match, user: { userID } }) => {
   const { id } = match.params;
   const dispatch = useDispatch();
   const currentRent = useSelector((state) => state.rents.find((rent) => rent._id === id));
@@ -223,9 +223,9 @@ const EditRentView = ({ match }) => {
               }
             }
 
-            // if (!values.client) {
-            //   errors.client = 'Pole wymagane.';
-            // }
+            if (!values.client) {
+              errors.client = 'Pole wymagane.';
+            }
 
             return errors;
           }}
@@ -235,8 +235,7 @@ const EditRentView = ({ match }) => {
             const discount = getDiscount(values);
             const vat = getVAT(values.products);
             const price = getFinalPrice(values);
-            console.log(id, { ...values, brutto, netto, vat, discount, price, rentsDurr });
-            dispatch(updateRent(id, { ...values, brutto, netto, vat, discount, price, rentsDurr }));
+            dispatch(updateRent(id, { userID, ...values, brutto, netto, vat, discount, price, rentsDurr }));
             history.go(0);
           }}
         >
@@ -412,6 +411,7 @@ EditRentView.propTypes = {
   match: PropTypes.oneOf([PropTypes.array, PropTypes.object]).isRequired,
   params: PropTypes.oneOf([PropTypes.array, PropTypes.object, PropTypes.string]).isRequired,
   id: PropTypes.string.isRequired,
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default EditRentView;

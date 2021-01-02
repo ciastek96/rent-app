@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const productsSchema = new Schema({
+  userID: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   productName: {
     type: String,
     required: true,

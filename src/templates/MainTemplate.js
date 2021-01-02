@@ -8,6 +8,7 @@ import Navbar from '../components/Navbar/Navbar';
 const Wrapper = styled.div`
   max-width: 1024px;
   margin: 0 auto;
+  padding: 15px;
 `;
 
 const MainTemplate = ({ children }) => (

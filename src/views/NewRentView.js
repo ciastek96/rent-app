@@ -3,12 +3,13 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import Select from 'react-select';
 import Input from '../components/Input/Input';
-import Textarea from '../components/Textarea/Textarea';
+// import Textarea from '../components/Textarea/Textarea';
 import ProductsCard from '../components/ProductsCard/ProductsCard';
 import { addRent } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
@@ -18,6 +19,7 @@ import { routes } from '../routes/routes';
 const StyledHeader = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 
@@ -28,6 +30,7 @@ const StyledHeader = styled.div`
 
 const ButtonsWrapper = styled.div`
   display: flex;
+  margin-bottom: 15px;
 `;
 
 const StyledButton = styled(Button)`
@@ -134,7 +137,7 @@ const SummaryItem = styled.div`
   }
 `;
 
-const NewRentView = () => {
+const NewRentView = ({ user: { userID } }) => {
   const dispatch = useDispatch();
   const productsList = useSelector((state) => state.products);
   const clientsList = useSelector((state) => state.clients);
@@ -246,7 +249,8 @@ const NewRentView = () => {
             const discount = getDiscount(values);
             const vat = getVAT(values.products);
             const price = getFinalPrice(values);
-            dispatch(addRent({ ...values, brutto, netto, vat, discount, price, rentsDurr }));
+            console.log({ userID, ...values, brutto, netto, vat, discount, price, rentsDurr });
+            dispatch(addRent({ userID, ...values, brutto, netto, vat, discount, price, rentsDurr }));
             setRedirect(true);
           }}
         >
@@ -320,6 +324,7 @@ const NewRentView = () => {
                     options={productsList.map(({ productName, _id, ...productValue }) => ({
                       value: productName,
                       label: productName,
+                      productName,
                       _id,
                       ...productValue,
                     }))}
@@ -409,6 +414,10 @@ const NewRentView = () => {
       </Wrapper>
     </MainTemplate>
   );
+};
+
+NewRentView.propTypes = {
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default NewRentView;

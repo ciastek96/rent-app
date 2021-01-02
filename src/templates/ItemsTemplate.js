@@ -13,8 +13,14 @@ const Wrapper = styled.div`
 const Header = styled.div`
   display: flex;
   flex-direction: row;
+  align-content: center;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
+
+  ${Button} {
+    margin-top: 15px;
+  }
 `;
 
 const ItemsTemplate = ({ children, title, value, handleChange, path }) => (

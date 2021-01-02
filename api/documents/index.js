@@ -6,7 +6,7 @@ module.exports = ({
     dateOfRent,
     dateOfReturn,
     isFinished,
-    productList,
+    products,
     price,
     brutto,
     netto,
@@ -16,25 +16,25 @@ module.exports = ({
     td,
   },
 }) => {
-  const products = productList.map(
+  const productList = products.map(
     (product, nr) =>
       `<tr class="item">
-          <td>${nr + 1}</td>
+            <td>${nr + 1}</td>
 
-          <td colspan="12">${product[0].productName}</td>
+            <td colspan="12">${product.productName}</td>
 
-          <td colspan="1">${product[0].unit}</td>
+            <td colspan="1">${product.unit}</td>
 
-          <td colspan="2">${product[0].qty ? product[0].gty : 1}</td>
+            <td colspan="2">${product.qty}</td>
 
-          <td colspan="2">${product[0].netto.toFixed(2)}</td>
+            <td colspan="2">${product.netto.toFixed(2)}</td>
 
-          <td colspan="2">${product[0].vat}%</td>
+            <td colspan="2">${product.vat}%</td>
 
-          <td colspan="2">${product[0].netto.toFixed(2)}</td>
+            <td colspan="2">${product.qty * product.netto.toFixed(2)}</td>
 
-          <td colspan="2">${product[0].brutto.toFixed(2)}</td>
-        </tr>`,
+            <td colspan="2">${product.qty * product.brutto.toFixed(2)}</td>
+          </tr>`,
   );
   return `
   <!doctype html>
@@ -318,7 +318,7 @@ module.exports = ({
             </tr>
             -->
 
-            ${products}
+            ${productList}
 
             <!-- <tr class="total">
                 <td colspan="20">

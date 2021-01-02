@@ -2,9 +2,10 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const Rent = require('../models/rents');
 
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
   try {
-    const rents = await Rent.find();
+    const rents = await Rent.find({ userID: id });
     res.status(200).json(rents);
   } catch (err) {
     res.status(404).json({ message: err.message });

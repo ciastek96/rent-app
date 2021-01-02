@@ -17,6 +17,7 @@ const StyledHeader = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
 
   h2::first-letter {
@@ -26,6 +27,7 @@ const StyledHeader = styled.div`
 
 const ButtonsWrapper = styled.div`
   display: flex;
+  margin-bottom: 15px;
 `;
 
 const StyledButton = styled(Button)`
@@ -44,6 +46,10 @@ const InnerWrapper = styled.div`
   display: flex;
   flex-direction: row;
   padding: 45px;
+
+  @media (max-width: 720px) {
+    flex-direction: column;
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -55,13 +61,19 @@ const ImageWrapper = styled.div`
 const ClientInfo = styled.div`
   margin-left: 45px;
 
+  @media (max-width: 600px) {
+    margin: 0;
+  }
+
   h2 {
     color: ${({ theme }) => theme.lightGray};
     margin-bottom: 0;
+    word-wrap: break-word;
   }
 
   h4 {
     margin-right: 18px;
+    word-wrap: break-word;
   }
 
   span {
@@ -83,9 +95,13 @@ const StyledForm = styled(Form)`
   grid-template-columns: repeat(2, 1fr);
   padding-bottom: 45px;
   grid-gap: 0 45px;
+
+  @media (max-width: 620px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
-const EditClientView = ({ match }) => {
+const EditClientView = ({ match, user: { userID } }) => {
   const [selectedFile, setSelectedFile] = useState();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -204,7 +220,7 @@ const EditClientView = ({ match }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(updateClient(id, { ...values, selectedFile }));
+            dispatch(updateClient(id, { userID, ...values, selectedFile }));
             history.go(0);
           }}
         >
@@ -280,6 +296,7 @@ const EditClientView = ({ match }) => {
 
 EditClientView.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default EditClientView;

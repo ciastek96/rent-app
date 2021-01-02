@@ -79,6 +79,8 @@ ProductsCard.propTypes = {
   setRentValue: PropTypes.func.isRequired,
   rentValue: PropTypes.string.isRequired,
   onAdd: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+  cartItems: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default ProductsCard;

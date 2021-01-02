@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const rentsSchema = new Schema({
+  userID: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   client: {
     type: Object,
     required: true,
@@ -29,8 +34,39 @@ const rentsSchema = new Schema({
   },
   products: [
     {
-      type: String,
-      required: true,
+      productName: {
+        type: String,
+        trim: true,
+        minLength: 4,
+      },
+      price: {
+        type: Number,
+      },
+      netto: {
+        type: Number,
+      },
+      vat: {
+        type: Number,
+        default: 23,
+        min: 0,
+        max: 100,
+      },
+      brutto: {
+        type: Number,
+      },
+      dateOfPurchase: Date,
+      dateOfLastInspection: Date,
+      quantity: {
+        type: Number,
+      },
+      qty: {
+        type: Number,
+        default: 1,
+      },
+      unit: {
+        type: String,
+      },
+      selectedFile: String,
     },
   ],
   brutto: {

@@ -11,6 +11,17 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const clients = await Client.find({ userID: id });
+    res.status(200).json(clients);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+});
+
 router.post('/client', async (req, res) => {
   // const { id } = req.body;
   // Client.findById({ _id: id })

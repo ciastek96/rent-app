@@ -36,6 +36,12 @@ const Wrapper = styled.div`
     width: 6px;
     background-color: ${({ theme, activeStatus }) => (activeStatus ? theme.status[activeStatus] : theme.green)};
   }
+
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -56,11 +62,21 @@ const Details = styled.div`
 
 const StyledMoreButton = styled(MoreButton)`
   margin: 0 15px 0 auto;
+  position: absolute;
+  top: 22px;
+  right: 0;
 `;
 
 const DetailsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  word-wrap: break-word;
+
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
 
   & > div {
     margin: 15px 0;
@@ -96,6 +112,20 @@ const ProductsList = styled.div`
 `;
 
 const ProductsListItem = styled.div``;
+
+const DetailsWrapper = styled.div`
+  padding-right: 12px;
+
+  p {
+    word-wrap: break-word;
+  }
+`;
+
+const StyledButton = styled(Button)`
+  position: absolute;
+  right: 0;
+  bottom: 12px;
+`;
 
 const RentItem = ({
   id,
@@ -155,7 +185,7 @@ const RentItem = ({
       dateOfRent,
       dateOfReturn,
       isFinished,
-      productList,
+      products,
       price,
       brutto,
       netto,
@@ -199,73 +229,77 @@ const RentItem = ({
   }
   return (
     <Wrapper isCollapsed={isCollapsed} activeStatus={status}>
+      <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
+      <StyledButton tertiary onClick={() => setIsCollapsed(!isCollapsed)}>
+        {isCollapsed ? 'Zwiń' : 'Rozwiń'}
+      </StyledButton>
       <RentStatus status={status} />
       <Details>
         <h2>{label}</h2>
 
         <DetailsGrid>
-          <div>
+          <DetailsWrapper>
             <h5>Nr zamówienia</h5>
             <p>{id}</p>
-          </div>
+          </DetailsWrapper>
 
-          <div>
+          <DetailsWrapper>
             <h5>Ilość produktów</h5>
             <p>{products.length}</p>
-          </div>
+          </DetailsWrapper>
 
-          <div>
+          <DetailsWrapper>
             <h5>Data wynajmu</h5>
             <p>{`${startDay.format('dd, DD.MM.YYYY')} - ${endDay.format('dd, DD.MM.YYYY')}`}</p>
-          </div>
+          </DetailsWrapper>
 
-          <div>
+          <DetailsWrapper>
             <h5>Kwota</h5>
             <p>{`${brutto?.toFixed(2)}zł`}</p>
-          </div>
+          </DetailsWrapper>
 
           {isCollapsed && (
             <>
               {companyName && (
-                <div>
+                <DetailsWrapper>
                   <h5>Nazwa firmy</h5>
                   <p>{companyName}</p>
-                </div>
+                </DetailsWrapper>
               )}
 
               {nip && (
-                <div>
+                <DetailsWrapper>
                   <h5>NIP</h5>
                   <p>{nip}</p>
-                </div>
+                </DetailsWrapper>
               )}
 
               {address.street && (
-                <div>
+                <DetailsWrapper>
                   <h5>Ulica</h5>
                   <p>{address.street}</p>
-                </div>
+                </DetailsWrapper>
               )}
 
               {address.postalCode && (
-                <div>
+                <DetailsWrapper>
                   <h5>Kod pocztowy</h5>
                   <p>{address.postalCode}</p>
-                </div>
+                </DetailsWrapper>
               )}
 
               {address.city && (
-                <div>
+                <DetailsWrapper>
                   <h5>Miasto</h5>
                   <p>{address.city}</p>
-                </div>
+                </DetailsWrapper>
               )}
 
               {address.discount && (
-                <div>
+                <DetailsWrapper>
                   <h5>Rabat</h5>
                   <p>{discount}</p>
-                </div>
+                </DetailsWrapper>
               )}
             </>
           )}
@@ -273,23 +307,19 @@ const RentItem = ({
         {isCollapsed && (
           <ProductsList>
             <h5>Produkty: </h5>
-            {productList.map(([product], i) => (
+            {products.map((product, i) => (
               <p key={product._id}>{`${i + 1}. ${product.productName}`}</p>
             ))}
             <br />
-            <h5>Kwota</h5>
-            <p>{`Netto: ${netto?.toFixed(2)} zł`}</p>
-            <p>{`VAT: ${vat?.toFixed(2)} zł`}</p>
-            <p>{`Brutto: ${brutto?.toFixed(2)} zł`}</p>
+            <h5>Netto</h5>
+            <p>{`${netto?.toFixed(2)} zł`}</p>
+            <h5>VAT</h5>
+            <p>{`${vat?.toFixed(2)} zł`}</p>
+            <h5>Brutto</h5>
+            <p>{`${brutto?.toFixed(2)} zł`}</p>
           </ProductsList>
         )}
       </Details>
-      <ButtonWrapper>
-        <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
-        <Button tertiary onClick={() => setIsCollapsed(!isCollapsed)}>
-          {isCollapsed ? 'Zwiń' : 'Rozwiń'}
-        </Button>
-      </ButtonWrapper>
       <DropdownMenu top="60px" right="20px" isOpen={optionMenu}>
         {isFinished ? (
           <MenuItemList>
