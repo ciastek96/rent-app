@@ -231,6 +231,7 @@ const RentItem = ({
   if (isLoading) {
     return <Spinner />;
   }
+
   return (
     <Wrapper isCollapsed={isCollapsed} activeStatus={status}>
       <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
@@ -258,8 +259,18 @@ const RentItem = ({
           </DetailsWrapper>
 
           <DetailsWrapper>
+            <h5>Rabat</h5>
+            <p>{`${clientDiscount}%`}</p>
+          </DetailsWrapper>
+
+          <DetailsWrapper>
+            <h5>Zaliczka</h5>
+            <p>{`${parseFloat(advance).toFixed(2)} zł`}</p>
+          </DetailsWrapper>
+
+          <DetailsWrapper>
             <h5>Kwota</h5>
-            <p>{`${brutto?.toFixed(2)}zł`}</p>
+            <p>{`${price.toFixed(2)} zł`}</p>
           </DetailsWrapper>
 
           {isCollapsed && (
@@ -312,7 +323,7 @@ const RentItem = ({
           <ProductsList>
             <h5>Produkty: </h5>
             {products.map((product, i) => (
-              <p key={product._id}>{`${i + 1}. ${product.productName}`}</p>
+              <p key={product._id}>{`${i + 1}.  ${product.productName} x${product.qty}`}</p>
             ))}
             <br />
             <h5>Netto</h5>

@@ -23,20 +23,24 @@ const BoxGrid = styled.div`
   }
 `;
 
-const DashboardView = (location) => {
+const DashboardView = () => {
   const productsListLen = useSelector((state) => state.products.length);
   const clientListLen = useSelector((state) => state.clients.length);
   const rentsList = useSelector((state) => state.rents.filter((rent) => rent.isFinished === false));
+  const history = useHistory();
   const events = rentsList.map((item, i) => ({
     id: i,
     title: item.client.label,
     start: new Date(item.dateOfRent),
     end: new Date(item.dateOfReturn),
   }));
-  const history = useHistory();
-  console.log(location);
 
-  console.log(history);
+  if (history.location && history.location.state && history.location.state.from) {
+    const state = { ...history.location.state };
+    delete state.from;
+    history.replace({ ...history.location, state });
+    history.go(0);
+  }
 
   return (
     <MainTemplate>

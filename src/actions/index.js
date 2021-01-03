@@ -66,8 +66,9 @@ export const getClient = (value) => async (dispatch) => {
 };
 
 export const updateClient = (id, values) => async (dispatch) => {
+  console.log(id, values);
   try {
-    const { data } = await axios.patch(`http://localhost:4000/clients/${id}`, { values });
+    const { data } = await axios.patch(`http://localhost:4000/clients/${id}`, values);
     dispatch({ type: 'UPDATE_CLIENT', payload: data });
   } catch (err) {
     console.log(err);

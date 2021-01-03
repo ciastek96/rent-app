@@ -45,9 +45,10 @@ const Body = styled.div``;
 //   cursor: pointer;
 // `;
 
-const ProductsCard = ({ values, setRentValue, rentValue, onAdd, setFieldValue, cartItems }) => {
+const ProductsCard = ({ values, setFieldValue, cartItems }) => {
   const productsList = useSelector(({ products }) => products);
   const selectedProducts = values.map((value) => productsList.filter((item) => item._id === value._id));
+  console.log('products card', values);
 
   return (
     <Wrapper>
@@ -61,17 +62,8 @@ const ProductsCard = ({ values, setRentValue, rentValue, onAdd, setFieldValue, c
         <p>&nbsp;</p>
       </Heading>
       <Body>
-        {selectedProducts.map(([product]) => (
-          <ProductsCardItem
-            key={product._id}
-            product={product}
-            setRentValue={setRentValue}
-            rentValue={rentValue}
-            onAdd={onAdd}
-            setFieldValue={setFieldValue}
-            values={values}
-            cartItems={cartItems}
-          />
+        {values.map((product) => (
+          <ProductsCardItem key={product._id} product={product} setFieldValue={setFieldValue} values={values} cartItems={cartItems} />
         ))}
       </Body>
     </Wrapper>
@@ -80,9 +72,9 @@ const ProductsCard = ({ values, setRentValue, rentValue, onAdd, setFieldValue, c
 
 ProductsCard.propTypes = {
   values: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setRentValue: PropTypes.func.isRequired,
-  rentValue: PropTypes.string.isRequired,
-  onAdd: PropTypes.func.isRequired,
+  // setRentValue: PropTypes.func.isRequired,
+  // rentValue: PropTypes.string.isRequired,
+  // onAdd: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   cartItems: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

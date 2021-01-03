@@ -82,38 +82,45 @@ const ProductsCardItem = ({
   cartItems,
   setFieldValue,
   values,
-  product: { _id, selectedFile, productName, quantity: availableQuantity, unit, brutto },
+  product: { _id, selectedFile, productName, quantity: availableQuantity, unit, brutto, qty: initialQty },
 }) => {
-  const [quantity, setQuantity] = useState(1);
-  const value = (quantity * brutto).toFixed(2);
+  const [quantity, setQuantity] = useState(initialQty);
+  const value = (initialQty * brutto).toFixed(2);
 
   const onChangeQty = (qty) => {
-    cartItems.forEach((product) => {
-      const exist = values.find((item) => item._id === product._id);
-      if (exist) {
-        setFieldValue(
-          'products',
-          values.map((x) => (x._id === product._id ? { ...exist, qty } : x)),
-        );
-      } else {
-        setFieldValue('products', [...values.products, { ...product, qty: 1 }]);
-      }
-    });
+    // cartItems.forEach((product) => {
+    //   const exist = values.find((item) => item._id === product._id);
+    //   if (exist) {
+    //     setFieldValue(
+    //       'products',
+    //       values.map((x) => (x._id === product._id ? { ...exist, qty } : x)),
+    //     );
+    //   } else {
+    //     setFieldValue('products', [...values.products, { ...product, qty: 1 }]);
+    //   }
+    // });
+
+    const currentItem = values.find((i) => i._id === _id);
+
+    setFieldValue(
+      'products',
+      values.map((item) => (item._id === currentItem._id ? { ...currentItem, qty } : item)),
+    );
   };
 
-  console.log(cartItems);
-
   const increment = () => {
-    if (quantity < availableQuantity) {
-      onChangeQty(quantity + 1);
-      setQuantity(quantity + 1);
+    if (initialQty < availableQuantity) {
+      const qty = initialQty + 1;
+      setQuantity(qty);
+      onChangeQty(qty);
     }
   };
 
   const decrement = () => {
-    if (quantity > 1) {
-      onChangeQty(quantity - 1);
-      setQuantity(quantity - 1);
+    if (initialQty > 1) {
+      const qty = initialQty - 1;
+      setQuantity(qty);
+      onChangeQty(qty);
     }
   };
 
@@ -128,7 +135,7 @@ const ProductsCardItem = ({
         <button type="button" onClick={decrement}>
           -
         </button>
-        {quantity}
+        {initialQty}
         <button type="button" onClick={increment}>
           +
         </button>

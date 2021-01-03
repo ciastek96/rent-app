@@ -8,6 +8,8 @@ import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import Modal from '../Modal/Modal';
 import MoreButton from '../MoreButton/MoreButton';
 import { routes } from '../../routes/routes';
+import { ReactComponent as PhoneIcon } from '../../assets/icons/svg/interfaces/phone.svg';
+import { ReactComponent as EmailIcon } from '../../assets/icons/svg/interfaces/email.svg';
 
 const Wrapper = styled.div`
   border-radius: 6px;
@@ -50,16 +52,24 @@ const InnerWrapper = styled.div`
   height: 125px;
   background-color: ${({ theme }) => theme.default};
   text-align: center;
-  padding: 10px;
+  padding: 15px;
 `;
 
 const Info = styled.div`
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
   grid-gap: 15px;
-  font-size: ${({ theme }) => theme.fontSize.xs};
 `;
+
+const InfoPosition = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  align-items: center;
+`;
+
 const MenuItemList = styled.li`
   list-style: none;
 `;
@@ -77,6 +87,18 @@ const MenuItem = styled.a`
   &:hover {
     background-color: ${({ theme }) => theme.default};
   }
+`;
+
+const StyledPhoneIcon = styled(PhoneIcon)`
+  width: 12px;
+  fill: ${({ theme }) => theme.green};
+  margin-right: 7px;
+`;
+
+const StyledEmailIcon = styled(EmailIcon)`
+  width: 12px;
+  fill: ${({ theme }) => theme.green};
+  margin-right: 7px;
 `;
 
 const Card = ({ id, values: { name, surname, selectedFile, phone, email } }) => {
@@ -103,8 +125,14 @@ const Card = ({ id, values: { name, surname, selectedFile, phone, email } }) => 
         <InnerWrapper>
           <h4>{`${name} ${surname}`}</h4>
           <Info>
-            <p>{phone}</p>
-            <p>{email}</p>
+            <InfoPosition>
+              <StyledPhoneIcon />
+              <p>{phone}</p>
+            </InfoPosition>
+            <InfoPosition>
+              <StyledEmailIcon />
+              <p>{email}</p>
+            </InfoPosition>
           </Info>
         </InnerWrapper>
         <DropdownMenu top="50px" right="20px" isOpen={optionMenu}>

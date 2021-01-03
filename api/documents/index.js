@@ -16,6 +16,7 @@ module.exports = ({
     td,
   },
 }) => {
+  console.log(discount);
   const productList = products.map(
     (product, nr) =>
       `<tr class="item">
@@ -31,9 +32,9 @@ module.exports = ({
 
             <td colspan="2">${product.vat}%</td>
 
-            <td colspan="2">${product.qty * product.netto.toFixed(2)}</td>
+            <td colspan="2">${(product.qty * product.netto).toFixed(2)}</td>
 
-            <td colspan="2">${product.qty * product.brutto.toFixed(2)}</td>
+            <td colspan="2">${(product.qty * product.brutto).toFixed(2)}</td>
           </tr>`,
   );
   return `
@@ -401,6 +402,28 @@ module.exports = ({
                 </td> -->
                 <td>
                     <table class="right">
+                    <tr class="total">
+                            <td>
+                                Razem:
+                            </td>
+                            <td>
+                                ${brutto.toFixed(2)}
+                             </td>
+                            <td>
+                                Razem:
+                            </td>
+                            <td>
+                                ${brutto.toFixed(2)}
+                             </td>
+                        </tr>
+                        <tr class="total">
+                            <td>
+                                Rabat:
+                            </td>
+                            <td>
+                                ${discount.toFixed(2)}
+                             </td>
+                        </tr>
                         <tr class="total">
                             <td>
                                 Zapłacono:

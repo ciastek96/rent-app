@@ -139,7 +139,7 @@ const SettingsView = () => {
             name: currentUser.name || '',
             surname: currentUser.surname || '',
             email: currentUser.email || '',
-            phone: currentUser.phone || 'phone',
+            phone: currentUser.phone || '',
             companyName: currentUser.companyName || '',
             nip: currentUser.nip || '',
             address: {

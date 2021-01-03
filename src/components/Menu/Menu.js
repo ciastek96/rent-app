@@ -60,11 +60,11 @@ const Menu = ({ isSidebar }) => (
 );
 
 Menu.propTypes = {
-  isSidebar: PropTypes.bool,
+  isSidebar: PropTypes.string,
 };
 
 Menu.defaultProps = {
-  isSidebar: false,
+  isSidebar: '',
 };
 
 export default Menu;

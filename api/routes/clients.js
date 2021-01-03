@@ -67,12 +67,12 @@ router.post('/add', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   const { id: _id } = req.params;
-  const { ...values } = req.body;
+  const values = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No clients with that ID');
 
   try {
-    const updatedClient = await Client.findByIdAndUpdate({ _id }, { values }, { new: true });
+    const updatedClient = await Client.findByIdAndUpdate({ _id }, values, { new: true });
     res.status(201).json(updatedClient);
   } catch (err) {
     res.status(409).json({ message: err.message });

@@ -216,7 +216,7 @@ const NewRentView = ({ user: { userID } }) => {
         <Formik
           initialValues={{
             dateOfRent: new Date(),
-            dateOfReturn: '',
+            dateOfReturn: new Date(),
             products: [],
             client: null,
             brutto: 0,
@@ -245,10 +245,6 @@ const NewRentView = ({ user: { userID } }) => {
             if (!values.client) {
               errors.client = 'Pole wymagane.';
             }
-
-            // if (values.advance > getBrutto(values.products)) {
-            //   errors.advance = `Maksymalna kwota zaliczki to ${getBrutto(values.products)}`;
-            // }
 
             return errors;
           }}
@@ -335,6 +331,7 @@ const NewRentView = ({ user: { userID } }) => {
                       label: productName,
                       productName,
                       _id,
+                      qty: 1,
                       ...productValue,
                     }))}
                     // onChange={handleProduct}
@@ -389,8 +386,8 @@ const NewRentView = ({ user: { userID } }) => {
                     </SummaryItem>
 
                     <SummaryItem>
-                      <p>Rabat</p>
-                      <p>{`${getDiscount(values)} zł`}</p>
+                      <p>Rabat [%] </p>
+                      <p>{values.client.discount}</p>
                     </SummaryItem>
 
                     <SummaryItem>
@@ -399,8 +396,8 @@ const NewRentView = ({ user: { userID } }) => {
                     </SummaryItem>
 
                     <SummaryItem>
-                      <p>Zaliczka</p>
-                      <p>{`${values.advance} zł`}</p>
+                      <p>Rabat</p>
+                      <p>{`${getDiscount(values)} zł`}</p>
                     </SummaryItem>
 
                     <SummaryItem>
@@ -408,7 +405,10 @@ const NewRentView = ({ user: { userID } }) => {
                       <p>{`${getBrutto(values.products)} zł`}</p>
                     </SummaryItem>
 
-                    <SummaryItem> </SummaryItem>
+                    <SummaryItem>
+                      <p>Zaliczka</p>
+                      <p>{`${values.advance} zł`}</p>
+                    </SummaryItem>
 
                     <SummaryItem>
                       <p>Do zapłaty</p>
