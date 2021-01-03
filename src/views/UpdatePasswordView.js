@@ -15,6 +15,7 @@ const StyledHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 
   h2::first-letter {
     text-transform: uppercase;
@@ -23,6 +24,8 @@ const StyledHeader = styled.div`
 
 const ButtonsWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
 `;
 
 const StyledButton = styled(Button)`
@@ -48,6 +51,10 @@ const StyledForm = styled(Form)`
   grid-template-columns: repeat(2, 1fr);
   padding-bottom: 45px;
   grid-gap: 0 45px;
+
+  @media (max-width: 620px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const UpdatePasswordView = () => {

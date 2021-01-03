@@ -57,6 +57,11 @@ const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 45px;
+
+  @media (max-width: 620px) {
+    grid-gap: 0;
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const StyledSelect = styled(Select)`
@@ -104,6 +109,10 @@ const Summary = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
+
+  @media (max-width: 620px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const SummaryItem = styled.div`

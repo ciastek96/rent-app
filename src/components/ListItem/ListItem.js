@@ -83,7 +83,7 @@ const ListItem = ({ listType, id, values }) => {
   const [optionMenu, setOptionMenu] = useState(false);
   const dispatch = useDispatch();
 
-  const { name, surname, selectedFile, productName, email, phone, discount, brutto, netto, vat, price, quantity, unit } = values;
+  const { name, surname, selectedFile, productName, email, phone, discount, brutto, quantity, unit } = values;
 
   const handleDelete = () => {
     setOptionMenu(false);
@@ -160,10 +160,13 @@ ListItem.propTypes = {
     nip: PropTypes.string,
     selectedFile: PropTypes.string,
     email: PropTypes.string,
-    discount: PropTypes.string,
+    discount: PropTypes.number,
     price: PropTypes.number,
     quantity: PropTypes.string,
     unit: PropTypes.string,
+    brutto: PropTypes.number,
+    netto: PropTypes.number,
+    vat: PropTypes.number,
   }),
   id: PropTypes.string.isRequired,
   listType: PropTypes.oneOf([PRODUCTS, CLIENTS]),

@@ -18,6 +18,10 @@ const GridWrapper = styled.div`
   align-items: center;
   text-align: center;
 
+  @media (max-width: 620px) {
+    display: none;
+  }
+
   p:nth-child(2) {
     text-align: left;
     margin-left: 15px;

@@ -10,9 +10,33 @@ const GridWrapper = styled.div`
   align-items: center;
   text-align: center;
 
+  h5 {
+    display: none;
+  }
+
   p:nth-child(2) {
     text-align: left;
     margin-left: 15px;
+  }
+
+  @media (max-width: 620px) {
+    display: grid;
+    /* grid-template-columns: 1fr 2fr 2fr; */
+    grid-template-rows: 1fr 1fr;
+    flex-direction: column;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 100px));
+    justify-content: center;
+    grid-gap: 15px;
+
+    text-align: left;
+    p:nth-child(2),
+    p:nth-child(5) {
+      margin-left: 0;
+    }
+
+    h5 {
+      display: block;
+    }
   }
 `;
 
@@ -58,9 +82,7 @@ const ProductsCardItem = ({
   cartItems,
   setFieldValue,
   values,
-  rentValue,
-  setRentValue,
-  product: { _id, selectedFile, productName, quantity: availableQuantity, unit, brutto, netto },
+  product: { _id, selectedFile, productName, quantity: availableQuantity, unit, brutto },
 }) => {
   const [quantity, setQuantity] = useState(1);
   const value = (quantity * brutto).toFixed(2);
@@ -79,6 +101,8 @@ const ProductsCardItem = ({
     });
   };
 
+  console.log(cartItems);
+
   const increment = () => {
     if (quantity < availableQuantity) {
       onChangeQty(quantity + 1);
@@ -96,7 +120,10 @@ const ProductsCardItem = ({
   return (
     <Item key={_id}>
       <ProductImage image={selectedFile} />
-      <p>{productName}</p>
+      <p>
+        <h5>Produkt</h5>
+        {productName}
+      </p>
       <Counter>
         <button type="button" onClick={decrement}>
           -
@@ -106,17 +133,24 @@ const ProductsCardItem = ({
           +
         </button>
       </Counter>
-      <p>{unit}</p>
-      <p>{availableQuantity}</p>
-      <p>{value}</p>
+      <p>
+        <h5>Jednostka: </h5>
+        {unit}
+      </p>
+      <p>
+        <h5>Dostępność</h5>
+        {availableQuantity}
+      </p>
+      <p>
+        <h5>Kwota: </h5>
+        {value}
+      </p>
       {/* <RemoveButton /> */}
     </Item>
   );
 };
 
 ProductsCardItem.propTypes = {
-  rentValue: PropTypes.string,
-  setRentValue: PropTypes.func,
   product: PropTypes.oneOf([PropTypes.array, PropTypes.object]).isRequired,
   _id: PropTypes.string.isRequired,
   selectedFile: PropTypes.string,
@@ -124,11 +158,12 @@ ProductsCardItem.propTypes = {
   quantity: PropTypes.number.isRequired,
   unit: PropTypes.string.isRequired,
   brutto: PropTypes.number.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+  values: PropTypes.oneOf([PropTypes.array, PropTypes.object]).isRequired,
+  cartItems: PropTypes.oneOf([PropTypes.array, PropTypes.object]).isRequired,
 };
 
 ProductsCardItem.defaultProps = {
-  rentValue: null,
-  setRentValue: null,
   selectedFile: null,
 };
 

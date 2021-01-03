@@ -44,12 +44,12 @@ const Wrapper = styled.div`
   }
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: right;
-`;
+// const ButtonWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   align-items: right;
+// `;
 
 const Details = styled.div`
   display: flex;
@@ -57,6 +57,10 @@ const Details = styled.div`
 
   h2 {
     margin-top: 0;
+  }
+
+  @media (max-width: 500px) {
+    margin-top: 15px;
   }
 `;
 
@@ -111,7 +115,7 @@ const ProductsList = styled.div`
   flex-direction: column;
 `;
 
-const ProductsListItem = styled.div``;
+// const ProductsListItem = styled.div``;
 
 const DetailsWrapper = styled.div`
   padding-right: 12px;
@@ -147,7 +151,7 @@ const RentItem = ({
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [optionMenu, setOptionMenu] = useState(false);
-  const productList = useSelector((state) => products.map((product) => state.products.filter((item) => item._id === product)));
+  // const productList = useSelector((state) => products.map((product) => state.products.filter((item) => item._id === product)));
   const currentUser = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
   const [isRedirect, setIsRedirect] = useState(false);
   const td = moment().format('DD.MM.YYYY');
@@ -376,6 +380,12 @@ RentItem.propTypes = {
   dateOfReturn: PropTypes.string.isRequired,
   isFinished: PropTypes.bool,
   products: PropTypes.arrayOf(PropTypes.string).isRequired,
+  price: PropTypes.number.isRequired,
+  brutto: PropTypes.number.isRequired,
+  netto: PropTypes.number.isRequired,
+  vat: PropTypes.number.isRequired,
+  discount: PropTypes.number.isRequired,
+  advance: PropTypes.number.isRequired,
 };
 
 RentItem.defaultProps = {

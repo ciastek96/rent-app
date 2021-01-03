@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { routes } from '../../routes/routes';
@@ -57,5 +58,13 @@ const Menu = ({ isSidebar }) => (
     </ListItem>
   </List>
 );
+
+Menu.propTypes = {
+  isSidebar: PropTypes.bool,
+};
+
+Menu.defaultProps = {
+  isSidebar: false,
+};
 
 export default Menu;
