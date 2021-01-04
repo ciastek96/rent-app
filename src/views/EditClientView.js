@@ -220,7 +220,6 @@ const EditClientView = ({ match, user: { userID } }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            console.log(id, { userID, ...values, selectedFile });
             dispatch(updateClient(id, { userID, ...values, selectedFile }));
             history.go(0);
           }}

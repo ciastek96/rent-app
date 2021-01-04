@@ -4,7 +4,6 @@ const Account = require('../models/accounts');
 
 router.post('/:id', async (req, res) => {
   const { id: userID } = req.params;
-
   const account = await Account.findOne({ userID });
   try {
     res.status(200).send(account);

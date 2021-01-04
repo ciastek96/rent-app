@@ -27,7 +27,7 @@ router.post('/product', async (req, res) => {
 router.post('/add', async (req, res) => {
   const values = req.body;
   const { brutto, vat } = values;
-  const netto = (brutto * (1 - vat / 100)).toFixed(2);
+  const netto = (brutto / (1 + vat / 100)).toFixed(2);
 
   const newProduct = new Product({ ...values, netto });
 

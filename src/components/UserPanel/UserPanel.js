@@ -80,7 +80,8 @@ const StyledLink = styled(Link)`
 const UserPanel = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const username = useSelector((state) => state.users.user.username);
-  const account = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
+  // const account = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
+  const account = useSelector((state) => state.account);
 
   return (
     <Wrapper>

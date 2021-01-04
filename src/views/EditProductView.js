@@ -110,12 +110,12 @@ const DateWrapper = styled.div`
 const EditProductView = ({ match, user: { userID } }) => {
   const { id } = match.params;
   const productValues = useSelector(({ products }) => products.find((product) => product._id === id));
-  const [selectedFile, setSelectedFile] = useState('');
+  const [selectedFile, setSelectedFile] = useState();
   const dispatch = useDispatch();
   const history = useHistory();
 
   const bruttoToNetto = (brutto, vat) => {
-    const netto = (brutto * (1 - vat / 100)).toFixed(2);
+    const netto = (brutto / (1 + vat / 100)).toFixed(2);
     return netto;
   };
 
@@ -205,7 +205,7 @@ const EditProductView = ({ match, user: { userID } }) => {
                 </ImageWrapper>
                 <ClientInfo>
                   <h2>{productValues.productName}</h2>
-                  <h4>{`${productValues.price} zł brutto / doba`}</h4>
+                  <h4>{`${productValues.brutto} zł brutto / doba`}</h4>
                 </ClientInfo>
               </InnerWrapper>
               <StyledForm id="editProductForm">

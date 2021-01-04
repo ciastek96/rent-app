@@ -25,7 +25,7 @@ const DropdownMenu = ({ children, top, right, isOpen }) => (
 );
 
 DropdownMenu.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.arrayOf(PropTypes.any).isRequired,
   top: PropTypes.string,
   right: PropTypes.string,
   isOpen: PropTypes.bool,

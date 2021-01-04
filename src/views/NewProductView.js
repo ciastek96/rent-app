@@ -116,7 +116,7 @@ const NewProductView = ({ user: { userID } }) => {
   }
 
   const bruttoToNetto = (brutto, vat) => {
-    const netto = (brutto * (1 - vat / 100)).toFixed(2);
+    const netto = (brutto / (1 + vat / 100)).toFixed(2);
     return netto;
   };
 
@@ -205,7 +205,7 @@ const NewProductView = ({ user: { userID } }) => {
 
                 <ClientInfo>
                   <h2>{values.productName ? values.productName : '  '}</h2>
-                  <h4>{values.price ? `${values.price} zł / doba` : null}</h4>
+                  <h4>{values.brutto ? `${values.brutto} zł brutto / doba` : null}</h4>
                 </ClientInfo>
               </InnerWrapper>
               <StyledForm id="newProductForm">

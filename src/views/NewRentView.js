@@ -183,7 +183,7 @@ const NewRentView = ({ user: { userID } }) => {
 
   const getFinalPrice = (values) => {
     const brutto = getBrutto(values.products);
-    const price = (brutto - (brutto * values.client.discount) / 100 - values.advance).toFixed(2);
+    const price = (brutto - (brutto * values.client.discount) / 100).toFixed(2);
     return price;
   };
 
@@ -254,7 +254,6 @@ const NewRentView = ({ user: { userID } }) => {
             const discount = getDiscount(values);
             const vat = getVAT(values.products);
             const price = getFinalPrice(values);
-            console.log({ userID, ...values, brutto, netto, vat, discount, price, rentsDurr });
             dispatch(addRent({ userID, ...values, brutto, netto, vat, discount, price, rentsDurr }));
             setRedirect(true);
           }}
@@ -285,7 +284,6 @@ const NewRentView = ({ user: { userID } }) => {
 
                 <DateWrapper>
                   <p>Data oddania</p>
-
                   <DatePicker
                     selectsEnd
                     selected={values.dateOfReturn}
@@ -357,15 +355,7 @@ const NewRentView = ({ user: { userID } }) => {
                   />
 
                   <div>
-                    <Field
-                      as={Input}
-                      label="Zaliczka"
-                      id="advance"
-                      name="advance"
-                      type="number"
-                      autoComplete="new-password"
-                      max={getBrutto(values.products)}
-                    />
+                    <Field as={Input} label="Kaucja zwrotna" id="advance" name="advance" type="number" autoComplete="new-password" />
                     <ErrorMessage name="advance" component={Error} />
                   </div>
 
@@ -406,7 +396,7 @@ const NewRentView = ({ user: { userID } }) => {
                     </SummaryItem>
 
                     <SummaryItem>
-                      <p>Zaliczka</p>
+                      <p>Kaucja zwrotna</p>
                       <p>{`${values.advance} zł`}</p>
                     </SummaryItem>
 

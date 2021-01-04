@@ -11,7 +11,7 @@ const RentsView = () => {
     <MainTemplate>
       <ItemsTemplate title="Wypożyczenia" path={routes.newRent} />
       {rentsList.length > 0 ? (
-        rentsList.map(({ _id, client, dateOfRent, dateOfReturn, products, isFinished, brutto, netto, vat, price, advance, discount }) => (
+        rentsList.map(({ _id, client, dateOfRent, dateOfReturn, products, isFinished, brutto, netto, vat, price, advance, discount, rentsDurr }) => (
           <RentItem
             key={_id}
             id={_id}
@@ -27,6 +27,7 @@ const RentsView = () => {
             vat={vat}
             advance={advance}
             discount={discount}
+            rentsDurr={rentsDurr}
           />
         ))
       ) : (

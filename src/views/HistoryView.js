@@ -11,7 +11,7 @@ const HistoryView = () => {
     <MainTemplate>
       <ItemsTemplate title="Historia" />
       {rentsList.length > 0 ? (
-        rentsList.map(({ _id, client, dateOfRent, dateOfReturn, products, isFinished, brutto, netto, vat, price, advance, discount }) => (
+        rentsList.map(({ _id, client, dateOfRent, dateOfReturn, products, isFinished, brutto, netto, vat, price, advance, discount, rentsDurr }) => (
           <RentItem
             key={_id}
             id={_id}
@@ -27,6 +27,7 @@ const HistoryView = () => {
             vat={vat}
             advance={advance}
             discount={discount}
+            rentsDurr={rentsDurr}
           />
         ))
       ) : (

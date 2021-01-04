@@ -194,9 +194,9 @@ export const updateAccount = (userID, values) => async (dispatch) => {
   }
 };
 
-export const getAccounts = () => async (dispatch) => {
+export const getAccounts = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.get('http://localhost:4000/accounts');
+    const { data } = await axios.post(`http://localhost:4000/accounts/${id}`);
     dispatch({ type: 'FETCH_ACCOUNTS', payload: data });
   } catch (err) {
     console.log(err);
@@ -205,7 +205,6 @@ export const getAccounts = () => async (dispatch) => {
 
 export const updatePassword = (id, values) => async (dispatch) => {
   try {
-    console.log(id);
     const { data } = await axios.patch(`http://localhost:4000/users/updatePassword/${id}`, values);
     dispatch({ type: 'UPDATE_PASSWORD', payload: data });
   } catch (err) {

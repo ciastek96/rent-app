@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -124,11 +124,11 @@ const EditRentView = ({ match, user: { userID } }) => {
   const { id } = match.params;
   const dispatch = useDispatch();
   const currentRent = useSelector((state) => state.rents.find((rent) => rent._id === id));
-  const [rentsDurr, setRentsDurr] = useState(1);
   const [cartItems, setCartItems] = useState([]);
   const [rentValue, setRentValue] = useState(0);
   const productsList = useSelector((state) => state.products);
   const clientsList = useSelector((state) => state.clients);
+  const [rentsDurr, setRentsDurr] = useState(currentRent ? currentRent.rentsDurr : 1);
   const history = useHistory();
 
   const getNetto = (values) => {
@@ -179,7 +179,8 @@ const EditRentView = ({ match, user: { userID } }) => {
     );
   }
 
-  const [...currentProducts] = currentRent.products.map((product) => productsList.filter((products) => products._id === product));
+  // const [...currentProducts] = currentRent.products.map((product) => productsList.filter((products) => products._id === product._id));
+  const currentProducts = currentRent.products.map((product) => product);
 
   return (
     <MainTemplate>
@@ -199,7 +200,7 @@ const EditRentView = ({ match, user: { userID } }) => {
           initialValues={{
             dateOfRent: new Date(currentRent.dateOfRent),
             dateOfReturn: new Date(currentRent.dateOfReturn),
-            products: currentProducts.map(([product]) => product),
+            products: currentProducts.map((product) => product),
             client: currentRent.client,
             brutto: currentRent.brutto,
             vat: currentRent.vat,
@@ -284,7 +285,6 @@ const EditRentView = ({ match, user: { userID } }) => {
                   <ErrorMessage name="dateOfReturn" component={Error} />
                 </DateWrapper>
               </GridWrapper>
-
               <SelectWrapper>
                 <StyledSelect
                   name="client"
@@ -301,16 +301,16 @@ const EditRentView = ({ match, user: { userID } }) => {
                 />
                 <ErrorMessage name="client" component={Error} />
               </SelectWrapper>
-
               {values.client && (
                 <SelectWrapper>
                   <StyledSelect
                     isMulti
                     placeholder="Wybierz produkty"
                     name="products"
-                    defaultValue={currentProducts.map(([{ productName, _id, ...productValue }]) => ({
+                    defaultValue={currentProducts.map(({ productName, _id, ...productValue }) => ({
                       value: productName,
                       label: productName,
+                      productName,
                       _id,
                       ...productValue,
                     }))}
@@ -318,6 +318,8 @@ const EditRentView = ({ match, user: { userID } }) => {
                       value: productName,
                       label: productName,
                       _id,
+                      productName,
+                      qty: 1,
                       ...productValue,
                     }))}
                     // onChange={handleProduct}
@@ -329,7 +331,6 @@ const EditRentView = ({ match, user: { userID } }) => {
                   <ErrorMessage name="products" component={Error} />
                 </SelectWrapper>
               )}
-
               {values.products && values.products.length > 0 && (
                 <>
                   <ProductsCard

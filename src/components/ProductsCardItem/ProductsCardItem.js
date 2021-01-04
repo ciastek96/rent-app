@@ -14,7 +14,7 @@ const GridWrapper = styled.div`
     display: none;
   }
 
-  p:nth-child(2) {
+  div:nth-child(2) {
     text-align: left;
     margin-left: 15px;
   }
@@ -27,10 +27,10 @@ const GridWrapper = styled.div`
     grid-template-columns: repeat(auto-fit, minmax(60px, 100px));
     justify-content: center;
     grid-gap: 15px;
-
     text-align: left;
-    p:nth-child(2),
-    p:nth-child(5) {
+
+    div:nth-child(2),
+    div:nth-child(5) {
       margin-left: 0;
     }
 
@@ -50,6 +50,7 @@ const ProductImage = styled.div`
   border-radius: 50%;
   background-color: ${({ theme }) => theme.default};
   background-image: ${({ image }) => (image ? `url(${image})` : 'none')};
+  background-size: cover;
 `;
 
 const Counter = styled.div`
@@ -79,7 +80,7 @@ const Counter = styled.div`
 `;
 
 const ProductsCardItem = ({
-  cartItems,
+  // cartItems,
   setFieldValue,
   values,
   product: { _id, selectedFile, productName, quantity: availableQuantity, unit, brutto, qty: initialQty },
@@ -127,10 +128,10 @@ const ProductsCardItem = ({
   return (
     <Item key={_id}>
       <ProductImage image={selectedFile} />
-      <p>
+      <div>
         <h5>Produkt</h5>
-        {productName}
-      </p>
+        <p>{productName}</p>
+      </div>
       <Counter>
         <button type="button" onClick={decrement}>
           -
@@ -140,25 +141,25 @@ const ProductsCardItem = ({
           +
         </button>
       </Counter>
-      <p>
+      <div>
         <h5>Jednostka: </h5>
-        {unit}
-      </p>
-      <p>
+        <p>{unit}</p>
+      </div>
+      <div>
         <h5>Dostępność</h5>
-        {availableQuantity}
-      </p>
-      <p>
+        <p>{availableQuantity}</p>
+      </div>
+      <div>
         <h5>Kwota: </h5>
-        {value}
-      </p>
+        <p>{value}</p>
+      </div>
       {/* <RemoveButton /> */}
     </Item>
   );
 };
 
 ProductsCardItem.propTypes = {
-  product: PropTypes.oneOf([PropTypes.array, PropTypes.object]).isRequired,
+  product: PropTypes.arrayOf(PropTypes.any).isRequired,
   _id: PropTypes.string.isRequired,
   selectedFile: PropTypes.string,
   productName: PropTypes.string.isRequired,
@@ -167,7 +168,7 @@ ProductsCardItem.propTypes = {
   brutto: PropTypes.number.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   values: PropTypes.oneOf([PropTypes.array, PropTypes.object]).isRequired,
-  cartItems: PropTypes.oneOf([PropTypes.array, PropTypes.object]).isRequired,
+  // cartItems: PropTypes.oneOf([PropTypes.array, PropTypes.object]).isRequired,
 };
 
 ProductsCardItem.defaultProps = {

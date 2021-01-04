@@ -14,12 +14,27 @@ module.exports = ({
     vat,
     discount,
     td,
+    rentsDurr,
   },
 }) => {
-  console.log(discount);
-  const productList = products.map(
-    (product, nr) =>
-      `<tr class="item">
+  const nettoSum = products.map((product) => product.qty * product.netto).reduce((a, b) => a + b) * rentsDurr;
+  const bruttoSum = products.map((product) => product.qty * product.brutto).reduce((a, b) => a + b) * rentsDurr;
+  const vatSum = products.map((product) => (product.qty * product.brutto * parseInt(product.vat, 10)) / 100).reduce((a, b) => a + b) * rentsDurr;
+
+  const productSum = products.map(
+    (product) => `
+        <tr>
+            <td>${product.vat}</td>
+            <td>${(rentsDurr * product.qty * product.netto).toFixed(2)}</td>
+            <td>${(rentsDurr * (parseInt(product.vat, 10) / 100) * product.brutto * product.qty).toFixed(2)}</td>
+            <td>${(rentsDurr * product.qty * product.brutto).toFixed(2)}</td>
+        </tr>`,
+  );
+
+  const productList = products
+    .map(
+      (product, nr) =>
+        `<tr class="item">
             <td>${nr + 1}</td>
 
             <td colspan="12">${product.productName}</td>
@@ -36,7 +51,8 @@ module.exports = ({
 
             <td colspan="2">${(product.qty * product.brutto).toFixed(2)}</td>
           </tr>`,
-  );
+    )
+    .reduce((a, b) => a + b);
   return `
   <!doctype html>
 <html>
@@ -142,6 +158,10 @@ module.exports = ({
         font-size: 11px;
     }
 
+    .invoice-box table.left tr td:nth-child(2) {
+        text-align: center;
+    }
+
     @media only screen and (max-width: 600px) {
         .invoice-box table tr.top table td {
             width: 100%;
@@ -201,7 +221,6 @@ module.exports = ({
                     <table>
                         <tr>
                             <td class="title">
-                                <!-- <img src="../../src/assets/icons/svg" style="width:100%; max-width:300px;"> -->
                                 <p>Rentapp</p>
                             </td>
 
@@ -223,7 +242,7 @@ module.exports = ({
                                 <span>Sprzedawca</span><br>
                                 ${currentUser.companyName}<br>
                                 ${currentUser.name} ${currentUser.surname}<br>
-                                ${currentUser.address.street}<br>
+                                ${currentUser.address}<br>
                                 ${currentUser.address.postalCode} ${currentUser.address.city}<br>
                                 NIP: ${currentUser.nip}<br>
                                 Tel: ${currentUser.phone}<br>
@@ -352,81 +371,44 @@ module.exports = ({
                                 $385.00
                              </td>
                         </tr>
-                        <tr>
-                            <td>23%</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td colspan="2">
-                                Do zapłaty: </td>
-                            <td colspan="2">$385.00
-                             </td>
-                        </tr>
-                        <tr>
-                            <td>Razem: </td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td colspan="2">Razem: </td>
-                            <td colspan="2">
-                                $385.00
-                             </td>
-                        </tr>
                     </table>
                 </td>
             </tr> -->
 
             <table class="under">
-                <!-- <td colspan="4" class="left">
-                    <table>
+                <td colspan="4" class="left">
+                    <table class="left">
                         <tr>
                             <td>Stawka VAT</td>
-                            <td>Wartość netto</td>
+                            <td >Wartość netto</td>
                             <td>Kwota VAT</td>
                             <td>Wartość brutto</td>
 
                         </tr>
-                        <tr>
-                            <td>23%</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
+
+                        ${productSum.reduce((a, b) => a + b)}
+
                         <tr>
                             <td>Razem: </td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
+                            <td>${nettoSum.toFixed(2)}</td>
+                            <td>${vatSum.toFixed(2)}</td>
+                            <td>${bruttoSum.toFixed(2)}</td>
                         </tr>
                     </table>
-                </td> -->
+                </td>
                 <td>
                     <table class="right">
-                    <tr class="total">
+                        <tr class="total">
                             <td>
-                                Razem:
+                                Długość najmu:
                             </td>
                             <td>
-                                ${brutto.toFixed(2)}
-                             </td>
-                            <td>
-                                Razem:
-                            </td>
-                            <td>
-                                ${brutto.toFixed(2)}
+                                ${rentsDurr} dni
                              </td>
                         </tr>
                         <tr class="total">
                             <td>
-                                Rabat:
-                            </td>
-                            <td>
-                                ${discount.toFixed(2)}
-                             </td>
-                        </tr>
-                        <tr class="total">
-                            <td>
-                                Zapłacono:
+                                Kaucja zwrotna:
                             </td>
                             <td>
                                 ${parseFloat(advance).toFixed(2)}
@@ -434,18 +416,26 @@ module.exports = ({
                         </tr>
                         <tr class="total">
                             <td>
-                                Do zapłaty:
-                            </td>
-                            <td>
-                                ${(price - advance).toFixed(2)}
-                            </td>
-                        </tr>
-                        <tr class="total">
-                            <td>
                                 Razem:
                             </td>
                             <td>
-                                ${price.toFixed(2)}
+                                ${bruttoSum.toFixed(2)}
+                             </td>
+                        </tr>
+                        <tr class="total">
+                            <td>
+                                Rabat ${clientDiscount}%
+                            </td>
+                            <td>
+                                ${discount.toFixed(2)}
+                             </td>
+                        </tr>
+                        <tr class="total">
+                            <td>
+                                Suma:
+                            </td>
+                            <td>
+                                ${(bruttoSum - discount).toFixed(2)} zł
                              </td>
                         </tr>
                     </table>

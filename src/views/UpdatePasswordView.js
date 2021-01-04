@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import MainTemplate from '../templates/MainTemplate';
@@ -61,6 +61,7 @@ const UpdatePasswordView = () => {
   const currentUser = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
   const user = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   if (!currentUser) {
     return (
@@ -107,13 +108,14 @@ const UpdatePasswordView = () => {
             if (!values.newPassword2) {
               errors.newPassword2 = 'Pole wymagane.';
             } else if (values.newPassword !== values.newPassword2) {
-              errors.newPassword2 = 'Podane hasła nie zą identyczne.';
+              errors.newPassword2 = 'Podane hasła nie są identyczne.';
             }
 
             return errors;
           }}
           onSubmit={(values) => {
             dispatch(updatePassword(user.userID, values));
+            history.go(0);
           }}
         >
           {() => (

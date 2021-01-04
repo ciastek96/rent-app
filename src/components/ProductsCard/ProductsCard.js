@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
 import ProductsCardItem from '../ProductsCardItem/ProductsCardItem';
@@ -45,30 +44,24 @@ const Body = styled.div``;
 //   cursor: pointer;
 // `;
 
-const ProductsCard = ({ values, setFieldValue, cartItems }) => {
-  const productsList = useSelector(({ products }) => products);
-  const selectedProducts = values.map((value) => productsList.filter((item) => item._id === value._id));
-  console.log('products card', values);
-
-  return (
-    <Wrapper>
-      <Heading>
-        <p>&nbsp;</p>
-        <p>Produkt</p>
-        <p>Ilość</p>
-        <p>Jednostka</p>
-        <p>Dostępność</p>
-        <p>Kwota</p>
-        <p>&nbsp;</p>
-      </Heading>
-      <Body>
-        {values.map((product) => (
-          <ProductsCardItem key={product._id} product={product} setFieldValue={setFieldValue} values={values} cartItems={cartItems} />
-        ))}
-      </Body>
-    </Wrapper>
-  );
-};
+const ProductsCard = ({ values, setFieldValue, cartItems }) => (
+  <Wrapper>
+    <Heading>
+      <p>&nbsp;</p>
+      <p>Produkt</p>
+      <p>Ilość</p>
+      <p>Jednostka</p>
+      <p>Dostępność</p>
+      <p>Kwota</p>
+      <p>&nbsp;</p>
+    </Heading>
+    <Body>
+      {values.map((product, i) => (
+        <ProductsCardItem key={product._id} product={product} setFieldValue={setFieldValue} values={values} cartItems={cartItems} />
+      ))}
+    </Body>
+  </Wrapper>
+);
 
 ProductsCard.propTypes = {
   values: PropTypes.arrayOf(PropTypes.object).isRequired,

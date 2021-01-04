@@ -144,6 +144,7 @@ const RentItem = ({
   vat,
   discount,
   advance,
+  rentsDurr,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -152,7 +153,7 @@ const RentItem = ({
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [optionMenu, setOptionMenu] = useState(false);
   // const productList = useSelector((state) => products.map((product) => state.products.filter((item) => item._id === product)));
-  const currentUser = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
+  const currentUser = useSelector((state) => state.account);
   const [isRedirect, setIsRedirect] = useState(false);
   const td = moment().format('DD.MM.YYYY');
 
@@ -197,6 +198,7 @@ const RentItem = ({
       discount,
       advance,
       td,
+      rentsDurr,
     };
     axios
       .post('http://localhost:4000/create-pdf', { values })
@@ -390,13 +392,14 @@ RentItem.propTypes = {
   dateOfRent: PropTypes.string.isRequired,
   dateOfReturn: PropTypes.string.isRequired,
   isFinished: PropTypes.bool,
-  products: PropTypes.arrayOf(PropTypes.string).isRequired,
+  products: PropTypes.arrayOf(PropTypes.oneOfType(PropTypes.string, PropTypes.object)).isRequired,
   price: PropTypes.number.isRequired,
   brutto: PropTypes.number.isRequired,
   netto: PropTypes.number.isRequired,
   vat: PropTypes.number.isRequired,
   discount: PropTypes.number.isRequired,
-  advance: PropTypes.number.isRequired,
+  advance: PropTypes.string.isRequired,
+  rentsDurr: PropTypes.number.isRequired,
 };
 
 RentItem.defaultProps = {

@@ -7,7 +7,7 @@ import Navbar from '../components/Navbar/Navbar';
 
 const Wrapper = styled.div`
   max-width: 1024px;
-  margin: 0 auto;
+  margin: 0 auto 45px;
   padding: 15px;
 `;
 

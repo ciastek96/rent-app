@@ -106,13 +106,14 @@ const PasswordContainer = styled.div`
 `;
 
 const SettingsView = () => {
-  const [selectedFile, setSelectedFile] = useState('');
-  const currentUser = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
+  const [selectedFile, setSelectedFile] = useState();
+  // const currentUser = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
+  const currentUser = useSelector((state) => state.account);
   const username = useSelector((state) => state.users.user.username);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  if (!currentUser) {
+  if (!currentUser._id) {
     return (
       <MainTemplate>
         <Spinner />
@@ -136,10 +137,10 @@ const SettingsView = () => {
       <Wrapper>
         <Formik
           initialValues={{
-            name: currentUser.name || '',
-            surname: currentUser.surname || '',
-            email: currentUser.email || '',
-            phone: currentUser.phone || '',
+            name: currentUser.name,
+            surname: currentUser.surname,
+            email: currentUser.email,
+            phone: currentUser.phone,
             companyName: currentUser.companyName || '',
             nip: currentUser.nip || '',
             address: {
