@@ -141,14 +141,17 @@ export const removeRent = (id) => async (dispatch) => {
 export const setCurrentUser = (user) => ({ type: 'SET_CURRENT_USER', user });
 
 export const signIn = (values) => async (dispatch) => {
+  dispatch({ type: 'LOGIN_REQUEST' });
   try {
     const { data } = await axios.post('http://localhost:4000/users/signin', values);
     const { token } = data;
     localStorage.setItem('jwtToken', token);
     setAuthToken(token);
-    dispatch({ type: 'SET_CURRENT_USER', payload: jwt.decode(token) });
-  } catch (err) {
-    dispatch({ type: 'LOGIN_ERROR', payload: 'Wpisano niepoprawne dane.' });
+    dispatch({ type: 'LOGIN_SUCCESS', payload: jwt.decode(token) });
+    // dispatch({ type: 'SET_CURRENT_USER', payload: jwt.decode(token) });
+  } catch (error) {
+    dispatch({ type: 'LOGIN_FAILURE', error });
+    console.log(error);
   }
 };
 
@@ -204,10 +207,12 @@ export const getAccounts = (id) => async (dispatch) => {
 };
 
 export const updatePassword = (id, values) => async (dispatch) => {
+  dispatch({ type: 'UPDATE_PASSWORD_REQUEST' });
   try {
     const { data } = await axios.patch(`http://localhost:4000/users/updatePassword/${id}`, values);
-    dispatch({ type: 'UPDATE_PASSWORD', payload: data });
-  } catch (err) {
-    console.log(err);
+    dispatch({ type: 'UPDATE_PASSWORD_SUCCESS', payload: data });
+  } catch (error) {
+    dispatch({ type: 'UPDATE_PASSWORD_FAILURE', error });
+    console.log(error);
   }
 };

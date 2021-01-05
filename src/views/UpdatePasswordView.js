@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import MainTemplate from '../templates/MainTemplate';
+import MessageBox from '../components/MessageBox/MessageBox';
 import Button from '../components/Button/Button';
 import Spinner from '../components/Spinner/Spinner';
 import { routes } from '../routes/routes';
@@ -58,12 +59,21 @@ const StyledForm = styled(Form)`
 `;
 
 const UpdatePasswordView = () => {
-  const currentUser = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
-  const user = useSelector((state) => state.users.user);
+  const currentUser = useSelector((state) => state.account);
+  const user = useSelector((state) => state.users);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
+  // const history = useHistory();
 
   if (!currentUser) {
+    return (
+      <MainTemplate>
+        <Spinner />
+      </MainTemplate>
+    );
+  }
+
+  if (user.loading) {
     return (
       <MainTemplate>
         <Spinner />
@@ -85,6 +95,12 @@ const UpdatePasswordView = () => {
         </ButtonsWrapper>
       </StyledHeader>
       <Wrapper>
+        {user.error && isMessageBoxOpen && (
+          <MessageBox type="error" title="Błąd" value="Podane hasło jest nieprawidłowe" setIsOpen={setIsMessageBoxOpen} />
+        )}
+        {user.success && isMessageBoxOpen && (
+          <MessageBox type="success" title="Gitarka" value="Hasło zostało zaaktualizowane" setIsOpen={setIsMessageBoxOpen} />
+        )}
         <Formik
           initialValues={{
             currentPassword: '',
@@ -114,8 +130,9 @@ const UpdatePasswordView = () => {
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(updatePassword(user.userID, values));
-            history.go(0);
+            dispatch(updatePassword(user.user.userID, values));
+            setIsMessageBoxOpen(true);
+            // history.go(0);
           }}
         >
           {() => (

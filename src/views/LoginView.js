@@ -70,9 +70,9 @@ const LoginView = ({ location: { pathname } }) => {
 
   if (!isLoaded) return <Spinner />;
 
-  if (isAuth) {
-    return <Redirect to={{ pathname: routes.home, state: { from: routes.login } }} />;
-  }
+  // if (isAuth) {
+  //   return <Redirect to={{ pathname: routes.home, state: { from: routes.login } }} />;
+  // }
 
   return (
     <LoginTemplate>

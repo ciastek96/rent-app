@@ -12,6 +12,7 @@ export const theme = {
     coming: '#e78c00',
     ended: '#bf1e29',
   },
+  error: '#bf1e29',
   boxShadow: '0 0px 30px -10px hsla(0, 0%, 0%, 0.1);',
   fontSize: {
     l: '20px',

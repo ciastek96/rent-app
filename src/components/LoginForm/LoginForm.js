@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { PropTypes } from 'prop-types';
@@ -7,6 +7,8 @@ import { routes } from '../../routes/routes';
 import { signIn } from '../../actions';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
+import Spinner from '../Spinner/Spinner';
+import MessageBox from '../MessageBox/MessageBox';
 
 const StyledForm = styled(Form)`
   min-width: 100%;
@@ -38,44 +40,71 @@ const Success = styled.p`
 `;
 
 const LoginForm = ({ setCardType }) => {
-  const error = useSelector((state) => state.users.error);
-  const success = useSelector((state) => state.users.success);
+  // const error = useSelector((state) => state.users.error);
+  // const success = useSelector((state) => state.users.success);
+  const users = useSelector((state) => state.users);
+  const isLoading = useSelector((state) => state.users.loading);
+  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
   const dispatch = useDispatch();
+  let statusCode = 404;
+
+  const handleError = () => {
+    switch (statusCode) {
+      case '404':
+        return <MessageBox type="error" value="Podane dane są nieprawidłowe" setIsOpen={setIsMessageBoxOpen} />;
+      case '401':
+        return <MessageBox type="error" value="Podane hasło jest nieprawidłowe" setIsOpen={setIsMessageBoxOpen} />;
+      default:
+        return <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />;
+    }
+  };
+
+  if (users.error) {
+    [statusCode] = users.error.message.split(' ').slice(-1);
+  }
 
   return (
-    <Formik
-      initialValues={{ username: '', password: '' }}
-      validate={(values) => {
-        const errors = {};
-        if (!values.username) {
-          errors.username = 'Pole wymagane';
-        }
-        if (!values.password) {
-          errors.password = 'Pole wymagane';
-        }
-        return errors;
-      }}
-      onSubmit={(values) => {
-        dispatch(signIn(values));
-      }}
-    >
-      {() => (
-        <StyledForm>
-          {error && <Error>{error}</Error>}
-          {success && <Success>{success}</Success>}
-          <Field as={StyledInput} type="text" name="username" placeholder="Nazwa użytkownika" />
-          <ErrorMessage name="username" component={Error} />
-          <Field as={StyledInput} type="password" name="password" placeholder="Hasło" />
-          <ErrorMessage name="password" component={Error} />
-          <ButtonsWrapper>
-            <Button type="submit">Zaloguj</Button>
-            <Button tertiary onClick={() => setCardType(routes.register)}>
-              Rejestracja
-            </Button>
-          </ButtonsWrapper>
-        </StyledForm>
-      )}
-    </Formik>
+    <>
+      <Formik
+        initialValues={{ username: '', password: '' }}
+        validate={(values) => {
+          const errors = {};
+          if (!values.username) {
+            errors.username = 'Pole wymagane';
+          }
+          if (!values.password) {
+            errors.password = 'Pole wymagane';
+          }
+          return errors;
+        }}
+        onSubmit={(values) => {
+          dispatch(signIn(values));
+          setIsMessageBoxOpen(true);
+        }}
+      >
+        {() => (
+          <StyledForm>
+            {/* {error && <Error>{error}</Error>}
+            {success && <Success>{success}</Success>} */}
+
+            <Field as={StyledInput} type="text" name="username" placeholder="Nazwa użytkownika" />
+            <ErrorMessage name="username" component={Error} />
+            <Field as={StyledInput} type="password" name="password" placeholder="Hasło" />
+            <ErrorMessage name="password" component={Error} />
+
+            <ButtonsWrapper>
+              <Button type="submit">Zaloguj</Button>
+              <Button tertiary onClick={() => setCardType(routes.register)}>
+                Rejestracja
+              </Button>
+            </ButtonsWrapper>
+          </StyledForm>
+        )}
+      </Formik>
+      {isLoading && <Spinner />}
+      {users.error && isMessageBoxOpen && handleError()}
+      {users.success && isMessageBoxOpen && <MessageBox type="success" value="Zostałeś pomyślnie zalogowany" setIsOpen={setIsMessageBoxOpen} />}
+    </>
   );
 };
 
