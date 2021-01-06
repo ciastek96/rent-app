@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 import { routes } from '../routes/routes';
@@ -18,12 +18,14 @@ import NewRentView from './NewRentView';
 import EditRentView from './EditRentView';
 import RentsView from './RentsView';
 import UpdatePasswordView from './UpdatePasswordView';
-import { getClients, getProducts, getRents, getAccounts } from '../actions';
+import { getClients, getProducts, getRents, getAccount } from '../actions';
+import Spinner from '../components/Spinner/Spinner';
 import setAuthToken from '../utils/setAuthToken';
 import ProtectedRoute from '../routes/ProtectedRoute/ProtectedRoute';
 
 const Root = () => {
   const dispatch = useDispatch();
+  // const isClientsLoaded = useSelector((state) => state.client.loading);
 
   useEffect(() => {
     if (localStorage.jwtToken) {
@@ -33,9 +35,13 @@ const Root = () => {
       dispatch(getClients(user.userID));
       dispatch(getProducts(user.userID));
       dispatch(getRents(user.userID));
-      dispatch(getAccounts(user.userID));
+      dispatch(getAccount(user.userID));
     }
-  });
+  }, []);
+
+  // if (isClientsLoaded) {
+  //   return <Spinner />;
+  // }
 
   return (
     <Router>
@@ -56,7 +62,7 @@ const Root = () => {
         <ProtectedRoute exact path={routes.settings} component={SettingsView} />
         <ProtectedRoute path={routes.updatePassword} component={UpdatePasswordView} />
         <ProtectedRoute path={routes.finances} component={HistoryView} />
-        <Route path="*" component={NotFoundView} />
+        <ProtectedRoute path="*" component={NotFoundView} />
       </Switch>
     </Router>
   );

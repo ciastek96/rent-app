@@ -215,7 +215,6 @@ const NewClientView = ({ user: { userID } }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            console.log({ ...values, selectedFile });
             dispatch(addClient({ userID, ...values, selectedFile }));
             setRedirect(true);
           }}

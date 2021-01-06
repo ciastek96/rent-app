@@ -10,6 +10,7 @@ import { updateClient } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import Spinner from '../components/Spinner/Spinner';
+import MessageBox from '../components/MessageBox/MessageBox';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
 
@@ -106,7 +107,9 @@ const EditClientView = ({ match, user: { userID } }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = match.params;
-  const clientValues = useSelector((state) => state.clients.find((client) => client._id === id));
+  const client = useSelector((state) => state.client);
+  const clientValues = useSelector((state) => state.client.clients.find((i) => i._id === id));
+  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
 
   if (!clientValues) {
     return (
@@ -129,6 +132,9 @@ const EditClientView = ({ match, user: { userID } }) => {
         </ButtonsWrapper>
       </StyledHeader>
       <Wrapper>
+        {client.loading && <Spinner />}
+        {client.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
+        {client.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
         <Formik
           initialValues={{
             name: clientValues.name,
@@ -221,7 +227,8 @@ const EditClientView = ({ match, user: { userID } }) => {
           }}
           onSubmit={(values) => {
             dispatch(updateClient(id, { userID, ...values, selectedFile }));
-            history.go(0);
+            setIsMessageBoxOpen(true);
+            // history.go(0);
           }}
         >
           {({ values }) => (

@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
-import products from './products';
-import clients from './clients';
+import product from './product';
+import client from './client';
 import account from './account';
-import rents from './rents';
+import rent from './rent';
 import users from './users';
 
 export default combineReducers({
-  products,
-  clients,
-  rents,
+  product,
+  client,
+  rent,
   users,
   account,
 });

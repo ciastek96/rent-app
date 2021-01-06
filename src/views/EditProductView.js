@@ -13,6 +13,7 @@ import { updateProduct } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import Spinner from '../components/Spinner/Spinner';
+import MessageBox from '../components/MessageBox/MessageBox';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
 
@@ -109,8 +110,10 @@ const DateWrapper = styled.div`
 
 const EditProductView = ({ match, user: { userID } }) => {
   const { id } = match.params;
-  const productValues = useSelector(({ products }) => products.find((product) => product._id === id));
+  const product = useSelector((state) => state.product);
+  const productValues = useSelector((state) => state.product.products.find((i) => i._id === id));
   const [selectedFile, setSelectedFile] = useState();
+  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -140,6 +143,11 @@ const EditProductView = ({ match, user: { userID } }) => {
         </ButtonsWrapper>
       </StyledHeader>
       <Wrapper>
+        {product.loading && <Spinner />}
+        {product.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
+        {product.success && isMessageBoxOpen && (
+          <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />
+        )}
         <Formik
           initialValues={{
             productName: productValues.productName,
@@ -186,7 +194,7 @@ const EditProductView = ({ match, user: { userID } }) => {
           }}
           onSubmit={(values) => {
             dispatch(updateProduct(id, { userID, ...values, selectedFile }));
-            history.go(0);
+            setIsMessageBoxOpen(true);
           }}
         >
           {({ values, setFieldValue }) => (

@@ -1,10 +1,15 @@
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
+
 const LOGIN_FAILURE = 'LOGIN_FAILURE';
-const LOGOUT_USER = 'LOGOUT_USER';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGIN_REQUEST = 'LOGIN_REQUEST';
-const REGISTER_ERROR = 'REGISTER_ERROR';
+
+const LOGOUT_USER = 'LOGOUT_USER';
+
+const REGISTER_FAILURE = 'REGISTER_FAILURE';
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+const REGISTER_REQUEST = 'REGISTER_REQUEST';
+
 const UPDATE_PASSWORD_REQUEST = 'UPDATE_PASSWORD_REQUEST';
 const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS';
 const UPDATE_PASSWORD_FAILURE = 'UPDATE_PASSWORD_FAILURE';
@@ -27,17 +32,29 @@ const usersReducer = (users = initialState, { type, payload, error }) => {
     case LOGOUT_USER:
       return {
         isAuthenticated: false,
-        user: payload,
+        user: null,
+        loading: false,
+        error: null,
+        success: null,
       };
-    case REGISTER_ERROR:
+    case REGISTER_REQUEST:
       return {
         ...users,
-        error: payload,
+        loading: true,
+        error: null,
+        success: null,
+      };
+    case REGISTER_FAILURE:
+      return {
+        ...users,
+        loading: false,
+        error,
         success: null,
       };
     case REGISTER_SUCCESS:
       return {
         ...users,
+        loading: false,
         error: null,
         success: payload,
       };

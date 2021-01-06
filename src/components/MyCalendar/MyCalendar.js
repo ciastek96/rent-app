@@ -27,6 +27,7 @@ const Wrapper = styled.div`
     font-family: 'Roboto';
     color: ${({ theme }) => theme.gray};
     font-size: 12px;
+    z-index: 10;
   }
   .rbc-header {
     padding: 20px 0;

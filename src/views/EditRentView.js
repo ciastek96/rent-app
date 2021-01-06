@@ -14,6 +14,8 @@ import ProductsCard from '../components/ProductsCard/ProductsCard';
 import { updateRent } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
+import MessageBox from '../components/MessageBox/MessageBox';
+
 import { routes } from '../routes/routes';
 
 const StyledHeader = styled.div`
@@ -123,11 +125,13 @@ const SummaryItem = styled.div`
 const EditRentView = ({ match, user: { userID } }) => {
   const { id } = match.params;
   const dispatch = useDispatch();
-  const currentRent = useSelector((state) => state.rents.find((rent) => rent._id === id));
+  const rent = useSelector((state) => state.rent);
+  const currentRent = useSelector((state) => state.rent.rents.find((i) => i._id === id));
   const [cartItems, setCartItems] = useState([]);
   const [rentValue, setRentValue] = useState(0);
-  const productsList = useSelector((state) => state.products);
-  const clientsList = useSelector((state) => state.clients);
+  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
+  const productsList = useSelector((state) => state.product.products);
+  const clientsList = useSelector((state) => state.client.clients);
   const [rentsDurr, setRentsDurr] = useState(currentRent ? currentRent.rentsDurr : 1);
   const history = useHistory();
 
@@ -196,6 +200,9 @@ const EditRentView = ({ match, user: { userID } }) => {
         </ButtonsWrapper>
       </StyledHeader>
       <Wrapper>
+        {rent.loading && <Spinner />}
+        {rent.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
+        {rent.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
         <Formik
           initialValues={{
             dateOfRent: new Date(currentRent.dateOfRent),
@@ -237,7 +244,8 @@ const EditRentView = ({ match, user: { userID } }) => {
             const vat = getVAT(values.products);
             const price = getFinalPrice(values);
             dispatch(updateRent(id, { userID, ...values, brutto, netto, vat, discount, price, rentsDurr }));
-            history.go(0);
+            setIsMessageBoxOpen(true);
+            // history.go(0);
           }}
         >
           {({ values, setFieldValue }) => (

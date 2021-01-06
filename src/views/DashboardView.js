@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import MainTemplate from '../templates/MainTemplate';
 import Box from '../components/Box/Box';
+import Spinner from '../components/Spinner/Spinner';
+import MessageBox from '../components/MessageBox/MessageBox';
 import { routes } from '../routes/routes';
 import MyCalendar from '../components/MyCalendar/MyCalendar';
 import { ReactComponent as PersonIcon } from '../assets/icons/svg/interfaces/male.svg';
@@ -24,9 +26,11 @@ const BoxGrid = styled.div`
 `;
 
 const DashboardView = () => {
-  const productsListLen = useSelector((state) => state.products.length);
-  const clientListLen = useSelector((state) => state.clients.length);
-  const rentsList = useSelector((state) => state.rents.filter((rent) => rent.isFinished === false));
+  const rent = useSelector((state) => state.rent);
+  const productsListLen = useSelector((state) => state.product.products?.length);
+  const clientListLen = useSelector((state) => state.client.clients?.length);
+  const rentsList = useSelector((state) => state.rent.rents?.filter((i) => i.isFinished === false));
+  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
   const history = useHistory();
   const events = rentsList.map((item, i) => ({
     id: i,
@@ -44,6 +48,8 @@ const DashboardView = () => {
 
   return (
     <MainTemplate>
+      {rent.loading && <Spinner />}
+      {rent.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
       <h2>Baza danych</h2>
       <BoxGrid>
         <Box path={routes.rents} title="Wypożyczenia" value={rentsList.length}>

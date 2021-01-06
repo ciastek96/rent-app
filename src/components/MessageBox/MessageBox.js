@@ -1,17 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../assets/icons/svg/interfaces/close-a.svg';
+import { ReactComponent as SuccessIcon } from '../../assets/icons/svg/interfaces/check.svg';
 
 const Wrapper = styled.div`
   width: 380px;
   height: 100px;
   border-radius: 6px;
   background-color: ${({ theme }) => theme.white};
-  position: absolute;
+  position: fixed;
   bottom: 45px;
+  right: 45px;
   right: 45px;
   box-shadow: ${({ theme }) => theme.boxShadow};
   transition: background-color 0.25s ease-in-out;
@@ -19,8 +20,9 @@ const Wrapper = styled.div`
   text-decoration: none;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
+  z-index: 990;
 
   &::before {
     content: '';
@@ -36,6 +38,7 @@ const Wrapper = styled.div`
 const Value = styled.p`
   font-size: ${({ theme }) => theme.fontSize.s};
   font-weight: 500;
+  margin: 0 auto 0 15px;
 `;
 
 const CloseButton = styled.button`
@@ -50,15 +53,24 @@ const StyledCloseIcon = styled(CloseIcon)`
   height: 14px;
   fill: ${({ theme }) => theme.lightGray};
   transition: fill 0.25s ease-in-out;
+  margin-right: 15px;
 
   ${CloseButton}:hover & {
     fill: ${({ theme }) => theme.darkGray};
   }
 `;
 
+const StyledSuccesIcon = styled(SuccessIcon)`
+  height: 22px;
+  width: 22px;
+  margin-left: 25px;
+  fill: ${({ theme }) => theme.green};
+`;
+
 const MessageBox = ({ type, value, setIsOpen }) =>
   ReactDOM.createPortal(
     <Wrapper type={type}>
+      {type === 'success' && <StyledSuccesIcon />}
       <Value>{value}</Value>
       <CloseButton type="submit" onClick={() => setIsOpen(false)}>
         <StyledCloseIcon />

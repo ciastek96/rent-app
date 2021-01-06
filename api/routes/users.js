@@ -17,7 +17,7 @@ router.post('/register', async (req, res) => {
 
   User.findOne({ username })
     .then((user) => {
-      if (user) res.status(409).send('Podana nazwa użytkownika jest już zajęta.');
+      if (user) res.status(409).send({ message: 'Already used.' });
       else {
         bcrypt.hash(password, 10, (error, hash) => {
           const newUser = new User({ username, email, password: hash });
@@ -32,17 +32,17 @@ router.post('/register', async (req, res) => {
                   newAccount
                     .save()
                     .then(() => {
-                      res.status(201).send('Pomyślnie stworzono użytkownika. Teraz możesz się zalogować.');
+                      res.status(201).send('Created.');
                     })
-                    .catch((err) => console.log(err));
+                    .catch((err) => res.status(500).send({ message: err.message }));
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => res.status(409).send({ message: err.message }));
             })
-            .catch((err) => res.status(400).json(`Error: ${err}`));
+            .catch((err) => res.status(500).send({ message: err.message }));
         });
       }
     })
-    .catch((err) => res.statu(400).json(`Error: ${err}`));
+    .catch((error) => res.status(400).send({ message: error.message }));
 });
 
 router.post('/signin', async (req, res) => {
@@ -54,10 +54,10 @@ router.post('/signin', async (req, res) => {
       const token = jwt.sign({ userID: user._id, username: user.username }, process.env.JWT_SECRET);
       res.status(200).json({ token });
     } else {
-      res.status(401).json('Nieprawidłowe hasło. ');
+      res.status(401).send({ message: 'Nieprawidłowe hasło. ' });
     }
-  } catch (err) {
-    res.status(404).send({ message: err.message });
+  } catch (error) {
+    res.status(404).send({ message: error.message });
   }
 });
 

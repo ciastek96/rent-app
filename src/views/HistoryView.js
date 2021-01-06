@@ -5,7 +5,7 @@ import RentItem from '../components/RentItem/RentItem';
 import MainTemplate from '../templates/MainTemplate';
 
 const HistoryView = () => {
-  const rentsList = useSelector(({ rents }) => rents.filter((rent) => rent.isFinished === true));
+  const rentsList = useSelector(({ rent }) => rent.rents.filter((i) => i.isFinished === true));
 
   return (
     <MainTemplate>

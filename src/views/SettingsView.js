@@ -9,6 +9,7 @@ import { updateAccount } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import Spinner from '../components/Spinner/Spinner';
+import MessageBox from '../components/MessageBox/MessageBox';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
 
@@ -105,12 +106,13 @@ const PasswordContainer = styled.div`
   padding: 0 0 65px 25px;
 `;
 
-const SettingsView = () => {
+const SettingsView = ({ user: { userID } }) => {
   const [selectedFile, setSelectedFile] = useState();
   // const currentUser = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
   const currentUser = useSelector((state) => state.account);
   const username = useSelector((state) => state.users.user.username);
   const dispatch = useDispatch();
+  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
   const history = useHistory();
 
   if (!currentUser._id) {
@@ -126,9 +128,9 @@ const SettingsView = () => {
       <StyledHeader>
         <h2>Ustawienia</h2>
         <ButtonsWrapper>
-          <Button as={Link} to={routes.clients} secondary="true">
+          {/* <Button as={Link} to={routes.clients} secondary="true">
             Anuluj
-          </Button>
+          </Button> */}
           <StyledButton type="submit" form="settingsForm">
             Zapisz
           </StyledButton>
@@ -217,9 +219,8 @@ const SettingsView = () => {
             return errors;
           }}
           onSubmit={(values) => {
-            console.log(currentUser.userID, { ...values, selectedFile });
             dispatch(updateAccount(currentUser.userID, { ...values, selectedFile }));
-            history.go(0);
+            setIsMessageBoxOpen(true);
           }}
         >
           {() => (
@@ -286,6 +287,12 @@ const SettingsView = () => {
             </>
           )}
         </Formik>
+        {currentUser.error && isMessageBoxOpen && (
+          <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />
+        )}
+        {currentUser.success && isMessageBoxOpen && (
+          <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />
+        )}
       </Wrapper>
     </MainTemplate>
   );

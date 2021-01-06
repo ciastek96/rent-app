@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import Select from 'react-select';
+import Spinner from '../components/Spinner/Spinner';
 import Input from '../components/Input/Input';
 // import Textarea from '../components/Textarea/Textarea';
 import ProductsCard from '../components/ProductsCard/ProductsCard';
@@ -148,8 +149,9 @@ const SummaryItem = styled.div`
 
 const NewRentView = ({ user: { userID } }) => {
   const dispatch = useDispatch();
-  const productsList = useSelector((state) => state.products);
-  const clientsList = useSelector((state) => state.clients);
+  const productsList = useSelector((state) => state.product.products);
+  const clientsList = useSelector((state) => state.client.clients);
+  const isLoading = useSelector((state) => state.rent.loading);
   const [rentsDurr, setRentsDurr] = useState(1);
   const [cartItems, setCartItems] = useState([]);
   const [rentValue, setRentValue] = useState(0);
@@ -197,6 +199,14 @@ const NewRentView = ({ user: { userID } }) => {
 
   if (redirect) {
     return <Redirect to={routes.rents} />;
+  }
+
+  if (isLoading) {
+    return (
+      <MainTemplate>
+        <Spinner />
+      </MainTemplate>
+    );
   }
 
   return (
