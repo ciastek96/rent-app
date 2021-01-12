@@ -56,7 +56,7 @@ const ProductsCard = ({ values, setFieldValue, cartItems }) => (
       <p>&nbsp;</p>
     </Heading>
     <Body>
-      {values.map((product, i) => (
+      {values.map((product) => (
         <ProductsCardItem key={product._id} product={product} setFieldValue={setFieldValue} values={values} cartItems={cartItems} />
       ))}
     </Body>

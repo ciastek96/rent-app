@@ -58,6 +58,10 @@ app.get('/fetch-pdf', (req, res) => {
   res.sendFile(`${__dirname}/result.pdf`);
 });
 
-app.listen(port, '127.0.0.1', () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log(`Server is running on port: ${port}`);
 });
+
+// app.listen(port, '127.0.0.1', () => {
+//   console.log(`Server is running on port: ${port}`);
+// });

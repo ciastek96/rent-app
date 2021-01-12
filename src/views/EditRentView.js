@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -15,7 +15,6 @@ import { updateRent } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import MessageBox from '../components/MessageBox/MessageBox';
-
 import { routes } from '../routes/routes';
 
 const StyledHeader = styled.div`
@@ -133,7 +132,6 @@ const EditRentView = ({ match, user: { userID } }) => {
   const productsList = useSelector((state) => state.product.products);
   const clientsList = useSelector((state) => state.client.clients);
   const [rentsDurr, setRentsDurr] = useState(currentRent ? currentRent.rentsDurr : 1);
-  const history = useHistory();
 
   const getNetto = (values) => {
     const netto = values

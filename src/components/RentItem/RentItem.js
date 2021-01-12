@@ -182,6 +182,8 @@ const RentItem = ({
 
   const createAndDownloadPdf = () => {
     setIsLoading(true);
+    // const api = 'https://my-rent-app.herokuapp.com/';
+    const api = 'http://localhost:4000';
 
     const values = {
       currentUser,
@@ -201,8 +203,8 @@ const RentItem = ({
       rentsDurr,
     };
     axios
-      .post('http://localhost:4000/create-pdf', { values })
-      .then(() => axios.get('http://localhost:4000/fetch-pdf', { responseType: 'blob' }))
+      .post(`${api}/create-pdf`, { values })
+      .then(() => axios.get(`${api}/fetch-pdf`, { responseType: 'blob' }))
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
         setIsLoading(false);

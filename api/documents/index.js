@@ -242,7 +242,7 @@ module.exports = ({
                                 <span>Sprzedawca</span><br>
                                 ${currentUser.companyName}<br>
                                 ${currentUser.name} ${currentUser.surname}<br>
-                                ${currentUser.address}<br>
+                                ${currentUser.address.street}<br>
                                 ${currentUser.address.postalCode} ${currentUser.address.city}<br>
                                 NIP: ${currentUser.nip}<br>
                                 Tel: ${currentUser.phone}<br>

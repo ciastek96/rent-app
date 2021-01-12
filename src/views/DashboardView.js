@@ -32,7 +32,7 @@ const DashboardView = () => {
   const rentsList = useSelector((state) => state.rent.rents?.filter((i) => i.isFinished === false));
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
   const history = useHistory();
-  const events = rentsList.map((item, i) => ({
+  const events = rentsList?.map((item, i) => ({
     id: i,
     title: item.client.label,
     start: new Date(item.dateOfRent),

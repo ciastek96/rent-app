@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
@@ -115,7 +115,6 @@ const EditProductView = ({ match, user: { userID } }) => {
   const [selectedFile, setSelectedFile] = useState();
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const bruttoToNetto = (brutto, vat) => {
     const netto = (brutto / (1 + vat / 100)).toFixed(2);
@@ -203,7 +202,7 @@ const EditProductView = ({ match, user: { userID } }) => {
                 <ImageWrapper>
                   <ImageUploader image={!selectedFile ? productValues.selectedFile : selectedFile} setSelectedFile={setSelectedFile} />
                   <FileBase
-                    onChange={() => console.log('changed')}
+                    // onChange={() => console.log('changed')}
                     type="file"
                     id="image"
                     multiple={false}

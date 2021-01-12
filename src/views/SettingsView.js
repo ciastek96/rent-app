@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import FileBase from 'react-file-base64';
 import Input from '../components/Input/Input';
@@ -106,14 +106,13 @@ const PasswordContainer = styled.div`
   padding: 0 0 65px 25px;
 `;
 
-const SettingsView = ({ user: { userID } }) => {
+const SettingsView = () => {
   const [selectedFile, setSelectedFile] = useState();
   // const currentUser = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
   const currentUser = useSelector((state) => state.account);
   const username = useSelector((state) => state.users.user.username);
   const dispatch = useDispatch();
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
-  const history = useHistory();
 
   if (!currentUser._id) {
     return (

@@ -34,11 +34,6 @@ const Error = styled.p`
   font-size: ${({ theme }) => theme.fontSize.xxs};
 `;
 
-const Success = styled.p`
-  color: ${({ theme }) => theme.green};
-  font-size: ${({ theme }) => theme.fontSize.xxs};
-`;
-
 const LoginForm = ({ setCardType }) => {
   // const error = useSelector((state) => state.users.error);
   // const success = useSelector((state) => state.users.success);

@@ -34,11 +34,6 @@ const Error = styled.p`
   font-size: ${({ theme }) => theme.fontSize.xxs};
 `;
 
-const Success = styled.p`
-  color: ${({ theme }) => theme.green};
-  font-size: ${({ theme }) => theme.fontSize.xxs};
-`;
-
 const RegisterForm = ({ setCardType }) => {
   const users = useSelector((state) => state.users);
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
@@ -104,8 +99,6 @@ const RegisterForm = ({ setCardType }) => {
       >
         {() => (
           <StyledForm>
-            {/* {error && <Error>{error}</Error>}
-            {success && <Success>{success}</Success>} */}
             <Field as={StyledInput} type="text" name="username" placeholder="Nazwa użytkownika" autocomplete="off" />
             <ErrorMessage name="username" component={Error} />
             <Field as={StyledInput} type="text" name="email" placeholder="Adres e-mail" autocomplete="off" />

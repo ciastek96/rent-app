@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import FileBase from 'react-file-base64';
 import Input from '../components/Input/Input';
@@ -105,7 +105,6 @@ const StyledForm = styled(Form)`
 const EditClientView = ({ match, user: { userID } }) => {
   const [selectedFile, setSelectedFile] = useState();
   const dispatch = useDispatch();
-  const history = useHistory();
   const { id } = match.params;
   const client = useSelector((state) => state.client);
   const clientValues = useSelector((state) => state.client.clients.find((i) => i._id === id));

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 import { routes } from '../routes/routes';
@@ -19,7 +19,6 @@ import EditRentView from './EditRentView';
 import RentsView from './RentsView';
 import UpdatePasswordView from './UpdatePasswordView';
 import { getClients, getProducts, getRents, getAccount } from '../actions';
-import Spinner from '../components/Spinner/Spinner';
 import setAuthToken from '../utils/setAuthToken';
 import ProtectedRoute from '../routes/ProtectedRoute/ProtectedRoute';
 

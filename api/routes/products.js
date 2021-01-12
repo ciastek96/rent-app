@@ -53,6 +53,7 @@ router.patch('/:id', async (req, res) => {
     res.status(201).json(updatedProduct);
   } catch (err) {
     res.status(409).json({ message: err.message });
+    console.log(err);
   }
 });
 
@@ -61,8 +62,13 @@ router.delete('/:id', async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No products with that ID');
 
-  await Product.findByIdAndRemove({ _id });
-  res.json({ message: 'Client deleted successfully' });
+  try {
+    await Product.findByIdAndRemove({ _id });
+    res.json({ message: 'Client deleted successfully' });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+    console.log(err);
+  }
 });
 
 module.exports = router;
