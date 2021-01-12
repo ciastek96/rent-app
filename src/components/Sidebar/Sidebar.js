@@ -11,9 +11,9 @@ const Wrapper = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow};
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
-  padding: 20px;
+  padding: 45px 0 120px 0;
   z-index: 995;
   position: fixed;
   top: 0;

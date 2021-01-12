@@ -48,11 +48,25 @@ const StyledHamburger = styled(Hamburger)`
 const Navbar = () => {
   const [isHamburgerVisible, setIsHamburgerVisible] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const body = document.querySelector('body');
+
+  const toggleOverflowY = () => {
+    if (isSidebarOpen && isHamburgerVisible) {
+      body.style.overflowY = 'hidden';
+    } else {
+      body.style.overflowY = 'scroll';
+    }
+  };
 
   const handleResize = () => {
     const { innerWidth } = window;
-    if (innerWidth < 800) setIsHamburgerVisible(true);
-    else setIsHamburgerVisible(false);
+    toggleOverflowY();
+    if (innerWidth < 800) {
+      setIsHamburgerVisible(true);
+    } else {
+      setIsHamburgerVisible(false);
+      setIsSidebarOpen(false);
+    }
   };
 
   useEffect(() => {
