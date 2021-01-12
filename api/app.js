@@ -14,7 +14,7 @@ const rentsRouter = require('./routes/rents');
 const accountsRouter = require('./routes/accounts');
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
@@ -44,6 +44,10 @@ app.use('/clients', clientsRouter);
 app.use('/rents', rentsRouter);
 app.use('/accounts', accountsRouter);
 
+app.get('/', (req, res) => {
+  res.send('Hello from API!');
+});
+
 app.post('/create-pdf', (req, res) => {
   pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
     if (err) {
@@ -58,7 +62,7 @@ app.get('/fetch-pdf', (req, res) => {
   res.sendFile(`${__dirname}/result.pdf`);
 });
 
-app.listen(process.env.PORT || 4000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log(`Server is running on port: ${port}`);
 });
 

@@ -2,8 +2,8 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import setAuthToken from '../utils/setAuthToken';
 
-// const api = 'https://my-rent-app.herokuapp.com';
-const api = 'http://localhost:4000';
+const api = 'https://my-rent-app.herokuapp.com';
+// const api = 'http://localhost:4000';
 
 export const getProducts = (id) => async (dispatch) => {
   dispatch({ type: 'FETCH_PRODUCTS_REQUEST' });

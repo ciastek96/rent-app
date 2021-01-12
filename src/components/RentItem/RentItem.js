@@ -182,8 +182,8 @@ const RentItem = ({
 
   const createAndDownloadPdf = () => {
     setIsLoading(true);
-    // const api = 'https://my-rent-app.herokuapp.com/';
-    const api = 'http://localhost:4000';
+    const api = 'https://my-rent-app.herokuapp.com';
+    // const api = 'http://localhost:4000';
 
     const values = {
       currentUser,
