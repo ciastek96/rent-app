@@ -17,7 +17,7 @@ const ProductsView = () => {
     setInputValue(e.target.value);
   };
 
-  const filteredData = productsList.filter((value) => value.productName.toLowerCase().includes(inputValue));
+  const filteredData = productsList.filter((value) => value.productName.toLowerCase().includes(inputValue.toLowerCase()));
 
   const hideMessageBox = () => {
     setTimeout(() => {

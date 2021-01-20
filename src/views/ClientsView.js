@@ -30,7 +30,7 @@ const ClientsView = () => {
     setInputValue(e.target.value);
   };
 
-  const filteredData = clientsList.filter((value) => value.name.concat(` ${value.surname}`).toLowerCase().includes(inputValue));
+  const filteredData = clientsList.filter((value) => value.name.concat(` ${value.surname}`).toLowerCase().includes(inputValue.toLowerCase()));
 
   const hideMessageBox = () => {
     setTimeout(() => {

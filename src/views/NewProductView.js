@@ -156,6 +156,8 @@ const NewProductView = ({ user: { userID } }) => {
               errors.productName = 'Pole powinno zawierać minimum 4 znaki.';
             } else if (values.productName.length > 256) {
               errors.productName = 'Pole powinno zawierać maksimum 256 znaków.';
+            } else if (/[0-9!^@#$%^&()+{}|";<>?~`|*]/.test(values.productName)) {
+              errors.productName = 'Użyto zabronionego znaku specjalnego.';
             }
 
             if (!values.brutto) {

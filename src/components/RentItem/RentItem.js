@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
@@ -133,6 +133,7 @@ const StyledButton = styled(Button)`
 
 const RentItem = ({
   id,
+  status,
   client: { label, companyName, email, phone, nip, address, discount: clientDiscount },
   dateOfRent,
   dateOfReturn,
@@ -148,7 +149,7 @@ const RentItem = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [status, setStatus] = useState('active');
+  // const [status, setStatus] = useState('active');
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [optionMenu, setOptionMenu] = useState(false);
@@ -216,19 +217,19 @@ const RentItem = ({
       });
   };
 
-  const statusList = ['active', 'coming', 'ended', 'finished'];
+  // const statusList = ['active', 'coming', 'ended', 'finished'];
 
-  const today = moment();
+  // const today = moment();
   const startDay = moment(dateOfRent);
   const endDay = moment(dateOfReturn);
 
-  useEffect(() => {
-    if (isFinished) setStatus(statusList[3]);
-    else if (startDay.diff(today, 'days') > 0) setStatus(statusList[1]);
-    else if (startDay.diff(today, 'days') === 0 && today.diff(endDay, 'days') !== 0) setStatus(statusList[1]);
-    else if (today.diff(endDay, 'days') > 0) setStatus(statusList[2]);
-    else setStatus(statusList[0]);
-  }, []);
+  // useEffect(() => {
+  //   if (isFinished) setStatus(statusList[3]);
+  //   else if (startDay.diff(today, 'days') > 0) setStatus(statusList[1]);
+  //   else if (startDay.diff(today, 'days') === 0 && today.diff(endDay, 'days') !== 0) setStatus(statusList[1]);
+  //   else if (today.diff(endDay, 'days') > 0) setStatus(statusList[2]);
+  //   else setStatus(statusList[0]);
+  // }, []);
 
   if (isRedirect) return <Redirect to={routes.finances} />;
 
@@ -390,6 +391,7 @@ const RentItem = ({
 
 RentItem.propTypes = {
   id: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
   client: PropTypes.objectOf(PropTypes.any).isRequired,
   dateOfRent: PropTypes.string.isRequired,
   dateOfReturn: PropTypes.string.isRequired,

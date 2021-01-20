@@ -148,6 +148,8 @@ const NewClientView = ({ user: { userID } }) => {
               errors.name = 'Pole powinno zawierać minimum 3 znaki.';
             } else if (values.name.length > 16) {
               errors.name = 'Pole powinno zawierać maksimum 32 znaki.';
+            } else if (/[0-9!^@#$%^&()+{}|";<>?~`|*]/.test(values.name)) {
+              errors.name = 'Użyto zabronionego znaku specjalnego.';
             }
 
             if (!values.surname) {
@@ -156,6 +158,8 @@ const NewClientView = ({ user: { userID } }) => {
               errors.surname = 'Pole powinno zawierać minimum 3 znaki.';
             } else if (values.surname.length > 16) {
               errors.surname = 'Pole powinno maksimum 16 znaki.';
+            } else if (/[0-9!^@#$%^&()+{}|";<>?~`|*]/.test(values.surname)) {
+              errors.surname = 'Użyto zabronionego znaku specjalnego.';
             }
 
             if (!values.email) {
@@ -176,6 +180,9 @@ const NewClientView = ({ user: { userID } }) => {
               if (values.companyName.length > 0 && values.companyName.length < 4) {
                 errors.companyName = 'Pole powinno zawierać minimum 4 znaki.';
               }
+              if (/[!^@#$%^&()+{}|";<>?~`|*]/.test(values.companyName)) {
+                errors.companyName = 'Użyto zabronionego znaku specjalnego.';
+              }
             }
 
             if (values.nip) {
@@ -185,19 +192,29 @@ const NewClientView = ({ user: { userID } }) => {
             }
 
             if (values.address.city) {
-              if (/^[!^@#$%^&()_+{}|";<>?~`|*]+$/.test(values.address.city)) {
-                errors.address.city = 'Podany miasto jest niepoprawny.';
+              if (/^[!^@#$%^&()_+{}|";<>?~`|*\s]+$/.test(values.address.city)) {
+                if (!errors.address) errors.address = {};
+                errors.address.city = 'Podane miasto jest niepoprawne.';
               }
             }
 
             if (values.address.street) {
-              if (/^[!^@#$%^&()_+{}|";<>?~`|*]+$/g.test(values.address.street)) {
+              if (/^[!^@#$%^&()_+{}|";<>?~`|*\s]+$/g.test(values.address.street)) {
+                if (!errors.address) errors.address = {};
                 errors.address.street = 'Podany adres jest niepoprawny.';
               }
             }
 
+            // if (values.address.postalCode) {
+            //   if (/^[!^@#$%^&()_+{}|";<>?~`|*]+$/.test(values.address.postalCode)) {
+            //     if (!errors.address) errors.address = {};
+            //     errors.address.postalCode = 'Podany kod pocztowy jest niepoprawny.';
+            //   }
+            // }
+
             if (values.address.postalCode) {
-              if (/^[!^@#$%^&()_+{}|";<>?~`|*]+$/.test(values.address.postalCode)) {
+              if (!/[0-9]{2}-[0-9]{3}$/.test(values.address.postalCode)) {
+                if (!errors.address) errors.address = {};
                 errors.address.postalCode = 'Podany kod pocztowy jest niepoprawny.';
               }
             }
