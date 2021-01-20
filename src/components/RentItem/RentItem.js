@@ -243,7 +243,7 @@ const RentItem = ({
       <StyledButton tertiary onClick={() => setIsCollapsed(!isCollapsed)}>
         {isCollapsed ? 'Zwiń' : 'Rozwiń'}
       </StyledButton>
-      <RentStatus status="finished" />
+      <RentStatus status={isFinished ? 'finished' : status} />
       <Details>
         <h2>{label}</h2>
 
