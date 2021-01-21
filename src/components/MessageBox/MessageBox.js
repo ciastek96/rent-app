@@ -13,7 +13,6 @@ const Wrapper = styled.div`
   position: fixed;
   bottom: 45px;
   right: 45px;
-  right: 45px;
   box-shadow: ${({ theme }) => theme.boxShadow};
   transition: background-color 0.25s ease-in-out;
   overflow: hidden;
@@ -32,6 +31,12 @@ const Wrapper = styled.div`
     height: 100%;
     width: 6px;
     background-color: ${({ theme, type }) => (type === 'error' ? theme.error : theme.green)};
+  }
+
+  @media (max-width: 500px) {
+    max-width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 `;
 

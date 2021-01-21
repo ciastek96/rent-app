@@ -20,19 +20,24 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 15px;
 `;
 
 const Card = styled.div`
-  height: 620px;
-  width: 480px;
-  padding: 65px;
+  height: 600px;
+  max-width: 440px;
   background: ${({ theme }) => theme.default};
-  border-radius: 30px;
+  border-radius: 20px;
   box-shadow: ${({ theme }) => theme.boxShadow};
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  padding: 65px;
+
+  @media (max-width: 400px) {
+    padding: 65px 25px;
+  }
 `;
 
 const Logo = styled.a`
