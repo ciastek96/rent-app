@@ -7,6 +7,7 @@ import Box from '../components/Box/Box';
 import Spinner from '../components/Spinner/Spinner';
 import MessageBox from '../components/MessageBox/MessageBox';
 import { routes } from '../routes/routes';
+import { getStatus } from '../utils/getStatus';
 import MyCalendar from '../components/MyCalendar/MyCalendar';
 import { ReactComponent as PersonIcon } from '../assets/icons/svg/interfaces/male.svg';
 import { ReactComponent as ProductIcon } from '../assets/icons/svg/interfaces/archive.svg';
@@ -37,6 +38,7 @@ const DashboardView = () => {
     title: item.client.label,
     start: new Date(item.dateOfRent),
     end: new Date(item.dateOfReturn),
+    status: getStatus(item.dateOfRent, item.dateOfReturn, false),
   }));
 
   if (history.location && history.location.state && history.location.state.from) {

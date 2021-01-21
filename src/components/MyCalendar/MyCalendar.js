@@ -67,10 +67,16 @@ const MyCalendar = ({ events }) => {
         events={events}
         defaultDate={now}
         style={{ minHeight: 800 }}
-        eventPropGetter={() => {
+        eventPropGetter={(event) => {
+          const statusColor = {
+            active: 'linear-gradient(225deg, rgba(21,184,113,1) 0%, rgba(15,137,85,1) 100%)',
+            finished: '#15B871',
+            coming: '#e78c00',
+            ended: '#bf1e29',
+          };
           const newStyle = {
             backgroundColor: '#5F5F5F',
-            background: 'linear-gradient(225deg, rgba(21,184,113,1) 0%, rgba(15,137,85,1) 100%)',
+            background: event.status ? statusColor[event.status] : statusColor.active,
             borderRadius: '5px',
             fontSize: '14px',
             fontFamily: 'Roboto',
