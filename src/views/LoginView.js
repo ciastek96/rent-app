@@ -53,7 +53,6 @@ const Paragraph = styled.p`
 
 const StyledLogotype = styled(Logotype)`
   max-width: 80px;
-  }
 `;
 
 const LoginView = ({ location: { pathname } }) => {
