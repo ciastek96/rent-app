@@ -36,6 +36,7 @@ const Error = styled.p`
 
 const RegisterForm = ({ setCardType }) => {
   const users = useSelector((state) => state.users);
+  const isLoading = useSelector((state) => state.users.loading);
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
   const dispatch = useDispatch();
   let statusCode = 404;
@@ -92,7 +93,6 @@ const RegisterForm = ({ setCardType }) => {
           return errors;
         }}
         onSubmit={(values) => {
-          console.log(values);
           dispatch(signUp(values));
           setIsMessageBoxOpen(true);
         }}
@@ -116,7 +116,7 @@ const RegisterForm = ({ setCardType }) => {
           </StyledForm>
         )}
       </Formik>
-      {users.isLoading && <Spinner />}
+      {isLoading && <Spinner />}
       {users.error && isMessageBoxOpen && handleError()}
       {users.success && isMessageBoxOpen && <MessageBox type="success" value="Pomyślnie stworzono użytkownika. Teraz możesz się zalogować." />}
     </>
