@@ -18,7 +18,7 @@ import NewRentView from './NewRentView';
 import EditRentView from './EditRentView';
 import RentsView from './RentsView';
 import UpdatePasswordView from './UpdatePasswordView';
-import { getClients, getProducts, getRents, getAccount } from '../actions';
+import { getClients, getProducts, getRents, getAccount, signOut } from '../actions';
 import setAuthToken from '../utils/setAuthToken';
 import ProtectedRoute from '../routes/ProtectedRoute/ProtectedRoute';
 
@@ -28,8 +28,8 @@ const Root = () => {
 
   useEffect(() => {
     if (localStorage.jwtToken) {
-      setAuthToken(localStorage.jwtToken);
       const user = jwt.decode(localStorage.jwtToken);
+      setAuthToken(localStorage.jwtToken);
       dispatch({ type: 'SET_CURRENT_USER', payload: user });
       dispatch(getClients(user.userID));
       dispatch(getProducts(user.userID));

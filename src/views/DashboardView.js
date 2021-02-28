@@ -54,7 +54,7 @@ const DashboardView = () => {
       {rent.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
       <h2>Baza danych</h2>
       <BoxGrid>
-        <Box path={routes.rents} title="Wypożyczenia" value={rentsList.length}>
+        <Box path={routes.rents} title="Wypożyczenia" value={rentsList?.length}>
           <RentIcon className="icon" />
         </Box>
         <Box path={routes.products} title="Produkty" value={productsListLen}>

@@ -41,14 +41,14 @@ const RegisterForm = ({ setCardType }) => {
   const dispatch = useDispatch();
   let statusCode = 404;
 
+  const renderMessageBox = (value = 'Wystąpił błąd. Spróbuj ponownie.') => <MessageBox type="error" value={value} setIsOpen={setIsMessageBoxOpen} />;
+
   const handleError = () => {
     switch (statusCode) {
       case '409':
-        return <MessageBox type="error" value="Podane login jest już zajęty" setIsOpen={setIsMessageBoxOpen} />;
-      case '500':
-        return <MessageBox type="error" value="Wystąpił błąd serwera. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />;
+        return renderMessageBox('Podane login jest już zajęty');
       default:
-        return <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />;
+        return renderMessageBox();
     }
   };
 

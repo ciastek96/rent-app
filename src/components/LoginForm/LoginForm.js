@@ -35,22 +35,22 @@ const Error = styled.p`
 `;
 
 const LoginForm = ({ setCardType }) => {
-  // const error = useSelector((state) => state.users.error);
-  // const success = useSelector((state) => state.users.success);
   const users = useSelector((state) => state.users);
   const isLoading = useSelector((state) => state.users.loading);
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
   const dispatch = useDispatch();
   let statusCode = 404;
 
+  const renderMessageBox = (value = 'Wystąpił błąd. Spróbuj ponownie.') => <MessageBox type="error" value={value} setIsOpen={setIsMessageBoxOpen} />;
+
   const handleError = () => {
     switch (statusCode) {
       case '404':
-        return <MessageBox type="error" value="Podane dane są nieprawidłowe" setIsOpen={setIsMessageBoxOpen} />;
+        return renderMessageBox('Podane dane są nieprawidłowe');
       case '401':
-        return <MessageBox type="error" value="Podane hasło jest nieprawidłowe" setIsOpen={setIsMessageBoxOpen} />;
+        return renderMessageBox('Podane hasło jest nieprawidłowe');
       default:
-        return <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />;
+        return renderMessageBox();
     }
   };
 
@@ -79,9 +79,6 @@ const LoginForm = ({ setCardType }) => {
       >
         {() => (
           <StyledForm>
-            {/* {error && <Error>{error}</Error>}
-            {success && <Success>{success}</Success>} */}
-
             <Field as={StyledInput} type="text" name="username" placeholder="Nazwa użytkownika" />
             <ErrorMessage name="username" component={Error} />
             <Field as={StyledInput} type="password" name="password" placeholder="Hasło" />

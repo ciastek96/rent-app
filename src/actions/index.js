@@ -2,8 +2,8 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import setAuthToken from '../utils/setAuthToken';
 
-const api = 'https://my-rent-app.herokuapp.com';
-// const api = 'http://localhost:4000';
+// const api = 'https://my-rent-app.herokuapp.com';
+const api = 'http://localhost:5000';
 
 export const getProducts = (id) => async (dispatch) => {
   dispatch({ type: 'FETCH_PRODUCTS_REQUEST' });
@@ -61,7 +61,7 @@ export const removeProduct = (id) => async (dispatch) => {
 export const getClients = (id) => async (dispatch) => {
   dispatch({ type: 'FETCH_CLIENTS_REQUEST' });
   try {
-    const { data } = await axios.get(`${api}/clients/${id}`);
+    const { data } = await axios.get(`${api}/clients`);
     dispatch({ type: 'FETCH_CLIENTS_SUCCESS', payload: data });
   } catch (error) {
     dispatch({ type: 'FETCH_CLIENTS_FAILURE', error });
