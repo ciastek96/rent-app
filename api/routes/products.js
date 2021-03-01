@@ -1,19 +1,20 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const Product = require('../models/products');
+const auth = require('../middleware/auth');
 
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+router.get('/', auth, async (req, res) => {
+  const { userID } = req;
 
   try {
-    const products = await Product.find({ userID: id });
+    const products = await Product.find({ userID });
     res.status(200).json(products);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
 });
 
-router.post('/product', async (req, res) => {
+router.post('/product', auth, async (req, res) => {
   const { id } = req.body;
 
   try {
@@ -24,12 +25,12 @@ router.post('/product', async (req, res) => {
   }
 });
 
-router.post('/add', async (req, res) => {
-  const values = req.body;
+router.post('/add', auth, async (req, res) => {
+  const { userID, body: values } = req;
   const { brutto, vat } = values;
   const netto = (brutto / (1 + vat / 100)).toFixed(2);
 
-  const newProduct = new Product({ ...values, netto });
+  const newProduct = new Product({ ...values, userID, netto });
 
   try {
     newProduct.save();
@@ -39,9 +40,9 @@ router.post('/add', async (req, res) => {
   }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
   const { id: _id } = req.params;
-  const values = req.body;
+  const { userID, body: values } = req;
   const { brutto, vat } = values;
 
   const netto = (brutto * (1 - vat / 100)).toFixed(2);
@@ -49,7 +50,7 @@ router.patch('/:id', async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No products with that ID');
 
   try {
-    const updatedProduct = await Product.findByIdAndUpdate({ _id }, { ...values, netto }, { new: true });
+    const updatedProduct = await Product.findByIdAndUpdate({ _id }, { ...values, userID, netto }, { new: true });
     res.status(201).json(updatedProduct);
   } catch (err) {
     res.status(409).json({ message: err.message });
@@ -57,7 +58,7 @@ router.patch('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No products with that ID');

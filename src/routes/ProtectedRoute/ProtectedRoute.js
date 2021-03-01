@@ -1,19 +1,17 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import jwt from 'jsonwebtoken';
-import { signOut } from '../../actions';
 import { routes } from '../routes';
 
 function ProtectedRoute({ component: Component, ...children }) {
-  const dispatch = useDispatch();
-  const isAuthenticated = localStorage.getItem('jwtToken');
-  const user = jwt.decode(isAuthenticated);
-  if (!!isAuthenticated === true) {
-    return <Route {...children} render={(props) => <Component {...props} user={user} />} />;
+  const token = localStorage.getItem('jwtToken');
+  const isAuthenticated = !!token;
+  const decodedToken = jwt.decode(token);
+  if (isAuthenticated) {
+    return <Route {...children} render={(props) => <Component {...props} user={decodedToken} />} />;
   }
-  return <Redirect to={routes.login} />;
+  return <Redirect to={routes.logout} />;
 }
 
 ProtectedRoute.propTypes = {

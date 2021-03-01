@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const clientSchema = new Schema({
   userID: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true,
     trim: true,
   },

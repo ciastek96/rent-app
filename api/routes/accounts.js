@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const Account = require('../models/accounts');
+const auth = require('../middleware/auth');
 
-router.post('/:id', async (req, res) => {
-  const { id: userID } = req.params;
+router.post('/', auth, async (req, res) => {
+  const { userID } = req;
   const account = await Account.findOne({ userID });
   try {
     res.status(200).send(account);
@@ -12,8 +13,8 @@ router.post('/:id', async (req, res) => {
   }
 });
 
-router.route('/add').post((req, res) => {
-  const { userId } = req.body;
+router.post('/add', auth, (req, res) => {
+  const { userId } = req;
   const newAccount = new Account({ userId });
 
   newAccount
@@ -22,9 +23,8 @@ router.route('/add').post((req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.patch('/:id', async (req, res) => {
-  const { id: userID } = req.params;
-  const { ...values } = req.body;
+router.patch('/', auth, async (req, res) => {
+  const { userID, body: values } = req;
 
   try {
     const updatedAccount = await Account.findOneAndUpdate({ userID }, values, { new: true });
@@ -32,25 +32,12 @@ router.patch('/:id', async (req, res) => {
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
-
-  // Account.findOneAndUpdate({ userId }, { ...values }, { new: true })
-  //   .then(() => res.json('Account updated!'))
-  //   .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.get('/', async (req, res) => {
-  const accounts = await Account.find();
-  try {
-    res.status(200).send(accounts);
-  } catch (err) {
-    res.status(400).send({ message: err.message });
-  }
-});
+router.delete('/', auth, (req, res) => {
+  const { userID } = req;
 
-router.route('/delete').post((req, res) => {
-  const { userId } = req.body;
-
-  Account.findOneAndDelete({ _id: userId })
+  Account.findOneAndDelete({ userID })
     .then(() => res.json('Account deleted!'))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });

@@ -130,7 +130,7 @@ const UpdatePasswordView = () => {
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(updatePassword(user.user.userID, values));
+            dispatch(updatePassword(values));
             setIsMessageBoxOpen(true);
             // history.go(0);
           }}

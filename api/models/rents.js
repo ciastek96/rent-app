@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const rentsSchema = new Schema({
   userID: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true,
     trim: true,
   },

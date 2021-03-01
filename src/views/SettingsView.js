@@ -218,7 +218,7 @@ const SettingsView = () => {
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(updateAccount(currentUser.userID, { ...values, selectedFile }));
+            dispatch(updateAccount({ ...values, selectedFile }));
             setIsMessageBoxOpen(true);
           }}
         >

@@ -2,15 +2,9 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-
+const auth = require('../middleware/auth');
 const User = require('../models/users');
 const Account = require('../models/accounts');
-
-router.route('/').get(async (req, res) => {
-  User.find()
-    .then((users) => res.json(users))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
-});
 
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
@@ -51,7 +45,7 @@ router.post('/signin', async (req, res) => {
   const user = await User.findOne({ username });
   try {
     if (bcrypt.compareSync(password, user.password)) {
-      const token = jwt.sign({ userID: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: 12 });
+      const token = jwt.sign({ userID: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: 1200 });
       res.status(200).json({ token });
     } else {
       res.status(401).send({ message: 'Nieprawidłowe hasło. ' });
@@ -61,9 +55,11 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-router.patch('/updatePassword/:id', async (req, res) => {
-  const { id: _id } = req.params;
-  const { currentPassword, newPassword } = req.body;
+router.patch('/updatePassword', auth, async (req, res) => {
+  const {
+    userID: _id,
+    body: { currentPassword, newPassword },
+  } = req;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No users with that ID');
 
