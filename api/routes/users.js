@@ -45,7 +45,7 @@ router.post('/signin', async (req, res) => {
   const user = await User.findOne({ username });
   try {
     if (bcrypt.compareSync(password, user.password)) {
-      const token = jwt.sign({ userID: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: 1200 });
+      const token = jwt.sign({ userID: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '12h' });
       res.status(200).json({ token });
     } else {
       res.status(401).send({ message: 'Nieprawidłowe hasło. ' });
