@@ -12,7 +12,6 @@ import NotFoundView from './NotFoundView';
 import NewClientView from './NewClientView';
 import SettingsView from './SettingsView';
 import NewProductView from './NewProductView';
-import EditClientView from './EditClientView';
 import EditProductView from './EditProductView';
 import NewRentView from './NewRentView';
 import EditRentView from './EditRentView';
@@ -49,7 +48,7 @@ const Root = () => {
         <ProtectedRoute path={routes.product} component={EditProductView} />
         <ProtectedRoute exact path={routes.clients} component={ClientsView} />
         <ProtectedRoute path={routes.newClient} component={NewClientView} />
-        <ProtectedRoute path={routes.client} component={EditClientView} />
+        <ProtectedRoute path={routes.client} component={NewClientView} />
         <ProtectedRoute path={routes.newRent} component={NewRentView} />
         <ProtectedRoute exact path={routes.rents} component={RentsView} />
         <ProtectedRoute exact path={routes.rent} component={EditRentView} />

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import FileBase from 'react-file-base64';
 import Input from '../components/Input/Input';
-import { addClient } from '../actions';
+import { addClient, updateClient } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
+import Spinner from '../components/Spinner/Spinner';
+import MessageBox from '../components/MessageBox/MessageBox';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
 
@@ -101,10 +103,19 @@ const StyledForm = styled(Form)`
   }
 `;
 
-const NewClientView = ({ user: { userID } }) => {
+const NewClientView = ({
+  match: {
+    params: { id },
+  },
+  user: { userID },
+}) => {
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState('');
   const [redirect, setRedirect] = useState(false);
+  const clients = id ? useSelector((state) => state.client) : null;
+  const clientValues = clients ? useSelector((state) => state.client.clients.find((i) => i._id === id)) : null;
+  const isNewClient = id ? 0 : 1;
+  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
 
   if (redirect) {
     return <Redirect to={routes.clients} />;
@@ -113,31 +124,36 @@ const NewClientView = ({ user: { userID } }) => {
   return (
     <MainTemplate>
       <StyledHeader>
-        <h2>Nowy klient</h2>
+        <h2>{isNewClient ? 'Nowy klient' : 'Edycja klienta'}</h2>
         <ButtonsWrapper>
           <Button as={Link} to={routes.clients} secondary="true">
             Anuluj
           </Button>
           <StyledButton type="submit" form="newClientForm">
-            Dodaj
+            {isNewClient ? 'Dodaj' : 'Zapisz'}
           </StyledButton>
         </ButtonsWrapper>
       </StyledHeader>
       <Wrapper>
+        {clients?.loading && <Spinner />}
+        {clients?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
+        {clients?.success && isMessageBoxOpen && (
+          <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />
+        )}
         <Formik
           initialValues={{
-            name: '',
-            surname: '',
-            email: '',
-            phone: '',
-            companyName: '',
-            nip: '',
+            name: clientValues?.name || '',
+            surname: clientValues?.surname || '',
+            email: clientValues?.email || '',
+            phone: clientValues?.phone || '',
+            companyName: clientValues?.companyName || '',
+            nip: clientValues?.nip || '',
             address: {
-              city: '',
-              street: '',
-              postalCode: '',
+              city: clientValues?.address?.city || '',
+              street: clientValues?.address?.street || '',
+              postalCode: clientValues?.address?.postalCode || '',
             },
-            discount: '0',
+            discount: clientValues?.discount || 0,
           }}
           validate={(values) => {
             const errors = {};
@@ -232,15 +248,20 @@ const NewClientView = ({ user: { userID } }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(addClient({ userID, ...values, selectedFile }));
-            setRedirect(true);
+            if (isNewClient) {
+              dispatch(addClient({ userID, ...values, selectedFile }));
+              setRedirect(true);
+            } else {
+              dispatch(updateClient(id, { userID, ...values, selectedFile }));
+              setIsMessageBoxOpen(true);
+            }
           }}
         >
           {({ values }) => (
             <>
               <InnerWrapper>
                 <ImageWrapper>
-                  <ImageUploader image={selectedFile} setSelectedFile={setSelectedFile} />
+                  <ImageUploader image={!selectedFile ? clientValues?.selectedFile : selectedFile} setSelectedFile={setSelectedFile} />
                   <FileBase type="file" id="image" multiple={false} accept="image/*" onDone={({ base64 }) => setSelectedFile(base64)} />
                 </ImageWrapper>
                 <ClientInfo>
@@ -306,6 +327,7 @@ const NewClientView = ({ user: { userID } }) => {
 
 NewClientView.propTypes = {
   user: PropTypes.objectOf(PropTypes.string).isRequired,
+  match: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default NewClientView;
