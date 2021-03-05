@@ -109,15 +109,23 @@ const Label = styled.p`
   color: black;
 `;
 
-const NewProductView = ({ match, user: { userID } }) => {
+const ProductFormView = ({ match, user: { userID } }) => {
   const { id } = match.params;
+  const isNewProduct = id ? 0 : 1;
   const dispatch = useDispatch();
-  const products = id ? useSelector((state) => state.product) : null;
-  const productValues = products ? useSelector((state) => state.product.products.find((i) => i._id === id)) : null;
+  const products = useSelector((state) => state.product);
+  const productValues = id && useSelector((state) => state.product.products.find((i) => i._id === id));
   const [selectedFile, setSelectedFile] = useState();
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
-  const isNewProduct = id ? 0 : 1;
   const [redirect, setRedirect] = useState(false);
+
+  if (id && !productValues) {
+    return (
+      <MainTemplate>
+        <Spinner />
+      </MainTemplate>
+    );
+  }
 
   if (redirect) {
     return <Redirect to={routes.products} />;
@@ -311,9 +319,9 @@ const NewProductView = ({ match, user: { userID } }) => {
   );
 };
 
-NewProductView.propTypes = {
+ProductFormView.propTypes = {
   user: PropTypes.objectOf(PropTypes.string).isRequired,
   match: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-export default NewProductView;
+export default ProductFormView;

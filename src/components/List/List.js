@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { PropTypes } from 'prop-types';
 import ListItem from '../ListItem/ListItem';
+import withLoading from '../../hooks/withLoading';
 
 const ListWrapper = styled.div``;
 
@@ -66,4 +67,4 @@ List.defaultProps = {
   listType: PRODUCTS,
 };
 
-export default List;
+export default withLoading(List);
