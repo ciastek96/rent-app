@@ -103,14 +103,14 @@ const StyledForm = styled(Form)`
   }
 `;
 
-const NewClientView = ({
+const ClientFormView = ({
   match: {
     params: { id },
   },
   user: { userID },
 }) => {
   const dispatch = useDispatch();
-  const [selectedFile, setSelectedFile] = useState('');
+  const [selectedFile, setSelectedFile] = useState();
   const [redirect, setRedirect] = useState(false);
   const clients = id ? useSelector((state) => state.client) : null;
   const clientValues = clients ? useSelector((state) => state.client.clients.find((i) => i._id === id)) : null;
@@ -325,9 +325,9 @@ const NewClientView = ({
   );
 };
 
-NewClientView.propTypes = {
+ClientFormView.propTypes = {
   user: PropTypes.objectOf(PropTypes.string).isRequired,
   match: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-export default NewClientView;
+export default ClientFormView;

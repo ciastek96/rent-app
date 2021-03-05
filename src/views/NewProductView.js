@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -9,10 +9,13 @@ import FileBase from 'react-file-base64';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import Select from '../components/Select/Select';
-import { addProduct } from '../actions';
+import { addProduct, updateProduct } from '../actions';
+import { bruttoToNetto } from '../utils/bruttoToNetto';
 import MainTemplate from '../templates/MainTemplate';
+import Spinner from '../components/Spinner/Spinner';
 import Button from '../components/Button/Button';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
+import MessageBox from '../components/MessageBox/MessageBox';
 import { routes } from '../routes/routes';
 
 const StyledHeader = styled.div`
@@ -106,46 +109,51 @@ const Label = styled.p`
   color: black;
 `;
 
-const NewProductView = ({ user: { userID } }) => {
+const NewProductView = ({ match, user: { userID } }) => {
+  const { id } = match.params;
   const dispatch = useDispatch();
-  const [selectedFile, setSelectedFile] = useState('');
+  const products = id ? useSelector((state) => state.product) : null;
+  const productValues = products ? useSelector((state) => state.product.products.find((i) => i._id === id)) : null;
+  const [selectedFile, setSelectedFile] = useState();
+  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
+  const isNewProduct = id ? 0 : 1;
   const [redirect, setRedirect] = useState(false);
 
   if (redirect) {
     return <Redirect to={routes.products} />;
   }
 
-  const bruttoToNetto = (brutto, vat) => {
-    const netto = (brutto / (1 + vat / 100)).toFixed(2);
-    return netto;
-  };
-
   return (
     <MainTemplate>
       <StyledHeader>
-        <h2>Nowy produkt</h2>
+        <h2>{isNewProduct ? 'Nowy produkt' : 'Edytuj'}</h2>
         <ButtonsWrapper>
           <Button as={Link} to={routes.products} secondary="true">
             Anuluj
           </Button>
-          {/* <StyledButton onClick={() => dispatch(addClient(clientValues))}>Dodaj</StyledButton> */}
           <StyledButton type="submit" form="newProductForm">
-            Dodaj
+            {isNewProduct ? 'Dodaj' : 'Zapisz'}
           </StyledButton>
         </ButtonsWrapper>
       </StyledHeader>
       <Wrapper>
+        {products?.loading && <Spinner />}
+        {products?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
+        {products?.success && isMessageBoxOpen && (
+          <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />
+        )}
         <Formik
           initialValues={{
-            productName: '',
-            price: '',
-            vat: 23,
-            brutto: 0,
-            quantity: 1,
-            unit: 'szt',
-            dateOfPurchase: '',
-            dateOfLastInspection: '',
-            selectedFile: '',
+            productName: productValues?.productName || '',
+            price: productValues?.price || '',
+            vat: productValues?.vat || 23,
+            brutto: productValues?.brutto || 0,
+            quantity: productValues?.quantity || 1,
+            unit: productValues?.unit || 'szt',
+            dateOfPurchase: productValues?.dateOfPurchase && productValues?.dateOfPurchase !== null ? new Date(productValues.dateOfPurchase) : '',
+            dateOfLastInspection:
+              productValues?.dateOfLastInspection && productValues?.dateOfLastInspection !== null ? new Date(productValues.dateOfLastInspection) : '',
+            selectedFile: productValues?.selectedFile || '',
           }}
           validate={(values) => {
             const errors = {};
@@ -172,12 +180,6 @@ const NewProductView = ({ user: { userID } }) => {
               errors.vat = 'Podana cena jest niepoprawna.';
             }
 
-            // if (!values.netto) {
-            //   errors.netto = 'Pole wymagane.';
-            // } else if (!/^[0-9]+([.][0-9]+)?$/.test(values.netto)) {
-            //   errors.netto = 'Podana cena jest niepoprawna.';
-            // }
-
             if (!values.quantity) {
               errors.quantity = 'Pole wymagane.';
             }
@@ -190,24 +192,26 @@ const NewProductView = ({ user: { userID } }) => {
           }}
           onSubmit={(values) => {
             // console.log({ ...values, selectedFile });
-            dispatch(addProduct({ userID, ...values, selectedFile }));
-            setRedirect(true);
+            if (isNewProduct) {
+              dispatch(addProduct({ userID, ...values, selectedFile }));
+              setRedirect(true);
+            } else {
+              dispatch(updateProduct(id, { userID, ...values, selectedFile }));
+              setIsMessageBoxOpen(true);
+            }
           }}
         >
           {({ values, setFieldValue }) => (
             <>
               <InnerWrapper>
-                {/* <div>
-                  <FileBase as={ImageUploader} type="file" multiple={false} onDone={({ base64 }) => setSelectedFile(base64)} />
-                </div> */}
                 <ImageWrapper>
-                  <ImageUploader image={selectedFile} setSelectedFile={setSelectedFile} />
+                  <ImageUploader image={!selectedFile ? productValues?.selectedFile : selectedFile} setSelectedFile={setSelectedFile} />
                   <FileBase type="file" id="image" multiple={false} accept="image/*" onDone={({ base64 }) => setSelectedFile(base64)} />
                 </ImageWrapper>
 
                 <ClientInfo>
-                  <h2>{values.productName ? values.productName : '  '}</h2>
-                  <h4>{values.brutto ? `${values.brutto} zł brutto / doba` : null}</h4>
+                  <h2>{values?.productName || '  '}</h2>
+                  <h4>{values.brutto && `${values.brutto} zł brutto / doba`}</h4>
                 </ClientInfo>
               </InnerWrapper>
               <StyledForm id="newProductForm">
@@ -309,6 +313,7 @@ const NewProductView = ({ user: { userID } }) => {
 
 NewProductView.propTypes = {
   user: PropTypes.objectOf(PropTypes.string).isRequired,
+  match: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default NewProductView;

@@ -8,7 +8,7 @@ function ProtectedRoute({ component: Component, ...children }) {
   const token = localStorage.getItem('jwtToken');
   const isAuthenticated = !!token;
   const decodedToken = jwt.decode(token);
-  const isTokenExpired = decodedToken.exp * 1000 < new Date().getTime();
+  const isTokenExpired = decodedToken?.exp * 1000 < new Date().getTime();
   if (isAuthenticated && !isTokenExpired) {
     return <Route {...children} render={(props) => <Component {...props} user={decodedToken} />} />;
   }

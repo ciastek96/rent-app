@@ -9,10 +9,9 @@ import ProductsView from './ProductsView';
 import HistoryView from './HistoryView';
 import ClientsView from './ClientsView';
 import NotFoundView from './NotFoundView';
-import NewClientView from './NewClientView';
+import ClientFormView from './ClientFormView';
 import SettingsView from './SettingsView';
 import NewProductView from './NewProductView';
-import EditProductView from './EditProductView';
 import NewRentView from './NewRentView';
 import EditRentView from './EditRentView';
 import RentsView from './RentsView';
@@ -45,10 +44,10 @@ const Root = () => {
         <ProtectedRoute exact path={routes.home} component={DashboardView} />
         <ProtectedRoute exact path={routes.products} component={ProductsView} />
         <ProtectedRoute path={routes.newProduct} component={NewProductView} />
-        <ProtectedRoute path={routes.product} component={EditProductView} />
+        <ProtectedRoute path={routes.product} component={NewProductView} />
         <ProtectedRoute exact path={routes.clients} component={ClientsView} />
-        <ProtectedRoute path={routes.newClient} component={NewClientView} />
-        <ProtectedRoute path={routes.client} component={NewClientView} />
+        <ProtectedRoute path={routes.newClient} component={ClientFormView} />
+        <ProtectedRoute path={routes.client} component={ClientFormView} />
         <ProtectedRoute path={routes.newRent} component={NewRentView} />
         <ProtectedRoute exact path={routes.rents} component={RentsView} />
         <ProtectedRoute exact path={routes.rent} component={EditRentView} />
