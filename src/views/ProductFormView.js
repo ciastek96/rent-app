@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import Select from '../components/Select/Select';
 import { addProduct, updateProduct } from '../actions';
-import { bruttoToNetto } from '../utils/bruttoToNetto';
+import { bruttoToNetto } from '../utils/getPrices';
 import MainTemplate from '../templates/MainTemplate';
 import Spinner from '../components/Spinner/Spinner';
 import Button from '../components/Button/Button';
@@ -126,7 +126,7 @@ const NewProductView = ({ match, user: { userID } }) => {
   return (
     <MainTemplate>
       <StyledHeader>
-        <h2>{isNewProduct ? 'Nowy produkt' : 'Edytuj'}</h2>
+        <h2>{isNewProduct ? 'Nowy produkt' : 'Edycja produktu'}</h2>
         <ButtonsWrapper>
           <Button as={Link} to={routes.products} secondary="true">
             Anuluj
@@ -147,7 +147,7 @@ const NewProductView = ({ match, user: { userID } }) => {
             productName: productValues?.productName || '',
             price: productValues?.price || '',
             vat: productValues?.vat || 23,
-            brutto: productValues?.brutto || 0,
+            brutto: productValues?.brutto || '',
             quantity: productValues?.quantity || 1,
             unit: productValues?.unit || 'szt',
             dateOfPurchase: productValues?.dateOfPurchase && productValues?.dateOfPurchase !== null ? new Date(productValues.dateOfPurchase) : '',

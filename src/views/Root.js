@@ -11,9 +11,8 @@ import ClientsView from './ClientsView';
 import NotFoundView from './NotFoundView';
 import ClientFormView from './ClientFormView';
 import SettingsView from './SettingsView';
-import NewProductView from './NewProductView';
+import ProductFormView from './ProductFormView';
 import NewRentView from './NewRentView';
-import EditRentView from './EditRentView';
 import RentsView from './RentsView';
 import UpdatePasswordView from './UpdatePasswordView';
 import { getClients, getProducts, getRents, getAccount } from '../actions';
@@ -43,14 +42,14 @@ const Root = () => {
         <Route path={routes.logout} component={LoginView} />
         <ProtectedRoute exact path={routes.home} component={DashboardView} />
         <ProtectedRoute exact path={routes.products} component={ProductsView} />
-        <ProtectedRoute path={routes.newProduct} component={NewProductView} />
-        <ProtectedRoute path={routes.product} component={NewProductView} />
+        <ProtectedRoute path={routes.newProduct} component={ProductFormView} />
+        <ProtectedRoute path={routes.product} component={ProductFormView} />
         <ProtectedRoute exact path={routes.clients} component={ClientsView} />
         <ProtectedRoute path={routes.newClient} component={ClientFormView} />
         <ProtectedRoute path={routes.client} component={ClientFormView} />
         <ProtectedRoute path={routes.newRent} component={NewRentView} />
         <ProtectedRoute exact path={routes.rents} component={RentsView} />
-        <ProtectedRoute exact path={routes.rent} component={EditRentView} />
+        <ProtectedRoute exact path={routes.rent} component={NewRentView} />
         <ProtectedRoute exact path={routes.settings} component={SettingsView} />
         <ProtectedRoute path={routes.updatePassword} component={UpdatePasswordView} />
         <ProtectedRoute path={routes.finances} component={HistoryView} />

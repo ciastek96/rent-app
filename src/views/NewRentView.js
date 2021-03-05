@@ -12,9 +12,11 @@ import Spinner from '../components/Spinner/Spinner';
 import Input from '../components/Input/Input';
 // import Textarea from '../components/Textarea/Textarea';
 import ProductsCard from '../components/ProductsCard/ProductsCard';
-import { addRent } from '../actions';
+import { addRent, updateRent } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
+import MessageBox from '../components/MessageBox/MessageBox';
+import { getBrutto, getNetto, getDiscount, getVAT, getFinalPrice } from '../utils/getPrices';
 import { routes } from '../routes/routes';
 
 const StyledHeader = styled.div`
@@ -147,54 +149,29 @@ const SummaryItem = styled.div`
   }
 `;
 
-const NewRentView = ({ user: { userID } }) => {
+const NewRentView = ({ match, user: { userID } }) => {
   const dispatch = useDispatch();
+  const { id } = match.params;
   const productsList = useSelector((state) => state.product.products);
+  const rents = useSelector((state) => state.rent);
+  const rentValues = useSelector((state) => state.rent.rents.find((i) => i._id === id));
   const clientsList = useSelector((state) => state.client.clients);
   const isLoading = useSelector((state) => state.rent.loading);
-  const [rentsDurr, setRentsDurr] = useState(1);
+  const [rentDuration, setRentDuration] = useState(1);
   const [cartItems, setCartItems] = useState([]);
   const [rentValue, setRentValue] = useState(0);
   const [redirect, setRedirect] = useState(false);
+  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
+  const isNewRent = id ? 0 : 1;
 
-  const getNetto = (values) => {
-    const netto = values
-      .map((product) => (product.qty ? product.netto * product.qty : product.netto))
-      .reduce((sum = 0, i) => sum + i)
-      .toFixed(2);
-    return (netto * rentsDurr).toFixed(2);
-  };
+  const currentProducts = rentValues?.products.map((product) => product);
 
-  const getBrutto = (values) => {
-    const brutto = values
-      .map((product) => (product.qty ? product.brutto * product.qty : product.brutto))
-      .reduce((sum = 0, i) => sum + i)
-      .toFixed(2);
-    return (brutto * rentsDurr).toFixed(2);
-  };
-
-  const getVAT = (values) => {
-    const VAT = (getBrutto(values) - getNetto(values)).toFixed(2);
-    return VAT;
-  };
-
-  const getDiscount = (values) => {
-    const discount = (getBrutto(values.products) * (values.client.discount / 100)).toFixed(2);
-    return discount;
-  };
-
-  const getFinalPrice = (values) => {
-    const brutto = getBrutto(values.products);
-    const price = (brutto - (brutto * values.client.discount) / 100).toFixed(2);
-    return price;
-  };
-
-  const getRentsDurr = (dateOfRent, dateOfReturn) => {
+  const getRentDuration = (dateOfRent, dateOfReturn) => {
     const firstDay = moment(dateOfRent);
     const lastDay = moment(dateOfReturn);
 
     const days = lastDay.diff(firstDay, 'days') + 1;
-    setRentsDurr(days);
+    setRentDuration(days);
   };
 
   if (redirect) {
@@ -212,28 +189,31 @@ const NewRentView = ({ user: { userID } }) => {
   return (
     <MainTemplate>
       <StyledHeader>
-        <h2>Nowe wypożyczenie</h2>
+        <h2>{isNewRent ? 'Nowe wypożyczenie' : 'Edycja wypożyczenia'}</h2>
         <ButtonsWrapper>
           <Button as={Link} to={routes.rents} secondary="true">
-            Anuluj
+            Cofnij
           </Button>
           <StyledButton type="submit" form="newRentForm">
-            Zapisz
+            {isNewRent ? 'Dodaj' : 'Zapisz'}
           </StyledButton>
         </ButtonsWrapper>
       </StyledHeader>
       <Wrapper>
+        {rents?.loading && <Spinner />}
+        {rents?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
+        {rents?.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
         <Formik
           initialValues={{
-            dateOfRent: new Date(),
-            dateOfReturn: new Date(),
-            products: [],
-            client: null,
-            brutto: 0,
-            vat: 0,
-            netto: 0,
-            advance: 0,
-            comments: '',
+            dateOfRent: rentValues?.dateOfRent && rentValues?.dateOfRent !== null ? new Date(rentValues.dateOfRent) : new Date(),
+            dateOfReturn: rentValues?.dateOfReturn && rentValues?.dateOfReturn !== null ? new Date(rentValues.dateOfReturn) : new Date(),
+            products: currentProducts?.map((product) => product) || [],
+            client: rentValues?.client || null,
+            brutto: rentValues?.brutto || 0,
+            vat: rentValues?.brutto || 0,
+            netto: rentValues?.netto || 0,
+            advance: rentValues?.advance || 0,
+            comments: rentValues?.comments || '',
           }}
           validate={(values) => {
             const errors = {};
@@ -259,13 +239,18 @@ const NewRentView = ({ user: { userID } }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            const brutto = getBrutto(values.products);
-            const netto = getNetto(values.products);
+            const brutto = getBrutto(values.products, rentDuration);
+            const netto = getNetto(values.products, rentDuration);
             const discount = getDiscount(values);
             const vat = getVAT(values.products);
             const price = getFinalPrice(values);
-            dispatch(addRent({ userID, ...values, brutto, netto, vat, discount, price, rentsDurr }));
-            setRedirect(true);
+            if (isNewRent) {
+              dispatch(addRent({ userID, ...values, brutto, netto, vat, discount, price, rentDuration }));
+              setRedirect(true);
+            } else {
+              dispatch(updateRent(id, { userID, ...values, brutto, netto, vat, discount, price, rentDuration }));
+              setIsMessageBoxOpen(true);
+            }
           }}
         >
           {({ values, setFieldValue }) => (
@@ -285,7 +270,7 @@ const NewRentView = ({ user: { userID } }) => {
                     name="dateOfRent"
                     onChange={(date) => {
                       setFieldValue('dateOfRent', date);
-                      getRentsDurr(date, values.dateOfReturn);
+                      getRentDuration(date, values.dateOfReturn);
                     }}
                     customInput={<Field as={Input} />}
                   />
@@ -305,7 +290,7 @@ const NewRentView = ({ user: { userID } }) => {
                     name="dateOfReturn"
                     onChange={(date) => {
                       setFieldValue('dateOfReturn', date);
-                      getRentsDurr(values.dateOfRent, date);
+                      getRentDuration(values.dateOfRent, date);
                     }}
                     customInput={<Field as={Input} autoComplete="new-password" />}
                   />
@@ -369,15 +354,10 @@ const NewRentView = ({ user: { userID } }) => {
                     <ErrorMessage name="advance" component={Error} />
                   </div>
 
-                  {/* <div>
-                    <Field as={Textarea} label="Informacje dodatkowe" id="comments" name="comments" type="text" autoComplete="new-password" />
-                    <ErrorMessage name="comments" component={Error} />
-                  </div> */}
-
                   <Summary>
                     <SummaryItem>
                       <p>Ilość dni: </p>
-                      <p>{rentsDurr}</p>
+                      <p>{rentDuration}</p>
                     </SummaryItem>
 
                     <SummaryItem>
@@ -427,6 +407,7 @@ const NewRentView = ({ user: { userID } }) => {
 
 NewRentView.propTypes = {
   user: PropTypes.objectOf(PropTypes.string).isRequired,
+  match: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default NewRentView;
