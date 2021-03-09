@@ -12,23 +12,13 @@ import Select from '../components/Select/Select';
 import { addProduct, updateProduct } from '../actions';
 import { bruttoToNetto } from '../utils/getPrices';
 import MainTemplate from '../templates/MainTemplate';
+import ItemsTemplate from '../templates/ItemsTemplate';
 import Spinner from '../components/Spinner/Spinner';
+import ErrorParagraph from '../components/ErrorParagraph/ErrorParagraph';
 import Button from '../components/Button/Button';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
 import MessageBox from '../components/MessageBox/MessageBox';
 import { routes } from '../routes/routes';
-
-const StyledHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-
-  h2::first-letter {
-    text-transform: uppercase;
-  }
-`;
 
 const ButtonsWrapper = styled.div`
   display: flex;
@@ -79,12 +69,6 @@ const ImageWrapper = styled.div`
   flex-direction: column;
 `;
 
-const Error = styled.p`
-  color: red;
-  font-size: ${({ theme }) => theme.fontSize.xxs};
-  padding: 0 25px;
-`;
-
 const DateWrapper = styled.div`
   .react-datepicker-wrapper {
     width: 100%;
@@ -133,8 +117,7 @@ const ProductFormView = ({ match, user: { userID } }) => {
 
   return (
     <MainTemplate>
-      <StyledHeader>
-        <h2>{isNewProduct ? 'Nowy produkt' : 'Edycja produktu'}</h2>
+      <ItemsTemplate title={isNewProduct ? 'Nowy produkt' : 'Edycja produktu'}>
         <ButtonsWrapper>
           <Button as={Link} to={routes.products} secondary="true">
             Anuluj
@@ -143,7 +126,7 @@ const ProductFormView = ({ match, user: { userID } }) => {
             {isNewProduct ? 'Dodaj' : 'Zapisz'}
           </StyledButton>
         </ButtonsWrapper>
-      </StyledHeader>
+      </ItemsTemplate>
       <Wrapper>
         {products?.loading && <Spinner />}
         {products?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
@@ -199,7 +182,6 @@ const ProductFormView = ({ match, user: { userID } }) => {
             return errors;
           }}
           onSubmit={(values) => {
-            // console.log({ ...values, selectedFile });
             if (isNewProduct) {
               dispatch(addProduct({ userID, ...values, selectedFile }));
               setRedirect(true);
@@ -225,17 +207,17 @@ const ProductFormView = ({ match, user: { userID } }) => {
               <StyledForm id="newProductForm">
                 <div>
                   <Field as={Input} label="Nazwa" id="productName" name="productName" type="text" autoComplete="new-password" />
-                  <ErrorMessage name="productName" component={Error} />
+                  <ErrorMessage name="productName" component={ErrorParagraph} />
                 </div>
 
                 <div>
                   <Field as={Input} label="Cena brutto" id="brutto" name="brutto" type="number" min="0" autoComplete="new-password" />
-                  <ErrorMessage name="brutto" component={Error} />
+                  <ErrorMessage name="brutto" component={ErrorParagraph} />
                 </div>
 
                 <div>
                   <Field as={Input} label="Stawka VAT" id="vat" name="vat" type="number" min="0" max="100" autoComplete="new-password" />
-                  <ErrorMessage name="vat" component={Error} />
+                  <ErrorMessage name="vat" component={ErrorParagraph} />
                 </div>
 
                 <div>
@@ -249,12 +231,12 @@ const ProductFormView = ({ match, user: { userID } }) => {
                     value={bruttoToNetto(values.brutto, values.vat)}
                     autoComplete="new-password"
                   />
-                  <ErrorMessage name="netto" component={Error} />
+                  <ErrorMessage name="netto" component={ErrorParagraph} />
                 </div>
 
                 <div>
                   <Field as={Input} label="Ilość" id="quantity" name="quantity" type="number" min="0" autoComplete="new-password" />
-                  <ErrorMessage name="quantity" component={Error} />
+                  <ErrorMessage name="quantity" component={ErrorParagraph} />
                 </div>
 
                 <div>
@@ -265,23 +247,13 @@ const ProductFormView = ({ match, user: { userID } }) => {
                     <option value="m2">m2</option>
                     <option value="m3">m3</option>
                   </Field>
-                  <ErrorMessage name="unit" component={Error} />
+                  <ErrorMessage name="unit" component={ErrorParagraph} />
                 </div>
 
                 <div>
                   <Field as={Input} label="Cena zakupu" id="price" name="price" type="number" min="0" autoComplete="new-password" />
-                  <ErrorMessage name="price" component={Error} />
+                  <ErrorMessage name="price" component={ErrorParagraph} />
                 </div>
-
-                {/* <div>
-                  <Field as={Input} label="Data zakupu" id="dateOfPurchase" name="dateOfPurchase" type="date" />
-                  <ErrorMessage name="dateOfPurchase" component={Error} />
-                </div>
-
-                <div>
-                  <Field as={Input} label="Data ostatniego przeglądu" id="dateOfLastInspection" name="dateOfLastInspection" type="date" />
-                  <ErrorMessage name="dateOfLastInspection" component={Error} />
-                </div> */}
 
                 <DateWrapper>
                   <Label>Data zakupu</Label>
@@ -294,7 +266,7 @@ const ProductFormView = ({ match, user: { userID } }) => {
                     onChange={(date) => setFieldValue('dateOfPurchase', date)}
                     customInput={<Field as={Input} autoComplete="new-password" />}
                   />
-                  <ErrorMessage name="dateOfPurchase" component={Error} />
+                  <ErrorMessage name="dateOfPurchase" component={ErrorParagraph} />
                 </DateWrapper>
 
                 <DateWrapper>
@@ -308,7 +280,7 @@ const ProductFormView = ({ match, user: { userID } }) => {
                     onChange={(date) => setFieldValue('dateOfLastInspection', date)}
                     customInput={<Field as={Input} autoComplete="new-password" />}
                   />
-                  <ErrorMessage name="dateOfLastInspection" component={Error} />
+                  <ErrorMessage name="dateOfLastInspection" component={ErrorParagraph} />
                 </DateWrapper>
               </StyledForm>
             </>

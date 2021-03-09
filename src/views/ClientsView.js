@@ -5,6 +5,7 @@ import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import Card from '../components/Card/Card';
 import Spinner from '../components/Spinner/Spinner';
+import NoResults from '../components/NoResults/NoResults';
 import MessageBox from '../components/MessageBox/MessageBox';
 import LayoutButtons from '../components/LayoutButtons/LayoutButtons';
 import List from '../components/List/List';
@@ -19,7 +20,6 @@ const GridWrapper = styled.div`
 
 const ClientsView = () => {
   const GRID = 'grid';
-  // const LIST = 'list';
   const client = useSelector((state) => state.client);
   const clientsList = useSelector((state) => state.client.clients);
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
@@ -61,7 +61,7 @@ const ClientsView = () => {
           )}
         </>
       ) : (
-        <p>Brak wyników...</p>
+        <NoResults />
       )}
     </MainTemplate>
   );

@@ -10,31 +10,16 @@ import styled from 'styled-components';
 import Select from 'react-select';
 import Spinner from '../components/Spinner/Spinner';
 import Input from '../components/Input/Input';
-// import Textarea from '../components/Textarea/Textarea';
 import ProductsCard from '../components/ProductsCard/ProductsCard';
 import { addRent, updateRent } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
+import ItemsTemplate from '../templates/ItemsTemplate';
 import Button from '../components/Button/Button';
+import ErrorParagraph from '../components/ErrorParagraph/ErrorParagraph';
+import ButtonsLayout from '../components/ButtonsLayout/ButtonsLayout';
 import MessageBox from '../components/MessageBox/MessageBox';
 import { getBrutto, getNetto, getDiscount, getVAT, getFinalPrice } from '../utils/getPrices';
 import { routes } from '../routes/routes';
-
-const StyledHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-
-  h2::first-letter {
-    text-transform: uppercase;
-  }
-`;
-
-const ButtonsWrapper = styled.div`
-  display: flex;
-  margin-bottom: 15px;
-`;
 
 const StyledButton = styled(Button)`
   margin-left: 15px;
@@ -73,15 +58,6 @@ const StyledSelect = styled(Select)`
 `;
 
 const DateWrapper = styled.div`
-  /* padding: 0 25px; */
-  /* &:first-child {
-    margin-right: 25px;
-  }
-
-  &:last-child {
-    margin-left: 25px;
-  } */
-
   .react-datepicker-wrapper {
     width: 100%;
     margin-bottom: 8px;
@@ -93,14 +69,7 @@ const DateWrapper = styled.div`
 `;
 
 const SelectWrapper = styled.div`
-  /* padding: 15px 25px; */
   padding: 15px 0;
-`;
-
-const Error = styled.p`
-  color: red;
-  font-size: ${({ theme }) => theme.fontSize.xxs};
-  margin: 5px 0;
 `;
 
 const Summary = styled.div`
@@ -149,7 +118,7 @@ const SummaryItem = styled.div`
   }
 `;
 
-const NewRentView = ({ match, user: { userID } }) => {
+const RentFormView = ({ match, user: { userID } }) => {
   const dispatch = useDispatch();
   const { id } = match.params;
   const productsList = useSelector((state) => state.product.products);
@@ -188,17 +157,16 @@ const NewRentView = ({ match, user: { userID } }) => {
 
   return (
     <MainTemplate>
-      <StyledHeader>
-        <h2>{isNewRent ? 'Nowe wypożyczenie' : 'Edycja wypożyczenia'}</h2>
-        <ButtonsWrapper>
+      <ItemsTemplate title={isNewRent ? 'Nowe wypożyczenie' : 'Edycja wypożyczenia'}>
+        <ButtonsLayout>
           <Button as={Link} to={routes.rents} secondary="true">
             Cofnij
           </Button>
           <StyledButton type="submit" form="newRentForm">
             {isNewRent ? 'Dodaj' : 'Zapisz'}
           </StyledButton>
-        </ButtonsWrapper>
-      </StyledHeader>
+        </ButtonsLayout>
+      </ItemsTemplate>
       <Wrapper>
         {rents?.loading && <Spinner />}
         {rents?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
@@ -274,7 +242,7 @@ const NewRentView = ({ match, user: { userID } }) => {
                     }}
                     customInput={<Field as={Input} />}
                   />
-                  <ErrorMessage name="dateOfRent" component={Error} />
+                  <ErrorMessage name="dateOfRent" component={ErrorParagraph} />
                 </DateWrapper>
 
                 <DateWrapper>
@@ -294,7 +262,7 @@ const NewRentView = ({ match, user: { userID } }) => {
                     }}
                     customInput={<Field as={Input} autoComplete="new-password" />}
                   />
-                  <ErrorMessage name="dateOfReturn" component={Error} />
+                  <ErrorMessage name="dateOfReturn" component={ErrorParagraph} />
                 </DateWrapper>
               </GridWrapper>
 
@@ -310,7 +278,7 @@ const NewRentView = ({ match, user: { userID } }) => {
                   }))}
                   onChange={(client) => setFieldValue('client', client)}
                 />
-                <ErrorMessage name="client" component={Error} />
+                <ErrorMessage name="client" component={ErrorParagraph} />
               </SelectWrapper>
 
               {values.client && (
@@ -334,7 +302,7 @@ const NewRentView = ({ match, user: { userID } }) => {
                       setFieldValue('products', products);
                     }}
                   />
-                  <ErrorMessage name="products" component={Error} />
+                  <ErrorMessage name="products" component={ErrorParagraph} />
                 </SelectWrapper>
               )}
 
@@ -351,7 +319,7 @@ const NewRentView = ({ match, user: { userID } }) => {
 
                   <div>
                     <Field as={Input} label="Kaucja zwrotna" id="advance" name="advance" type="number" autoComplete="new-password" />
-                    <ErrorMessage name="advance" component={Error} />
+                    <ErrorMessage name="advance" component={ErrorParagraph} />
                   </div>
 
                   <Summary>
@@ -405,9 +373,9 @@ const NewRentView = ({ match, user: { userID } }) => {
   );
 };
 
-NewRentView.propTypes = {
+RentFormView.propTypes = {
   user: PropTypes.objectOf(PropTypes.string).isRequired,
   match: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-export default NewRentView;
+export default RentFormView;

@@ -5,6 +5,7 @@ import ItemsTemplate from '../templates/ItemsTemplate';
 import List from '../components/List/List';
 import Spinner from '../components/Spinner/Spinner';
 import MessageBox from '../components/MessageBox/MessageBox';
+import NoResults from '../components/NoResults/NoResults';
 import { routes } from '../routes/routes';
 
 const ProductsView = () => {
@@ -33,7 +34,7 @@ const ProductsView = () => {
       {product.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
       {product.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
       <ItemsTemplate title="Produkty" value={inputValue} handleChange={handleChange} path={routes.newProduct} />
-      {productsList.length > 0 ? <List listType="products" items={filteredData} /> : <p>Brak wyników...</p>}
+      {productsList.length > 0 ? <List listType="products" items={filteredData} /> : <NoResults />}
     </MainTemplate>
   );
 };

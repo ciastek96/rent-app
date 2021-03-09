@@ -10,26 +10,11 @@ import { addClient, updateClient } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/Button/Button';
 import Spinner from '../components/Spinner/Spinner';
+import ErrorParagraph from '../components/ErrorParagraph/ErrorParagraph';
 import MessageBox from '../components/MessageBox/MessageBox';
+import ItemsTemplate from '../templates/ItemsTemplate';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
-
-const StyledHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: center;
-
-  h2::first-letter {
-    text-transform: uppercase;
-  }
-`;
-
-const ButtonsWrapper = styled.div`
-  display: flex;
-  margin-bottom: 15px;
-`;
 
 const StyledButton = styled(Button)`
   margin-left: 15px;
@@ -80,12 +65,6 @@ const ClientInfo = styled.div`
   }
 `;
 
-const Error = styled.p`
-  color: red;
-  font-size: ${({ theme }) => theme.fontSize.xxs};
-  padding: 0 25px;
-`;
-
 const ImageWrapper = styled.div`
   min-height: 200px;
   display: flex;
@@ -131,17 +110,14 @@ const ClientFormView = ({
 
   return (
     <MainTemplate>
-      <StyledHeader>
-        <h2>{isNewClient ? 'Nowy klient' : 'Edycja klienta'}</h2>
-        <ButtonsWrapper>
-          <Button as={Link} to={routes.clients} secondary="true">
-            Anuluj
-          </Button>
-          <StyledButton type="submit" form="newClientForm">
-            {isNewClient ? 'Dodaj' : 'Zapisz'}
-          </StyledButton>
-        </ButtonsWrapper>
-      </StyledHeader>
+      <ItemsTemplate title={isNewClient ? 'Nowy klient' : 'Edycja klienta'}>
+        <Button as={Link} to={routes.clients} secondary="true">
+          Anuluj
+        </Button>
+        <StyledButton type="submit" form="newClientForm">
+          {isNewClient ? 'Dodaj' : 'Zapisz'}
+        </StyledButton>
+      </ItemsTemplate>
       <Wrapper>
         {clients?.loading && <Spinner />}
         {clients?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
@@ -229,13 +205,6 @@ const ClientFormView = ({
               }
             }
 
-            // if (values.address.postalCode) {
-            //   if (/^[!^@#$%^&()_+{}|";<>?~`|*]+$/.test(values.address.postalCode)) {
-            //     if (!errors.address) errors.address = {};
-            //     errors.address.postalCode = 'Podany kod pocztowy jest niepoprawny.';
-            //   }
-            // }
-
             if (values.address.postalCode) {
               if (!/[0-9]{2}-[0-9]{3}$/.test(values.address.postalCode)) {
                 if (!errors.address) errors.address = {};
@@ -280,49 +249,49 @@ const ClientFormView = ({
               <StyledForm id="newClientForm">
                 <div>
                   <Field as={Input} label="Imię" id="name" name="name" type="text" autoComplete="new-password" />
-                  <ErrorMessage name="name" component={Error} />
+                  <ErrorMessage name="name" component={ErrorParagraph} />
                 </div>
                 <div>
                   <Field as={Input} label="Nazwisko" id="surname" name="surname" type="text" autoComplete="new-password" />
-                  <ErrorMessage name="surname" component={Error} />
+                  <ErrorMessage name="surname" component={ErrorParagraph} />
                 </div>
 
                 <div>
                   <Field as={Input} label="Adres e-mail" id="email" name="email" type="email" autoComplete="new-password" />
-                  <ErrorMessage name="email" component={Error} />
+                  <ErrorMessage name="email" component={ErrorParagraph} />
                 </div>
 
                 <div>
                   <Field as={Input} label="Telefon" id="phone" name="phone" type="text" autoComplete="new-password" />
-                  <ErrorMessage name="phone" component={Error} />
+                  <ErrorMessage name="phone" component={ErrorParagraph} />
                 </div>
 
                 <div>
                   <Field as={Input} label="Nazwa firmy" id="companyName" name="companyName" type="text" autoComplete="new-password" />
-                  <ErrorMessage name="companyName" component={Error} />
+                  <ErrorMessage name="companyName" component={ErrorParagraph} />
                 </div>
 
                 <div>
                   <Field as={Input} label="NIP" id="nip" name="nip" type="text" autoComplete="new-password" />
-                  <ErrorMessage name="nip" component={Error} />
+                  <ErrorMessage name="nip" component={ErrorParagraph} />
                 </div>
                 <div>
                   <Field as={Input} label="Ulica" id="street" name="address.street" type="text" autoComplete="new-password" />
-                  <ErrorMessage name="address.street" component={Error} />
+                  <ErrorMessage name="address.street" component={ErrorParagraph} />
                 </div>
                 <div>
                   <Field as={Input} label="Miasto" id="city" name="address.city" type="text" />
-                  <ErrorMessage name="address.city" component={Error} />
+                  <ErrorMessage name="address.city" component={ErrorParagraph} />
                 </div>
 
                 <div>
                   <Field as={Input} label="Kod pocztowy" id="postalCode" name="address.postalCode" type="text" autoComplete="new-password" />
-                  <ErrorMessage name="address.postalCode" component={Error} />
+                  <ErrorMessage name="address.postalCode" component={ErrorParagraph} />
                 </div>
 
                 <div>
                   <Field as={Input} label="Rabat" id="discount" name="discount" type="number" min="0" max="100" />
-                  <ErrorMessage name="discount" component={Error} />
+                  <ErrorMessage name="discount" component={ErrorParagraph} />
                 </div>
               </StyledForm>
             </>

@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/Button/Button';
+import ButtonsLayout from '../components/ButtonsLayout/ButtonsLayout';
 import Input from '../components/Input/Input';
 
 const Wrapper = styled.div`
@@ -16,11 +17,7 @@ const Header = styled.div`
   align-content: center;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: baseline;
-
-  ${Button} {
-    margin-top: 15px;
-  }
+  align-items: center;
 `;
 
 const ItemsTemplate = ({ children, title, value, handleChange, path }) => (
@@ -30,11 +27,11 @@ const ItemsTemplate = ({ children, title, value, handleChange, path }) => (
       {handleChange && <Input search value={value} placeholder="Szukaj..." onChange={handleChange} />}
       {path && (
         <Button as={Link} to={path}>
-          Dodaj nowy
+          Dodaj
         </Button>
       )}
+      {children && <ButtonsLayout>{children}</ButtonsLayout>}
     </Header>
-    {children}
   </Wrapper>
 );
 

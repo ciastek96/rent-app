@@ -12,7 +12,7 @@ import NotFoundView from './NotFoundView';
 import ClientFormView from './ClientFormView';
 import SettingsView from './SettingsView';
 import ProductFormView from './ProductFormView';
-import NewRentView from './NewRentView';
+import RentFormView from './RentFormView';
 import RentsView from './RentsView';
 import UpdatePasswordView from './UpdatePasswordView';
 import { getClients, getProducts, getRents, getAccount } from '../actions';
@@ -47,9 +47,9 @@ const Root = () => {
         <ProtectedRoute exact path={routes.clients} component={ClientsView} />
         <ProtectedRoute path={routes.newClient} component={ClientFormView} />
         <ProtectedRoute path={routes.client} component={ClientFormView} />
-        <ProtectedRoute path={routes.newRent} component={NewRentView} />
+        <ProtectedRoute path={routes.newRent} component={RentFormView} />
         <ProtectedRoute exact path={routes.rents} component={RentsView} />
-        <ProtectedRoute exact path={routes.rent} component={NewRentView} />
+        <ProtectedRoute exact path={routes.rent} component={RentFormView} />
         <ProtectedRoute exact path={routes.settings} component={SettingsView} />
         <ProtectedRoute path={routes.updatePassword} component={UpdatePasswordView} />
         <ProtectedRoute path={routes.finances} component={HistoryView} />

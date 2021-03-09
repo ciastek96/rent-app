@@ -132,20 +132,22 @@ const StyledButton = styled(Button)`
 `;
 
 const RentItem = ({
-  id,
-  status,
-  client: { label, companyName, email, phone, nip, address, discount: clientDiscount },
-  dateOfRent,
-  dateOfReturn,
-  isFinished,
-  products,
-  price,
-  brutto,
-  netto,
-  vat,
-  discount,
-  advance,
-  rentsDurr,
+  values: {
+    id,
+    status,
+    client: { label, companyName, email, phone, nip, address, discount: clientDiscount },
+    dateOfRent,
+    dateOfReturn,
+    isFinished,
+    products,
+    price,
+    brutto,
+    netto,
+    vat,
+    discount,
+    advance,
+    rentsDurr,
+  },
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -390,6 +392,7 @@ const RentItem = ({
 };
 
 RentItem.propTypes = {
+  values: PropTypes.objectOf(PropTypes.string, PropTypes.number).isRequired,
   id: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   client: PropTypes.objectOf(PropTypes.any).isRequired,
