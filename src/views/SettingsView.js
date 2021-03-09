@@ -7,6 +7,7 @@ import FileBase from 'react-file-base64';
 import Input from '../components/Input/Input';
 import { updateAccount } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
+import InnerTemplate from '../templates/InnerTemplate';
 import Button from '../components/Button/Button';
 import ErrorParagraph from '../components/ErrorParagraph/ErrorParagraph';
 import Spinner from '../components/Spinner/Spinner';
@@ -17,14 +18,6 @@ import { routes } from '../routes/routes';
 
 const StyledButton = styled(Button)`
   margin-left: 15px;
-`;
-
-const Wrapper = styled.div`
-  max-width: 1024px;
-  background-color: ${({ theme }) => theme.white};
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  margin-bottom: 65px;
-  padding: 25px;
 `;
 
 const InnerWrapper = styled.div`
@@ -108,7 +101,7 @@ const SettingsView = () => {
           Zapisz
         </StyledButton>
       </ItemsTemplate>
-      <Wrapper>
+      <InnerTemplate>
         <Formik
           initialValues={{
             name: currentUser.name,
@@ -265,7 +258,7 @@ const SettingsView = () => {
         {currentUser.success && isMessageBoxOpen && (
           <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />
         )}
-      </Wrapper>
+      </InnerTemplate>
     </MainTemplate>
   );
 };

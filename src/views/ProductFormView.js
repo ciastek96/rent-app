@@ -13,6 +13,7 @@ import { addProduct, updateProduct } from '../actions';
 import { bruttoToNetto } from '../utils/getPrices';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
+import InnerTemplate from '../templates/InnerTemplate';
 import Spinner from '../components/Spinner/Spinner';
 import ErrorParagraph from '../components/ErrorParagraph/ErrorParagraph';
 import Button from '../components/Button/Button';
@@ -27,14 +28,6 @@ const ButtonsWrapper = styled.div`
 
 const StyledButton = styled(Button)`
   margin-left: 15px;
-`;
-
-const Wrapper = styled.div`
-  max-width: 1024px;
-  background-color: ${({ theme }) => theme.white};
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  margin-bottom: 65px;
-  padding: 25px;
 `;
 
 const InnerWrapper = styled.div`
@@ -127,7 +120,7 @@ const ProductFormView = ({ match, user: { userID } }) => {
           </StyledButton>
         </ButtonsWrapper>
       </ItemsTemplate>
-      <Wrapper>
+      <InnerTemplate>
         {products?.loading && <Spinner />}
         {products?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
         {products?.success && isMessageBoxOpen && (
@@ -286,7 +279,7 @@ const ProductFormView = ({ match, user: { userID } }) => {
             </>
           )}
         </Formik>
-      </Wrapper>
+      </InnerTemplate>
     </MainTemplate>
   );
 };

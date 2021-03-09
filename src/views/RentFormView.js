@@ -14,6 +14,7 @@ import ProductsCard from '../components/ProductsCard/ProductsCard';
 import { addRent, updateRent } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
+import InnerTemplate from '../templates/InnerTemplate';
 import Button from '../components/Button/Button';
 import ErrorParagraph from '../components/ErrorParagraph/ErrorParagraph';
 import ButtonsLayout from '../components/ButtonsLayout/ButtonsLayout';
@@ -23,14 +24,6 @@ import { routes } from '../routes/routes';
 
 const StyledButton = styled(Button)`
   margin-left: 15px;
-`;
-
-const Wrapper = styled.div`
-  max-width: 1024px;
-  background-color: ${({ theme }) => theme.white};
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  margin-bottom: 65px;
-  padding: 25px;
 `;
 
 const StyledForm = styled(Form)`
@@ -167,7 +160,7 @@ const RentFormView = ({ match, user: { userID } }) => {
           </StyledButton>
         </ButtonsLayout>
       </ItemsTemplate>
-      <Wrapper>
+      <InnerTemplate>
         {rents?.loading && <Spinner />}
         {rents?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
         {rents?.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
@@ -368,7 +361,7 @@ const RentFormView = ({ match, user: { userID } }) => {
             </StyledForm>
           )}
         </Formik>
-      </Wrapper>
+      </InnerTemplate>
     </MainTemplate>
   );
 };

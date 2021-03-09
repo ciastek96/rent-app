@@ -8,24 +8,17 @@ import FileBase from 'react-file-base64';
 import Input from '../components/Input/Input';
 import { addClient, updateClient } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
+import ItemsTemplate from '../templates/ItemsTemplate';
+import InnerTemplate from '../templates/InnerTemplate';
 import Button from '../components/Button/Button';
 import Spinner from '../components/Spinner/Spinner';
 import ErrorParagraph from '../components/ErrorParagraph/ErrorParagraph';
 import MessageBox from '../components/MessageBox/MessageBox';
-import ItemsTemplate from '../templates/ItemsTemplate';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
 
 const StyledButton = styled(Button)`
   margin-left: 15px;
-`;
-
-const Wrapper = styled.div`
-  max-width: 1024px;
-  background-color: ${({ theme }) => theme.white};
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  margin-bottom: 65px;
-  padding: 25px;
 `;
 
 const InnerWrapper = styled.div`
@@ -118,7 +111,7 @@ const ClientFormView = ({
           {isNewClient ? 'Dodaj' : 'Zapisz'}
         </StyledButton>
       </ItemsTemplate>
-      <Wrapper>
+      <InnerTemplate>
         {clients?.loading && <Spinner />}
         {clients?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
         {clients?.success && isMessageBoxOpen && (
@@ -297,7 +290,7 @@ const ClientFormView = ({
             </>
           )}
         </Formik>
-      </Wrapper>
+      </InnerTemplate>
     </MainTemplate>
   );
 };
