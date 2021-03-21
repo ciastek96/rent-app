@@ -15,7 +15,7 @@ import ProductFormView from './ProductFormView';
 import RentFormView from './RentFormView';
 import RentsView from './RentsView';
 import UpdatePasswordView from './UpdatePasswordView';
-import { getClients, getProducts, getRents, getAccount } from '../actions';
+import { getClients, getProducts, getRents, getAccount, setCurrentUser } from '../actions';
 import setAuthToken from '../utils/setAuthToken';
 import ProtectedRoute from '../routes/ProtectedRoute/ProtectedRoute';
 
@@ -26,7 +26,7 @@ const Root = () => {
     if (localStorage.jwtToken) {
       const user = jwt.decode(localStorage.jwtToken);
       setAuthToken(localStorage.jwtToken);
-      dispatch({ type: 'SET_CURRENT_USER', payload: user });
+      dispatch(setCurrentUser(user));
       dispatch(getClients());
       dispatch(getProducts());
       dispatch(getRents());

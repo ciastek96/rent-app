@@ -8,13 +8,14 @@ import Input from '../components/Input/Input';
 
 const Wrapper = styled.div`
   max-width: 1024px;
-  margin: 0 auto;
+  margin: 0 auto 1rem;
 `;
 
 const Header = styled.div`
   display: flex;
   flex-direction: row;
   align-content: center;
+  gap: 1rem;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;

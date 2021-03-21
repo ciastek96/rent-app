@@ -133,7 +133,7 @@ const StyledButton = styled(Button)`
 
 const RentItem = ({
   values: {
-    id,
+    _id,
     status,
     client: { label, companyName, email, phone, nip, address, discount: clientDiscount },
     dateOfRent,
@@ -173,12 +173,12 @@ const RentItem = ({
   };
 
   const onRemoveConfirm = () => {
-    dispatch(removeRent(id));
+    dispatch(removeRent(_id));
     setIsRemoveModalOpen(false);
   };
 
   const onReturnConfirm = () => {
-    dispatch(finishRent(id));
+    dispatch(finishRent(_id));
     setIsReturnModalOpen(false);
     setIsRedirect(true);
   };
@@ -190,7 +190,7 @@ const RentItem = ({
 
     const values = {
       currentUser,
-      id,
+      _id,
       client: { label, companyName, email, phone, nip, address, discount: clientDiscount },
       dateOfRent,
       dateOfReturn,
@@ -252,7 +252,7 @@ const RentItem = ({
         <DetailsGrid>
           <DetailsWrapper>
             <h5>Nr zamówienia</h5>
-            <p>{id}</p>
+            <p>{_id}</p>
           </DetailsWrapper>
 
           <DetailsWrapper>
@@ -345,13 +345,13 @@ const RentItem = ({
       <DropdownMenu top="60px" right="20px" isOpen={optionMenu}>
         {isFinished ? (
           <MenuItemList>
-            <MenuItem onClick={createAndDownloadPdf} to={`${routes.rents}/${id}`}>
+            <MenuItem onClick={createAndDownloadPdf} to={`${routes.rents}/${_id}`}>
               Pobierz fakturę
             </MenuItem>
           </MenuItemList>
         ) : (
           <MenuItemList>
-            <MenuItem onClick={handleReturn} to={`${routes.rents}/${id}`}>
+            <MenuItem onClick={handleReturn} to={`${routes.rents}/${_id}`}>
               Odbiór
             </MenuItem>
           </MenuItemList>
@@ -359,7 +359,7 @@ const RentItem = ({
 
         {!isFinished && (
           <MenuItemList>
-            <MenuItem as={Link} to={`${routes.rents}/${id}`}>
+            <MenuItem as={Link} to={`${routes.rents}/${_id}`}>
               Edytuj
             </MenuItem>
           </MenuItemList>
@@ -393,7 +393,7 @@ const RentItem = ({
 
 RentItem.propTypes = {
   values: PropTypes.objectOf(PropTypes.string, PropTypes.number).isRequired,
-  id: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   client: PropTypes.objectOf(PropTypes.any).isRequired,
   dateOfRent: PropTypes.string.isRequired,

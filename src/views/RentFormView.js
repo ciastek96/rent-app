@@ -202,9 +202,9 @@ const RentFormView = ({ match, user: { userID } }) => {
           onSubmit={(values) => {
             const brutto = getBrutto(values.products, rentDuration);
             const netto = getNetto(values.products, rentDuration);
-            const discount = getDiscount(values);
-            const vat = getVAT(values.products);
-            const price = getFinalPrice(values);
+            const discount = getDiscount(values, rentDuration);
+            const vat = getVAT(values.products, rentDuration);
+            const price = getFinalPrice(values, rentDuration);
             if (isNewRent) {
               dispatch(addRent({ userID, ...values, brutto, netto, vat, discount, price, rentDuration }));
               setRedirect(true);
@@ -323,7 +323,7 @@ const RentFormView = ({ match, user: { userID } }) => {
 
                     <SummaryItem>
                       <p>Kwota netto: </p>
-                      <p>{`${getNetto(values.products)} zł`}</p>
+                      <p>{`${getNetto(values.products, rentDuration)} zł`}</p>
                     </SummaryItem>
 
                     <SummaryItem>
@@ -333,17 +333,17 @@ const RentFormView = ({ match, user: { userID } }) => {
 
                     <SummaryItem>
                       <p>Podatek VAT</p>
-                      <p>{` ${getVAT(values.products)} zł`}</p>
+                      <p>{` ${getVAT(values.products, rentDuration)} zł`}</p>
                     </SummaryItem>
 
                     <SummaryItem>
                       <p>Rabat</p>
-                      <p>{`${getDiscount(values)} zł`}</p>
+                      <p>{`${getDiscount(values, rentDuration)} zł`}</p>
                     </SummaryItem>
 
                     <SummaryItem>
                       <p>Kwota brutto</p>
-                      <p>{`${getBrutto(values.products)} zł`}</p>
+                      <p>{`${getBrutto(values.products, rentDuration)} zł`}</p>
                     </SummaryItem>
 
                     <SummaryItem>
@@ -353,7 +353,7 @@ const RentFormView = ({ match, user: { userID } }) => {
 
                     <SummaryItem>
                       <p>Do zapłaty</p>
-                      <p>{`${getFinalPrice(values)} zł`}</p>
+                      <p>{`${getFinalPrice(values, rentDuration)} zł`}</p>
                     </SummaryItem>
                   </Summary>
                 </>

@@ -19,18 +19,18 @@ export const getBrutto = (values, rentsDuration) => {
   return (brutto * rentsDuration).toFixed(2);
 };
 
-export const getVAT = (values) => {
-  const VAT = (getBrutto(values) - getNetto(values)).toFixed(2);
+export const getVAT = (values, rentDuration) => {
+  const VAT = (getBrutto(values, rentDuration) - getNetto(values, rentDuration)).toFixed(2);
   return VAT;
 };
 
-export const getDiscount = (values) => {
-  const discount = (getBrutto(values.products) * (values.client.discount / 100)).toFixed(2);
+export const getDiscount = (values, rentDuration) => {
+  const discount = (getBrutto(values.products, rentDuration) * (values.client.discount / 100)).toFixed(2);
   return discount;
 };
 
-export const getFinalPrice = (values) => {
-  const brutto = getBrutto(values.products);
+export const getFinalPrice = (values, rentDuration) => {
+  const brutto = getBrutto(values.products, rentDuration);
   const price = (brutto - (brutto * values.client.discount) / 100).toFixed(2);
   return price;
 };

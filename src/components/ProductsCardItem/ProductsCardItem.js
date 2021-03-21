@@ -3,82 +3,6 @@ import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
 // import RemoveIcon from '../../assets/icons/svg/interfaces/close-a.svg';
 
-const GridWrapper = styled.div`
-  padding: 15px;
-  display: grid;
-  grid-template-columns: 1fr 4fr 2fr 1fr 2fr 1fr;
-  align-items: center;
-  text-align: center;
-
-  h5 {
-    display: none;
-  }
-
-  div:nth-child(2) {
-    text-align: left;
-    margin-left: 15px;
-  }
-
-  @media (max-width: 620px) {
-    display: grid;
-    /* grid-template-columns: 1fr 2fr 2fr; */
-    grid-template-rows: 1fr 1fr;
-    flex-direction: column;
-    grid-template-columns: repeat(auto-fit, minmax(60px, 100px));
-    justify-content: center;
-    grid-gap: 15px;
-    text-align: left;
-
-    div:nth-child(2),
-    div:nth-child(5) {
-      margin-left: 0;
-    }
-
-    h5 {
-      display: block;
-    }
-  }
-`;
-
-const Item = styled(GridWrapper)``;
-
-const ProductImage = styled.div`
-  min-height: 65px;
-  max-height: 65px;
-  min-width: 65px;
-  max-width: 65px;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.default};
-  background-image: ${({ image }) => (image ? `url(${image})` : 'none')};
-  background-size: cover;
-`;
-
-const Counter = styled.div`
-  border: 1px solid ${({ theme }) => theme.lightGray};
-  width: 94px;
-  display: flex;
-  margin: 0 auto;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  color: ${({ theme }) => theme.darkGray};
-  font-size: ${({ theme }) => theme.fontSize.xs};
-  font-family: 'Roboto', sans-serif;
-  border-radius: 5px;
-  overflow: hidden;
-
-  button {
-    border: none;
-    background: ${({ theme }) => theme.white};
-    padding: 8px 12px;
-    cursor: pointer;
-
-    &:hover {
-      background: ${({ theme }) => theme.default};
-    }
-  }
-`;
-
 const ProductsCardItem = ({
   // cartItems,
   setFieldValue,
@@ -174,5 +98,81 @@ ProductsCardItem.propTypes = {
 ProductsCardItem.defaultProps = {
   selectedFile: null,
 };
+
+const GridWrapper = styled.div`
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 1fr 4fr 2fr 1fr 2fr 1fr;
+  align-items: center;
+  text-align: center;
+
+  h5 {
+    display: none;
+  }
+
+  div:nth-child(2) {
+    text-align: left;
+    margin-left: 15px;
+  }
+
+  @media (max-width: 620px) {
+    display: grid;
+    /* grid-template-columns: 1fr 2fr 2fr; */
+    grid-template-rows: 1fr 1fr;
+    flex-direction: column;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 100px));
+    justify-content: center;
+    grid-gap: 15px;
+    text-align: left;
+
+    div:nth-child(2),
+    div:nth-child(5) {
+      margin-left: 0;
+    }
+
+    h5 {
+      display: block;
+    }
+  }
+`;
+
+const Item = styled(GridWrapper)``;
+
+const ProductImage = styled.div`
+  min-height: 65px;
+  max-height: 65px;
+  min-width: 65px;
+  max-width: 65px;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.default};
+  background-image: ${({ image }) => (image ? `url(${image})` : 'none')};
+  background-size: cover;
+`;
+
+const Counter = styled.div`
+  border: 1px solid ${({ theme }) => theme.lightGray};
+  width: 94px;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: ${({ theme }) => theme.darkGray};
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-family: 'Roboto', sans-serif;
+  border-radius: 5px;
+  overflow: hidden;
+
+  button {
+    border: none;
+    background: ${({ theme }) => theme.white};
+    padding: 8px 12px;
+    cursor: pointer;
+
+    &:hover {
+      background: ${({ theme }) => theme.default};
+    }
+  }
+`;
 
 export default ProductsCardItem;

@@ -89,7 +89,7 @@ const rentsSchema = new Schema({
     type: Number,
     required: true,
   },
-  rentsDurr: {
+  rentDuration: {
     type: Number,
     required: true,
   },

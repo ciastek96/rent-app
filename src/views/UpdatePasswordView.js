@@ -65,15 +65,7 @@ const UpdatePasswordView = () => {
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
   // const history = useHistory();
 
-  if (!currentUser) {
-    return (
-      <MainTemplate>
-        <Spinner />
-      </MainTemplate>
-    );
-  }
-
-  if (user.loading) {
+  if (!currentUser || user.loading) {
     return (
       <MainTemplate>
         <Spinner />
@@ -132,7 +124,6 @@ const UpdatePasswordView = () => {
           onSubmit={(values) => {
             dispatch(updatePassword(values));
             setIsMessageBoxOpen(true);
-            // history.go(0);
           }}
         >
           {() => (

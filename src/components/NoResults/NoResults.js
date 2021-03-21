@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const NoResults = ({ children }) => (
+const NoResults = () => (
   <Wrapper>
     <h2>Brak wyników</h2>
   </Wrapper>
