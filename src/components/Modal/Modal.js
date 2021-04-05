@@ -4,18 +4,14 @@ import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
 import Button from '../Button/Button';
 
-const Wrapper = styled.div`
+const Overlay = styled.div`
   width: 100%;
   height: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   background-color: hsla(0, 0%, 0%, 0.5);
-  z-index: 990;
+  z-index: 10;
 `;
 
 const StyledModal = styled.div`
@@ -24,13 +20,16 @@ const StyledModal = styled.div`
   border-radius: 6px;
   background-color: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  z-index: 999;
+  z-index: 20;
 
   &:before {
     content: '';
@@ -67,7 +66,7 @@ const Paragraph = styled.p`
 
 const Modal = ({ title, content, setIsModalOpen, confirmButton, confirmFn }) =>
   ReactDOM.createPortal(
-    <Wrapper>
+    <>
       <StyledModal>
         <MessageWrapper>
           <h2>{title}</h2>
@@ -80,7 +79,8 @@ const Modal = ({ title, content, setIsModalOpen, confirmButton, confirmFn }) =>
           <Button onClick={confirmFn}>{!confirmButton ? 'Usuń' : confirmButton}</Button>
         </ButtonWrapper>
       </StyledModal>
-    </Wrapper>,
+      <Overlay onClick={() => setIsModalOpen(false)} />
+    </>,
     document.getElementById('portal'),
   );
 

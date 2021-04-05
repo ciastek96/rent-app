@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { removeClient } from '../../actions';
+import { useDetectOutsideClick } from '../../hooks/useDetectOutsideClick';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import Modal from '../Modal/Modal';
 import MoreButton from '../MoreButton/MoreButton';
@@ -104,6 +105,8 @@ const StyledEmailIcon = styled(EmailIcon)`
 const Card = ({ id, values: { name, surname, selectedFile, phone, email } }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [optionMenu, setOptionMenu] = useState(false);
+  const cardRef = useRef(null);
+  useDetectOutsideClick(cardRef, setOptionMenu);
 
   const dispatch = useDispatch();
 
@@ -119,7 +122,7 @@ const Card = ({ id, values: { name, surname, selectedFile, phone, email } }) => 
 
   return (
     <>
-      <Wrapper>
+      <Wrapper ref={cardRef}>
         <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
         <Photo photo={selectedFile} as={Link} to={`${routes.clients}/${id}`} />
         <InnerWrapper>

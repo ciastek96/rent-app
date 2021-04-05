@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { routes } from '../../routes/routes';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
+import { useDetectOutsideClick } from '../../hooks/useDetectOutsideClick';
 import DownIcon from '../../assets/icons/svg/directional/angle-down.svg';
-// import { ReactComponent as BellIcon } from '../../assets/icons/svg/interfaces/bell-alt.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,25 +14,6 @@ const Wrapper = styled.div`
   align-items: center;
   position: relative;
 `;
-
-// const NotificationButton = styled.button`
-//   height: 35px;
-//   width: 35px;
-//   border: 0;
-//   margin: 0 10px;
-//   padding: 8px;
-//   background: none;
-// `;
-
-// const StyledBellIcon = styled(BellIcon)`
-//   fill: ${({ theme }) => theme.gray};
-//   cursor: pointer;
-//   transition: fill 0.25s ease-in-out;
-
-//   &:hover {
-//     fill: ${({ theme }) => theme.darkGray};
-//   }
-// `;
 
 const UserButton = styled.button`
   display: flex;
@@ -80,14 +61,13 @@ const StyledLink = styled(Link)`
 const UserPanel = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const username = useSelector((state) => state.users.user.username);
-  // const account = useSelector((state) => state.account.find((ac) => ac.userID === state.users.user.userID));
   const account = useSelector((state) => state.account);
 
+  const ref = useRef(null);
+  useDetectOutsideClick(ref, setToggleMenu);
+
   return (
-    <Wrapper>
-      {/* <NotificationButton>
-        <StyledBellIcon />
-      </NotificationButton> */}
+    <Wrapper ref={ref}>
       <UserButton onClick={() => setToggleMenu(!toggleMenu)}>
         <Avatar photo={account ? account.selectedFile : null} />
         <p>{username}</p>
