@@ -9,7 +9,7 @@ const ProductsCardItem = ({
   values,
   product: { _id, selectedFile, productName, quantity: availableQuantity, unit, brutto, qty: initialQty },
 }) => {
-  const [quantity, setQuantity] = useState(initialQty);
+  const [, setQuantity] = useState(initialQty);
   const value = (initialQty * brutto).toFixed(2);
 
   const onChangeQty = (qty) => {
