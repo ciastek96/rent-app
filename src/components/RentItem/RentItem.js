@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
@@ -15,6 +15,7 @@ import RentStatus from '../RentStatus/RentStatus';
 import MoreButton from '../MoreButton/MoreButton';
 import { routes } from '../../routes/routes';
 import { getStatus } from '../../utils/getStatus';
+import { useDetectOutsideClick } from '../../hooks/useDetectOutsideClick';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -147,7 +148,7 @@ const RentItem = ({
     vat,
     discount,
     advance,
-    rentsDurr,
+    rentDuration,
   },
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -160,6 +161,8 @@ const RentItem = ({
   const currentUser = useSelector((state) => state.account);
   const [isRedirect, setIsRedirect] = useState(false);
   const td = moment().format('DD.MM.YYYY');
+  const ref = useRef(null);
+  useDetectOutsideClick(ref, setOptionMenu);
 
   const dispatch = useDispatch();
 
@@ -204,8 +207,9 @@ const RentItem = ({
       discount,
       advance,
       td,
-      rentsDurr,
+      rentDuration,
     };
+
     axios
       .post(`${api}/create-pdf`, { values })
       .then(() => axios.get(`${api}/fetch-pdf`, { responseType: 'blob' }))
@@ -232,7 +236,7 @@ const RentItem = ({
   const statusVal = getStatus(dateOfRent, dateOfReturn, isFinished);
 
   return (
-    <Wrapper isCollapsed={isCollapsed} activeStatus={statusVal}>
+    <Wrapper isCollapsed={isCollapsed} activeStatus={statusVal} ref={ref}>
       <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
       <StyledButton tertiary onClick={() => setIsCollapsed(!isCollapsed)}>
         {isCollapsed ? 'Zwiń' : 'Rozwiń'}
@@ -398,7 +402,7 @@ RentItem.propTypes = {
   vat: PropTypes.number.isRequired,
   discount: PropTypes.number.isRequired,
   advance: PropTypes.string.isRequired,
-  rentsDurr: PropTypes.number.isRequired,
+  rentDuration: PropTypes.number.isRequired,
 };
 
 RentItem.defaultProps = {
