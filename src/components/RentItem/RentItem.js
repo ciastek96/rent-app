@@ -14,6 +14,7 @@ import Modal from '../Modal/Modal';
 import RentStatus from '../RentStatus/RentStatus';
 import MoreButton from '../MoreButton/MoreButton';
 import { routes } from '../../routes/routes';
+import { getStatus } from '../../utils/getStatus';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -219,19 +220,8 @@ const RentItem = ({
       });
   };
 
-  // const statusList = ['active', 'coming', 'ended', 'finished'];
-
-  // const today = moment();
   const startDay = moment(dateOfRent);
   const endDay = moment(dateOfReturn);
-
-  // useEffect(() => {
-  //   if (isFinished) setStatus(statusList[3]);
-  //   else if (startDay.diff(today, 'days') > 0) setStatus(statusList[1]);
-  //   else if (startDay.diff(today, 'days') === 0 && today.diff(endDay, 'days') !== 0) setStatus(statusList[1]);
-  //   else if (today.diff(endDay, 'days') > 0) setStatus(statusList[2]);
-  //   else setStatus(statusList[0]);
-  // }, []);
 
   if (isRedirect) return <Redirect to={routes.finances} />;
 
@@ -239,13 +229,15 @@ const RentItem = ({
     return <Spinner />;
   }
 
+  const statusVal = getStatus(dateOfRent, dateOfReturn, isFinished);
+
   return (
-    <Wrapper isCollapsed={isCollapsed} activeStatus={status}>
+    <Wrapper isCollapsed={isCollapsed} activeStatus={statusVal}>
       <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
       <StyledButton tertiary onClick={() => setIsCollapsed(!isCollapsed)}>
         {isCollapsed ? 'Zwiń' : 'Rozwiń'}
       </StyledButton>
-      <RentStatus status={isFinished ? 'finished' : status} />
+      <RentStatus status={isFinished ? 'finished' : statusVal} />
       <Details>
         <h2>{label}</h2>
 

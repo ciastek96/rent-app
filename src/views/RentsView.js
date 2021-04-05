@@ -29,12 +29,13 @@ const RentsView = () => {
       {rent.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
       <RentFilter handleChange={handleChange} />
       {rentsList.length > 0 ? (
-        rentsList.map(({ dateOfRent, dateOfReturn, isFinished, ...rentValues }) => {
+        rentsList.map((rentValues) => {
+          const { dateOfRent, dateOfReturn, isFinished } = rentValues;
           const status = getStatus(dateOfRent, dateOfReturn, isFinished);
           if (status === activeView || activeView === 'all') {
             return <RentItem values={rentValues} />;
           }
-          return <NoResults />;
+          return null;
         })
       ) : (
         <NoResults />
