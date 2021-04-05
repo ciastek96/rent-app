@@ -7,6 +7,7 @@ import Button from '../Button/Button';
 const Overlay = styled.div`
   width: 100%;
   height: 100%;
+  overflow: hidden;
   position: fixed;
   top: 0;
   left: 0;
@@ -20,7 +21,7 @@ const StyledModal = styled.div`
   border-radius: 6px;
   background-color: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.boxShadow};
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
