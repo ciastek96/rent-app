@@ -20,3 +20,17 @@ The project is based on MERN stack (MongoDB, Express, React and Node.js). I also
 3. Run `npm run start`
 4. Go to /api
 5. Run `nodemon app.js`
+
+[**LIVE DEMO**](https://myrentapp.netlify.app/)
+
+You can create a new account or use existing:
+
+*login:* adam_nowak
+
+*password:* P@ssw0rd
+
+
+Please do not delete existing items.
+
+
+
