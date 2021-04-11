@@ -1,11 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { removeClient } from '../../../actions';
-import { useDetectOutsideClick } from '../../../hooks/useDetectOutsideClick';
 import DropdownMenu from '../../atoms/DropdownMenu/DropdownMenu';
+import ItemProvider from '../../../providers/ItemProvider';
 import Modal from '../../molecules/Modal/Modal';
 import MoreButton from '../../atoms/MoreButton/MoreButton';
 import { routes } from '../../../routes/routes';
@@ -103,54 +102,50 @@ const StyledEmailIcon = styled(EmailIcon)`
 `;
 
 const Card = ({ id, values: { name, surname, selectedFile, phone, email } }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [optionMenu, setOptionMenu] = useState(false);
   const cardRef = useRef(null);
-  useDetectOutsideClick(cardRef, setOptionMenu);
-
-  const dispatch = useDispatch();
-
-  const handleDelete = () => {
-    setOptionMenu(false);
-    setIsModalOpen(true);
-  };
-
-  const onConfirm = () => {
-    dispatch(removeClient(id));
-    setIsModalOpen(false);
-  };
 
   return (
-    <>
-      <Wrapper ref={cardRef}>
-        <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
-        <Photo photo={selectedFile} as={Link} to={`${routes.clients}/${id}`} />
-        <InnerWrapper>
-          <h4>{`${name} ${surname}`}</h4>
-          <Info>
-            <InfoPosition>
-              <StyledPhoneIcon />
-              <p>{phone}</p>
-            </InfoPosition>
-            <InfoPosition>
-              <StyledEmailIcon />
-              <p>{email}</p>
-            </InfoPosition>
-          </Info>
-        </InnerWrapper>
-        <DropdownMenu top="50px" right="20px" isOpen={optionMenu}>
-          <MenuItemList>
-            <MenuItem onClick={handleDelete}>Usuń</MenuItem>
-          </MenuItemList>
-          <MenuItemList>
-            <MenuItem as={Link} to={`${routes.clients}/${id}`}>
-              Edytuj
-            </MenuItem>
-          </MenuItemList>
-        </DropdownMenu>
-      </Wrapper>
-      {isModalOpen && <Modal title="Uwaga!" content="Czy na pewno chcesz usunąć pozycję?" setIsModalOpen={setIsModalOpen} confirmFn={onConfirm} />}
-    </>
+    <ItemProvider
+      render={({ isModalOpen, setIsModalOpen, isMenuOpen, setIsMenuOpen, handleDelete, onConfirm }) => (
+        <>
+          <Wrapper ref={cardRef}>
+            <StyledMoreButton onClick={() => setIsMenuOpen(!isMenuOpen)} />
+            <Photo photo={selectedFile} as={Link} to={`${routes.clients}/${id}`} />
+            <InnerWrapper>
+              <h4>{`${name} ${surname}`}</h4>
+              <Info>
+                <InfoPosition>
+                  <StyledPhoneIcon />
+                  <p>{phone}</p>
+                </InfoPosition>
+                <InfoPosition>
+                  <StyledEmailIcon />
+                  <p>{email}</p>
+                </InfoPosition>
+              </Info>
+            </InnerWrapper>
+            <DropdownMenu top="50px" right="20px" isOpen={isMenuOpen}>
+              <MenuItemList>
+                <MenuItem onClick={handleDelete}>Usuń</MenuItem>
+              </MenuItemList>
+              <MenuItemList>
+                <MenuItem as={Link} to={`${routes.clients}/${id}`}>
+                  Edytuj
+                </MenuItem>
+              </MenuItemList>
+            </DropdownMenu>
+          </Wrapper>
+          {isModalOpen && (
+            <Modal
+              title="Uwaga!"
+              content="Czy na pewno chcesz usunąć pozycję?"
+              setIsModalOpen={setIsModalOpen}
+              confirmFn={() => onConfirm(removeClient(id))}
+            />
+          )}
+        </>
+      )}
+    />
   );
 };
 

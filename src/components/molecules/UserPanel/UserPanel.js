@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { routes } from '../../../routes/routes';
 import DropdownMenu from '../../atoms/DropdownMenu/DropdownMenu';
+import Toggle from '../../../providers/Toggle';
 import { useDetectOutsideClick } from '../../../hooks/useDetectOutsideClick';
 import DownIcon from '../../../assets/icons/svg/directional/angle-down.svg';
 
@@ -59,28 +60,31 @@ const StyledLink = styled(Link)`
 `;
 
 const UserPanel = () => {
-  const [toggleMenu, setToggleMenu] = useState(false);
   const username = useSelector((state) => state.users.user.username);
   const account = useSelector((state) => state.account);
 
   const ref = useRef(null);
-  useDetectOutsideClick(ref, setToggleMenu);
 
   return (
-    <Wrapper ref={ref}>
-      <UserButton onClick={() => setToggleMenu(!toggleMenu)}>
-        <Avatar photo={account ? account.selectedFile : null} />
-        <p>{username}</p>
-      </UserButton>
-      <DropdownMenu top="150%" isOpen={toggleMenu}>
-        <ListItem>
-          <StyledLink to={routes.settings}>Ustawienia konta</StyledLink>
-        </ListItem>
-        <ListItem>
-          <StyledLink to={routes.logout}>Wyloguj</StyledLink>
-        </ListItem>
-      </DropdownMenu>
-    </Wrapper>
+    <Toggle
+      render={({ isOpen, setIsOpen }) => (
+        <Wrapper ref={ref}>
+          {useDetectOutsideClick(ref, setIsOpen)}
+          <UserButton onClick={() => setIsOpen(!isOpen)}>
+            <Avatar photo={account ? account.selectedFile : null} />
+            <p>{username}</p>
+          </UserButton>
+          <DropdownMenu top="150%" isOpen={isOpen}>
+            <ListItem>
+              <StyledLink to={routes.settings}>Ustawienia konta</StyledLink>
+            </ListItem>
+            <ListItem>
+              <StyledLink to={routes.logout}>Wyloguj</StyledLink>
+            </ListItem>
+          </DropdownMenu>
+        </Wrapper>
+      )}
+    />
   );
 };
 
