@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../theme/theme';
 import GlobalStyle from '../theme/globalStyles';
-import Navbar from '../components/Navbar/Navbar';
+import Navbar from '../components/organisms/Navbar/Navbar';
 
 const Wrapper = styled.div`
   max-width: 1024px;

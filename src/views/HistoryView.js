@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import ItemsTemplate from '../templates/ItemsTemplate';
-import RentItem from '../components/RentItem/RentItem';
+import RentItem from '../components/molecules/RentItem/RentItem';
 import MainTemplate from '../templates/MainTemplate';
 
 const HistoryView = () => {

@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import FileBase from 'react-file-base64';
-import Input from '../components/Input/Input';
+import Input from '../components/atoms/Input/Input';
 import { updateAccount } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import InnerTemplate from '../templates/InnerTemplate';
 import Button from '../components/Button/Button';
 import ErrorParagraph from '../components/ErrorParagraph/ErrorParagraph';
-import Spinner from '../components/Spinner/Spinner';
+import Spinner from '../components/atoms/Spinner/Spinner';
 import ItemsTemplate from '../templates/ItemsTemplate';
-import MessageBox from '../components/MessageBox/MessageBox';
+import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
 

@@ -2,9 +2,9 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '../components/Button/Button';
-import ButtonsLayout from '../components/ButtonsLayout/ButtonsLayout';
-import Input from '../components/Input/Input';
+import Button from '../components/atoms/Button/Button';
+import ButtonsLayout from '../components/molecules/ButtonsLayout/ButtonsLayout';
+import Input from '../components/atoms/Input/Input';
 
 const Wrapper = styled.div`
   max-width: 1024px;

@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import Card from '../components/Card/Card';
-import Spinner from '../components/Spinner/Spinner';
-import NoResults from '../components/NoResults/NoResults';
-import MessageBox from '../components/MessageBox/MessageBox';
-import LayoutButtons from '../components/LayoutButtons/LayoutButtons';
-import List from '../components/List/List';
+import Spinner from '../components/atoms/Spinner/Spinner';
+import NoResults from '../components/atoms/NoResults/NoResults';
+import MessageBox from '../components/atoms/MessageBox/MessageBox';
+import LayoutButtons from '../components/molecules/LayoutButtons/LayoutButtons';
+import List from '../components/organisms/List/List';
 import { routes } from '../routes/routes';
 
 const GridWrapper = styled.div`

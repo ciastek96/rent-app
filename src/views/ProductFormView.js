@@ -7,18 +7,18 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Link, Redirect } from 'react-router-dom';
 import FileBase from 'react-file-base64';
 import styled from 'styled-components';
-import Input from '../components/Input/Input';
-import Select from '../components/Select/Select';
+import Input from '../components/atoms/Input/Input';
+import Select from '../components/atoms/Select/Select';
 import { addProduct, updateProduct } from '../actions';
 import { bruttoToNetto } from '../utils/getPrices';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import InnerTemplate from '../templates/InnerTemplate';
-import Spinner from '../components/Spinner/Spinner';
+import Spinner from '../components/atoms/Spinner/Spinner';
 import ErrorParagraph from '../components/ErrorParagraph/ErrorParagraph';
 import Button from '../components/Button/Button';
 import ImageUploader from '../components/ImageUploader/ImageUploader';
-import MessageBox from '../components/MessageBox/MessageBox';
+import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import { routes } from '../routes/routes';
 
 const ButtonsWrapper = styled.div`

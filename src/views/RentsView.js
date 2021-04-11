@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getStatus } from '../utils/getStatus';
 import ItemsTemplate from '../templates/ItemsTemplate';
-import RentItem from '../components/RentItem/RentItem';
+import RentItem from '../components/molecules/RentItem/RentItem';
 import MainTemplate from '../templates/MainTemplate';
-import Spinner from '../components/Spinner/Spinner';
-import RentFilter from '../components/RentFilter/RentFilter';
-import MessageBox from '../components/MessageBox/MessageBox';
-import NoResults from '../components/NoResults/NoResults';
+import Spinner from '../components/atoms/Spinner/Spinner';
+import RentFilter from '../components/molecules/RentFilter/RentFilter';
+import MessageBox from '../components/atoms/MessageBox/MessageBox';
+import NoResults from '../components/atoms/NoResults/NoResults';
 import { routes } from '../routes/routes';
 
 const RentsView = () => {

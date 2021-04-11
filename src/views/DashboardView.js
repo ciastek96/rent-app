@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import MainTemplate from '../templates/MainTemplate';
-import Spinner from '../components/Spinner/Spinner';
-import MessageBox from '../components/MessageBox/MessageBox';
+import Spinner from '../components/atoms/Spinner/Spinner';
+import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import { getStatus } from '../utils/getStatus';
-import MyCalendar from '../components/MyCalendar/MyCalendar';
-import Boxes from '../components/Boxes/Boxes';
+import MyCalendar from '../components/organisms/MyCalendar/MyCalendar';
+import Boxes from '../components/organisms/Boxes/Boxes';
 
 const DashboardView = () => {
   const rent = useSelector((state) => state.rent);

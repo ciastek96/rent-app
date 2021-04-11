@@ -6,9 +6,9 @@ import styled from 'styled-components';
 import LoginTemplate from '../templates/LoginTemplate';
 import { routes } from '../routes/routes';
 import { ReactComponent as Logotype } from '../assets/logo.svg';
-import LoginForm from '../components/LoginForm/LoginForm';
-import RegisterForm from '../components/RegisterForm/RegisterForm';
-import Spinner from '../components/Spinner/Spinner';
+import LoginForm from '../components/organisms/LoginForm/LoginForm';
+import RegisterForm from '../components/organisms/RegisterForm/RegisterForm';
+import Spinner from '../components/atoms/Spinner/Spinner';
 import { signOut } from '../actions';
 
 const Wrapper = styled.div`

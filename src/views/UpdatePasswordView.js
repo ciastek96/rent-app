@@ -3,11 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Input from '../components/Input/Input';
+import Input from '../components/atoms/Input/Input';
 import MainTemplate from '../templates/MainTemplate';
-import MessageBox from '../components/MessageBox/MessageBox';
+import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import Button from '../components/Button/Button';
-import Spinner from '../components/Spinner/Spinner';
+import Spinner from '../components/atoms/Spinner/Spinner';
 import { routes } from '../routes/routes';
 import { updatePassword } from '../actions';
 
