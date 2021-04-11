@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
-import Button from '../Button/Button';
+import Button from '../../atoms/Button/Button';
 
 const Overlay = styled.div`
   width: 100%;

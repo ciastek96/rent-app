@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
-import { ReactComponent as CloseIcon } from '../../assets/icons/svg/interfaces/close-a.svg';
-import { ReactComponent as SuccessIcon } from '../../assets/icons/svg/interfaces/check.svg';
+import { ReactComponent as CloseIcon } from '../../../assets/icons/svg/interfaces/close-a.svg';
+import { ReactComponent as SuccessIcon } from '../../../assets/icons/svg/interfaces/check.svg';
 
 const Wrapper = styled.div`
   width: 380px;

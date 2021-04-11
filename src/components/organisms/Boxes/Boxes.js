@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import Box from '../Box/Box';
-import { routes } from '../../routes/routes';
-import { ReactComponent as PersonIcon } from '../../assets/icons/svg/interfaces/male.svg';
-import { ReactComponent as ProductIcon } from '../../assets/icons/svg/interfaces/archive.svg';
-import { ReactComponent as RentIcon } from '../../assets/icons/svg/interfaces/key.svg';
+import Box from '../../atoms/Box/Box';
+import { routes } from '../../../routes/routes';
+import { ReactComponent as PersonIcon } from '../../../assets/icons/svg/interfaces/male.svg';
+import { ReactComponent as ProductIcon } from '../../../assets/icons/svg/interfaces/archive.svg';
+import { ReactComponent as RentIcon } from '../../../assets/icons/svg/interfaces/key.svg';
 
 const BoxGrid = styled.div`
   display: grid;

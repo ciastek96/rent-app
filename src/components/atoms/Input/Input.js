@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { PropTypes } from 'prop-types';
-import SearchIcon from '../../assets/icons/svg/interfaces/search.svg';
+import SearchIcon from '../../../assets/icons/svg/interfaces/search.svg';
 
 const StyledInput = styled.input`
   width: 100%;

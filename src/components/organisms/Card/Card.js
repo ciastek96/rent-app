@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { removeClient } from '../../actions';
-import { useDetectOutsideClick } from '../../hooks/useDetectOutsideClick';
-import DropdownMenu from '../DropdownMenu/DropdownMenu';
-import Modal from '../Modal/Modal';
-import MoreButton from '../MoreButton/MoreButton';
-import { routes } from '../../routes/routes';
-import { ReactComponent as PhoneIcon } from '../../assets/icons/svg/interfaces/phone.svg';
-import { ReactComponent as EmailIcon } from '../../assets/icons/svg/interfaces/email.svg';
+import { removeClient } from '../../../actions';
+import { useDetectOutsideClick } from '../../../hooks/useDetectOutsideClick';
+import DropdownMenu from '../../atoms/DropdownMenu/DropdownMenu';
+import Modal from '../../molecules/Modal/Modal';
+import MoreButton from '../../atoms/MoreButton/MoreButton';
+import { routes } from '../../../routes/routes';
+import { ReactComponent as PhoneIcon } from '../../../assets/icons/svg/interfaces/phone.svg';
+import { ReactComponent as EmailIcon } from '../../../assets/icons/svg/interfaces/email.svg';
 
 const Wrapper = styled.div`
   border-radius: 6px;

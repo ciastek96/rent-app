@@ -10,11 +10,11 @@ import { addClient, updateClient } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import InnerTemplate from '../templates/InnerTemplate';
-import Button from '../components/Button/Button';
+import Button from '../components/atoms/Button/Button';
 import Spinner from '../components/atoms/Spinner/Spinner';
-import ErrorParagraph from '../components/ErrorParagraph/ErrorParagraph';
+import ErrorParagraph from '../components/atoms/ErrorParagraph/ErrorParagraph';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
-import ImageUploader from '../components/ImageUploader/ImageUploader';
+import ImageUploader from '../components/atoms/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
 
 const StyledButton = styled(Button)`

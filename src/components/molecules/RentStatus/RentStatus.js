@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { ReactComponent as GreenIcon } from '../../assets/icons/svg/interfaces/hourglass-half.svg';
-import { ReactComponent as RedIcon } from '../../assets/icons/svg/interfaces/hourglass-end.svg';
-import { ReactComponent as YellowIcon } from '../../assets/icons/svg/interfaces/hourglass-start.svg';
-import { ReactComponent as FinishedIcon } from '../../assets/icons/svg/interfaces/check.svg';
+import { ReactComponent as GreenIcon } from '../../../assets/icons/svg/interfaces/hourglass-half.svg';
+import { ReactComponent as RedIcon } from '../../../assets/icons/svg/interfaces/hourglass-end.svg';
+import { ReactComponent as YellowIcon } from '../../../assets/icons/svg/interfaces/hourglass-start.svg';
+import { ReactComponent as FinishedIcon } from '../../../assets/icons/svg/interfaces/check.svg';
 
 const Wrapper = styled.div`
   width: 100%;

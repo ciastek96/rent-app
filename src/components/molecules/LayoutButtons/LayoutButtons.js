@@ -1,8 +1,8 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
-import GridIcon from '../../assets/icons/svg/interfaces/nav-icon-grid.svg';
-import ListIcon from '../../assets/icons/svg/interfaces/nav-icon.svg';
+import GridIcon from '../../../assets/icons/svg/interfaces/nav-icon-grid.svg';
+import ListIcon from '../../../assets/icons/svg/interfaces/nav-icon.svg';
 
 const DisplayOptionsWrapper = styled.div`
   width: 100%;

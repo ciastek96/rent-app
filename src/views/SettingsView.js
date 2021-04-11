@@ -8,12 +8,12 @@ import Input from '../components/atoms/Input/Input';
 import { updateAccount } from '../actions';
 import MainTemplate from '../templates/MainTemplate';
 import InnerTemplate from '../templates/InnerTemplate';
-import Button from '../components/Button/Button';
-import ErrorParagraph from '../components/ErrorParagraph/ErrorParagraph';
+import Button from '../components/atoms/Button/Button';
+import ErrorParagraph from '../components/atoms/ErrorParagraph/ErrorParagraph';
 import Spinner from '../components/atoms/Spinner/Spinner';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
-import ImageUploader from '../components/ImageUploader/ImageUploader';
+import ImageUploader from '../components/atoms/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
 
 const StyledButton = styled(Button)`

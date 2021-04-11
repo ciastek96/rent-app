@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
-import Card from '../components/Card/Card';
+import Card from '../components/organisms/Card/Card';
 import Spinner from '../components/atoms/Spinner/Spinner';
 import NoResults from '../components/atoms/NoResults/NoResults';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
