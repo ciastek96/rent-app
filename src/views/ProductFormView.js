@@ -14,7 +14,6 @@ import { bruttoToNetto } from '../utils/getPrices';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import InnerTemplate from '../templates/InnerTemplate';
-import Spinner from '../components/atoms/Spinner/Spinner';
 import ErrorParagraph from '../components/atoms/ErrorParagraph/ErrorParagraph';
 import Button from '../components/atoms/Button/Button';
 import ImageUploader from '../components/atoms/ImageUploader/ImageUploader';
@@ -96,14 +95,6 @@ const ProductFormView = ({ match, user: { userID } }) => {
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
   const [redirect, setRedirect] = useState(false);
 
-  if (id && !productValues) {
-    return (
-      <MainTemplate>
-        <Spinner />
-      </MainTemplate>
-    );
-  }
-
   if (redirect) {
     return <Redirect to={routes.products} />;
   }
@@ -121,7 +112,6 @@ const ProductFormView = ({ match, user: { userID } }) => {
         </ButtonsWrapper>
       </ItemsTemplate>
       <InnerTemplate>
-        {products?.loading && <Spinner />}
         {products?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
         {products?.success && isMessageBoxOpen && (
           <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />

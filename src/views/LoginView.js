@@ -8,7 +8,6 @@ import { routes } from '../routes/routes';
 import { ReactComponent as Logotype } from '../assets/logo.svg';
 import LoginForm from '../components/organisms/LoginForm/LoginForm';
 import RegisterForm from '../components/organisms/RegisterForm/RegisterForm';
-import Spinner from '../components/atoms/Spinner/Spinner';
 import { signOut } from '../actions';
 
 const Wrapper = styled.div`
@@ -56,7 +55,6 @@ const StyledLogotype = styled(Logotype)`
 `;
 
 const LoginView = ({ location: { pathname } }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.users.isAuthenticated);
   const [cardType, setCardType] = useState('/logowanie');
@@ -69,10 +67,7 @@ const LoginView = ({ location: { pathname } }) => {
       setCardType(routes.logout);
       dispatch(signOut());
     }
-    setIsLoaded(true);
   }, []);
-
-  if (!isLoaded) return <Spinner />;
 
   if (isAuth && !redirect) {
     return <Redirect to={{ pathname: routes.home, state: { from: routes.login } }} />;

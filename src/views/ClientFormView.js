@@ -11,7 +11,6 @@ import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import InnerTemplate from '../templates/InnerTemplate';
 import Button from '../components/atoms/Button/Button';
-import Spinner from '../components/atoms/Spinner/Spinner';
 import ErrorParagraph from '../components/atoms/ErrorParagraph/ErrorParagraph';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import ImageUploader from '../components/atoms/ImageUploader/ImageUploader';
@@ -89,14 +88,6 @@ const ClientFormView = ({
   const isNewClient = id ? 0 : 1;
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
 
-  if (id && !clientValues) {
-    return (
-      <MainTemplate>
-        <Spinner />
-      </MainTemplate>
-    );
-  }
-
   if (redirect) {
     return <Redirect to={routes.clients} />;
   }
@@ -112,7 +103,6 @@ const ClientFormView = ({
         </StyledButton>
       </ItemsTemplate>
       <InnerTemplate>
-        {clients?.loading && <Spinner />}
         {clients?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
         {clients?.success && isMessageBoxOpen && (
           <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />

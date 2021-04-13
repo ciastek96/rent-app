@@ -7,7 +7,6 @@ import { routes } from '../../../routes/routes';
 import { signIn } from '../../../actions';
 import Input from '../../atoms/Input/Input';
 import Button from '../../atoms/Button/Button';
-import Spinner from '../../atoms/Spinner/Spinner';
 import MessageBox from '../../atoms/MessageBox/MessageBox';
 
 const StyledForm = styled(Form)`
@@ -36,7 +35,6 @@ const Error = styled.p`
 
 const LoginForm = ({ setCardType }) => {
   const users = useSelector((state) => state.users);
-  const isLoading = useSelector((state) => state.users.loading);
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
   const dispatch = useDispatch();
   let statusCode = 404;
@@ -93,7 +91,6 @@ const LoginForm = ({ setCardType }) => {
           </StyledForm>
         )}
       </Formik>
-      {isLoading && <Spinner />}
       {users.error && isMessageBoxOpen && handleError()}
       {users.success && isMessageBoxOpen && <MessageBox type="success" value="Zostałeś pomyślnie zalogowany" setIsOpen={setIsMessageBoxOpen} />}
     </>

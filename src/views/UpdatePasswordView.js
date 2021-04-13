@@ -7,7 +7,6 @@ import Input from '../components/atoms/Input/Input';
 import MainTemplate from '../templates/MainTemplate';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import Button from '../components/atoms/Button/Button';
-import Spinner from '../components/atoms/Spinner/Spinner';
 import { routes } from '../routes/routes';
 import { updatePassword } from '../actions';
 
@@ -59,19 +58,10 @@ const StyledForm = styled(Form)`
 `;
 
 const UpdatePasswordView = () => {
-  const currentUser = useSelector((state) => state.account);
   const user = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
   // const history = useHistory();
-
-  if (!currentUser || user.loading) {
-    return (
-      <MainTemplate>
-        <Spinner />
-      </MainTemplate>
-    );
-  }
 
   return (
     <MainTemplate>

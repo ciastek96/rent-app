@@ -8,7 +8,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import Select from 'react-select';
-import Spinner from '../components/atoms/Spinner/Spinner';
 import Input from '../components/atoms/Input/Input';
 import ProductsCard from '../components/organisms/ProductsCard/ProductsCard';
 import { addRent, updateRent } from '../actions';
@@ -118,7 +117,6 @@ const RentFormView = ({ match, user: { userID } }) => {
   const rents = useSelector((state) => state.rent);
   const rentValues = useSelector((state) => state.rent.rents.find((i) => i._id === id));
   const clientsList = useSelector((state) => state.client.clients);
-  const isLoading = useSelector((state) => state.rent.loading);
   const [rentDuration, setRentDuration] = useState(1);
   const [cartItems, setCartItems] = useState([]);
   const [rentValue, setRentValue] = useState(0);
@@ -140,14 +138,6 @@ const RentFormView = ({ match, user: { userID } }) => {
     return <Redirect to={routes.rents} />;
   }
 
-  if (isLoading) {
-    return (
-      <MainTemplate>
-        <Spinner />
-      </MainTemplate>
-    );
-  }
-
   return (
     <MainTemplate>
       <ItemsTemplate title={isNewRent ? 'Nowe wypożyczenie' : 'Edycja wypożyczenia'}>
@@ -161,7 +151,6 @@ const RentFormView = ({ match, user: { userID } }) => {
         </ButtonsLayout>
       </ItemsTemplate>
       <InnerTemplate>
-        {rents?.loading && <Spinner />}
         {rents?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
         {rents?.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
         <Formik

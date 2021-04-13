@@ -4,7 +4,6 @@ import { getStatus } from '../utils/getStatus';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import RentItem from '../components/molecules/RentItem/RentItem';
 import MainTemplate from '../templates/MainTemplate';
-import Spinner from '../components/atoms/Spinner/Spinner';
 import RentFilter from '../components/molecules/RentFilter/RentFilter';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import NoResults from '../components/atoms/NoResults/NoResults';
@@ -24,7 +23,6 @@ const RentsView = () => {
   return (
     <MainTemplate>
       <ItemsTemplate title="Wypożyczenia" path={routes.newRent} />
-      {rent.loading && <Spinner />}
       {rent.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
       {rent.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
       <RentFilter handleChange={handleChange} />

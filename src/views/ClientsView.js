@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import Card from '../components/organisms/Card/Card';
-import Spinner from '../components/atoms/Spinner/Spinner';
 import NoResults from '../components/atoms/NoResults/NoResults';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import LayoutButtons from '../components/molecules/LayoutButtons/LayoutButtons';
@@ -42,9 +41,9 @@ const ClientsView = () => {
 
   return (
     <MainTemplate>
-      {client.loading && <Spinner />}
+      {/*
       {client.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
-      {client.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
+      {client.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />} */}
 
       <ItemsTemplate title="Klienci" value={inputValue} handleChange={handleChange} path={routes.newClient} />
       {clientsList.length > 0 ? (

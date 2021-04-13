@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import MainTemplate from '../templates/MainTemplate';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import List from '../components/organisms/List/List';
-import Spinner from '../components/atoms/Spinner/Spinner';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import NoResults from '../components/atoms/NoResults/NoResults';
 import { routes } from '../routes/routes';
+import Spinner from '../components/atoms/Spinner/Spinner';
+import Loading from '../providers/Loading';
 
 const ProductsView = () => {
   const product = useSelector((state) => state.product);
@@ -30,11 +31,14 @@ const ProductsView = () => {
 
   return (
     <MainTemplate>
-      {product.loading && <Spinner />}
       {product.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
       {product.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
       <ItemsTemplate title="Produkty" value={inputValue} handleChange={handleChange} path={routes.newProduct} />
-      {productsList.length > 0 ? <List listType="products" items={filteredData} /> : <NoResults />}
+      <Loading
+        render={({ isLoading }) => (
+          <>{!isLoading && <>{productsList.length > 0 ? <List listType="products" items={filteredData} /> : <NoResults />}</>}</>
+        )}
+      />
     </MainTemplate>
   );
 };

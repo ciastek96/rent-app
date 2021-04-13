@@ -10,7 +10,6 @@ import MainTemplate from '../templates/MainTemplate';
 import InnerTemplate from '../templates/InnerTemplate';
 import Button from '../components/atoms/Button/Button';
 import ErrorParagraph from '../components/atoms/ErrorParagraph/ErrorParagraph';
-import Spinner from '../components/atoms/Spinner/Spinner';
 import ItemsTemplate from '../templates/ItemsTemplate';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import ImageUploader from '../components/atoms/ImageUploader/ImageUploader';
@@ -85,14 +84,6 @@ const SettingsView = () => {
   const username = useSelector((state) => state.users.user.username);
   const dispatch = useDispatch();
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
-
-  if (!currentUser._id) {
-    return (
-      <MainTemplate>
-        <Spinner />
-      </MainTemplate>
-    );
-  }
 
   return (
     <MainTemplate>

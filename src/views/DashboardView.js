@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import MainTemplate from '../templates/MainTemplate';
-import Spinner from '../components/atoms/Spinner/Spinner';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import { getStatus } from '../utils/getStatus';
 import MyCalendar from '../components/organisms/MyCalendar/MyCalendar';
@@ -30,7 +29,7 @@ const DashboardView = () => {
 
   return (
     <MainTemplate>
-      {rent.loading && <Spinner />}
+      {/* {rent.loading && <Spinner />} */}
       {rent.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
       <h2>Baza danych</h2>
       <Boxes />

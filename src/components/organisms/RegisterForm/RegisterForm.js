@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { routes } from '../../../routes/routes';
 import Input from '../../atoms/Input/Input';
 import Button from '../../atoms/Button/Button';
-import Spinner from '../../atoms/Spinner/Spinner';
 import MessageBox from '../../atoms/MessageBox/MessageBox';
 import { signUp } from '../../../actions';
 
@@ -36,7 +35,6 @@ const Error = styled.p`
 
 const RegisterForm = ({ setCardType }) => {
   const users = useSelector((state) => state.users);
-  const isLoading = useSelector((state) => state.users.loading);
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
   const dispatch = useDispatch();
   let statusCode = 404;
@@ -116,7 +114,6 @@ const RegisterForm = ({ setCardType }) => {
           </StyledForm>
         )}
       </Formik>
-      {isLoading && <Spinner />}
       {users.error && isMessageBoxOpen && handleError()}
       {users.success && isMessageBoxOpen && <MessageBox type="success" value="Pomyślnie stworzono użytkownika. Teraz możesz się zalogować." />}
     </>
