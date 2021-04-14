@@ -1,0 +1,272 @@
+[33mcommit 1789bac387e096fa7de18e8a0bbda2afff25f3ae[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Tue Apr 13 19:42:11 2021 +0200
+
+    added loading  provider
+
+[33mcommit cbb6e84ad7ccbb62335f024af6210139cbd3b02f[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Sun Apr 11 21:47:17 2021 +0200
+
+    moved Card state to ItemProvider
+
+[33mcommit 052a2cb73f7a768be5496a2138e85cc3ff82b067[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Sun Apr 11 21:27:29 2021 +0200
+
+    atomic design
+
+[33mcommit 935a0b78ffcd77f1c74bfa47e5b1b3c8f3f9d42f[m
+Merge: 3f87482 6b5cfcd
+Author: unknown <ciastek1996@gmail.com>
+Date:   Sun Apr 11 21:17:20 2021 +0200
+
+    Merge branch 'main' of https://github.com/ciastek96/rent-app into main
+
+[33mcommit 3f87482e9ba280613dd9e820fe29cb8b16078c51[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Sun Apr 11 21:15:31 2021 +0200
+
+    atomic design
+
+[33mcommit 6b5cfcd558c9c0a96b1c3d121a913c724037389b[m
+Author: Kamil Kołacz <34723506+ciastek96@users.noreply.github.com>
+Date:   Mon Apr 5 14:09:31 2021 +0200
+
+    Update README.md
+
+[33mcommit 4ff19b1cca6ee0c913216eaa47c9f6a71d09b586[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Apr 5 13:53:37 2021 +0200
+
+    fixed product name regex
+
+[33mcommit 17c7da487458e91315f2deadbb42da82933bff11[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Apr 5 13:48:47 2021 +0200
+
+    set correct modal background height value
+
+[33mcommit b791de5ee60a071d91086d50185f50dbc7c8da24[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Apr 5 13:35:31 2021 +0200
+
+    fixed problem with income values
+
+[33mcommit 89509a545d2f40b01c99c2c3e48a1b245798e403[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Apr 5 13:16:20 2021 +0200
+
+    toggle components on click outside
+
+[33mcommit 6c9915e19543ff8c38d9bc6776c296edf7606ff0[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Apr 5 12:24:00 2021 +0200
+
+    fixed problem with rent status
+
+[33mcommit 97f31f273cc12ab7982ee7edd4f444ba6e5ac86e[m[33m ([m[1;31morigin/01[m[33m)[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Apr 5 11:42:45 2021 +0200
+
+    moved api to individual repo
+
+[33mcommit 8f33c1f5859bb335395649f4e45d0416fb377680[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Apr 5 11:38:51 2021 +0200
+
+    moved api to individual repo
+
+[33mcommit 379e8b34a58990288903aafec0973b1bbf9dc244[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Sun Mar 21 20:56:34 2021 +0100
+
+    fixed problems with NaN values in rent form & moved Box to separated file & small improvments
+
+[33mcommit 095bdbb65d06436d5e892973e650b6dd0d4809da[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Tue Mar 9 20:10:18 2021 +0100
+
+    added inner template
+
+[33mcommit fc7965f842586ccfbc6a551e68c56a32b119b811[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Tue Mar 9 19:55:52 2021 +0100
+
+    attempt to organize code
+
+[33mcommit 04af75085f2940f1866e390a1978b18cfe72edf8[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Fri Mar 5 18:25:59 2021 +0100
+
+    fixed problem with display data after reload
+
+[33mcommit b7f1a7ca8b784f609222f4ec545e5893ce7f4099[m[33m ([m[1;31morigin/DRY[m[33m, [m[1;32mDRY[m[33m)[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Fri Mar 5 13:43:23 2021 +0100
+
+    merge new rent and edit rent views
+
+[33mcommit e6eb043016ad7244aaa01bab416e9cd4d22eed8a[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Fri Mar 5 13:00:35 2021 +0100
+
+    merge new product and edit product views
+
+[33mcommit e1e162846e22031930e2bae682ed2062ec4763ff[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Thu Mar 4 23:20:34 2021 +0100
+
+    merge new client and edit client forms
+
+[33mcommit 814c31876b5f6f29f187283a1a65020a7c24e4fb[m[33m ([m[1;31morigin/auth[m[33m)[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Thu Mar 4 22:36:31 2021 +0100
+
+    added readme
+
+[33mcommit e96f66b0301575a998e482467956231486b08c11[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Mar 1 22:16:13 2021 +0100
+
+    auto logout after token expires
+
+[33mcommit cd46fa89171ac69c6aaf62e53c1cae48e9809933[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Mar 1 21:53:25 2021 +0100
+
+    extended jwt token expiration time
+
+[33mcommit df5769ca3131644d2c6e5c5d1db79aa21e3602ab[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Mar 1 21:40:28 2021 +0100
+
+    added auth headers to request
+
+[33mcommit 0280fe591721aaf57e3e776ec4da7701699f01a0[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Sun Feb 28 22:03:38 2021 +0100
+
+    added auth to header in fetch clients action
+
+[33mcommit e39766723753c4af4413208b2611a4135725b2ee[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Jan 25 19:27:55 2021 +0100
+
+    fixed issue with spinner during signing up
+
+[33mcommit 077fb2da72a59e1c93e972c6e8db18b14282270d[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Jan 25 19:27:14 2021 +0100
+
+    fixed issue with spinner during signing up
+
+[33mcommit 16701dceca0b979469ce6f9048cc0916eb963ce1[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Thu Jan 21 15:43:10 2021 +0100
+
+    fixed some issues with responsive layout
+
+[33mcommit 34334afff891b43e4852f34de6e0de538d25d49b[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Thu Jan 21 15:08:59 2021 +0100
+
+    added calendar events colors by status
+
+[33mcommit 1420d0fb17d8dc194bba1429d6354a353a0bf78b[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Wed Jan 20 21:57:09 2021 +0100
+
+    fished status issue in history view
+
+[33mcommit 29f3aae00074578bc4e4b5150e3e33c8444cca85[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Wed Jan 20 20:35:46 2021 +0100
+
+    fished status issue in history view
+
+[33mcommit ef6cbf9cc8519a06cea6f31cdf55e0e343051fc6[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Wed Jan 20 20:16:25 2021 +0100
+
+    added filter to rents view
+
+[33mcommit 0b6a3baceb70e740647d53ae442f08c8f17a4c34[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Tue Jan 12 19:56:32 2021 +0100
+
+    fixed scroll overflow on mobiles
+
+[33mcommit c68a27ba5416580d83edd9f6cb650f2003411a67[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Tue Jan 12 16:46:16 2021 +0100
+
+    fixed all found problems
+
+[33mcommit e863c29e62c1445c58977c7b74aa96cb9c472b42[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Tue Jan 12 15:30:06 2021 +0100
+
+    warnings fixed
+
+[33mcommit 8ba36a64089c5046ae26ec126e54194fc504d354[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Wed Jan 6 17:16:03 2021 +0100
+
+    added success and errors handler with message box component
+
+[33mcommit 4bbdfcbf4d235a16fd4b1bd6fe7730044704fa23[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Tue Jan 5 22:46:51 2021 +0100
+
+    added error handling to login view and password update view
+
+[33mcommit 3d4edcbb73181b7ca987f77565ec9f16c050b722[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Mon Jan 4 14:48:46 2021 +0100
+
+    fixed all problems
+
+[33mcommit 5be8bd7c4da56a90949a66a639481a77304a2568[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Sun Jan 3 22:14:39 2021 +0100
+
+    fixed problem with changing qty of products in NewRentView
+
+[33mcommit cf1b35daa2f9c9dfea1495a6fd6bded2382965a6[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Sun Jan 3 15:51:14 2021 +0100
+
+    fixed proptypes warnings
+
+[33mcommit 35eef338bcf0e92614dacba9efb9f6295bc42f19[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Sat Jan 2 20:47:59 2021 +0100
+
+    added media queries
+
+[33mcommit 44e9e0d76182076ae6176751d9124a594ece64bd[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Fri Jan 1 19:16:22 2021 +0100
+
+    fixed edit rent view
+
+[33mcommit 828657bb4d83d12bf8c11acc3b7b3207f71b8af5[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Thu Dec 31 20:16:23 2020 +0100
+
+    added another functionality to new rent component
+
+[33mcommit 9562932db6166be506553909096842cf2840097a[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Sun Dec 27 22:40:10 2020 +0100
+
+    some problems fixed
+
+[33mcommit b734e954c1a28adfc84f3f86c5c60fdff16dab53[m
+Author: unknown <ciastek1996@gmail.com>
+Date:   Sat Dec 26 23:16:48 2020 +0100
+
+    added signin and signup actions, created settings view
+
+[33mcommit d8c180ac

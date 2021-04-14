@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
@@ -64,7 +64,7 @@ const SelectWrapper = styled.div`
   padding: 15px 0;
 `;
 
-const Summary = styled.div`
+const SummaryWrapper = styled.div`
   /* padding: 25px; */
   width: 100%;
   text-align: right;
@@ -110,19 +110,39 @@ const SummaryItem = styled.div`
   }
 `;
 
+const RentContext = React.createContext({
+  productsList: [],
+  rents: [],
+  rentValues: [],
+  clientsList: [],
+  rentDuration: 1,
+  setRentDuration: () => {},
+  cartItems: [],
+  setCartItems: () => {},
+  rentValue: 0,
+  setRentValue: () => {},
+  values: [],
+  setFieldValue: () => {},
+  getRentDuration: () => {},
+});
+
 const RentFormView = ({ match, user: { userID } }) => {
   const dispatch = useDispatch();
   const { id } = match.params;
+
   const productsList = useSelector((state) => state.product.products);
-  const rents = useSelector((state) => state.rent);
+  // const rents = useSelector((state) => state.rent);
   const rentValues = useSelector((state) => state.rent.rents.find((i) => i._id === id));
   const clientsList = useSelector((state) => state.client.clients);
+
   const [rentDuration, setRentDuration] = useState(1);
   const [cartItems, setCartItems] = useState([]);
   const [rentValue, setRentValue] = useState(0);
   const [redirect, setRedirect] = useState(false);
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
-  const isNewRent = id ? 0 : 1;
+  const isNewRent = !id;
+
+  console.log('isNewRent', isNewRent);
 
   const currentProducts = rentValues?.products.map((product) => product);
 
@@ -151,207 +171,244 @@ const RentFormView = ({ match, user: { userID } }) => {
         </ButtonsLayout>
       </ItemsTemplate>
       <InnerTemplate>
-        {rents?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
-        {rents?.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
-        <Formik
-          initialValues={{
-            dateOfRent: rentValues?.dateOfRent && rentValues?.dateOfRent !== null ? new Date(rentValues.dateOfRent) : new Date(),
-            dateOfReturn: rentValues?.dateOfReturn && rentValues?.dateOfReturn !== null ? new Date(rentValues.dateOfReturn) : new Date(),
-            products: currentProducts?.map((product) => product) || [],
-            client: rentValues?.client || null,
-            brutto: rentValues?.brutto || 0,
-            vat: rentValues?.brutto || 0,
-            netto: rentValues?.netto || 0,
-            advance: rentValues?.advance || 0,
-            comments: rentValues?.comments || '',
-          }}
-          validate={(values) => {
-            const errors = {};
+        <>
+          {/* {rents?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
+          {rents?.success && isMessageBoxOpen && (
+            <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />
+          )} */}
+          <Formik
+            initialValues={{
+              dateOfRent: rentValues?.dateOfRent && rentValues?.dateOfRent !== null ? new Date(rentValues.dateOfRent) : new Date(),
+              dateOfReturn: rentValues?.dateOfReturn && rentValues?.dateOfReturn !== null ? new Date(rentValues.dateOfReturn) : new Date(),
+              products: currentProducts?.map((product) => product) || [],
+              client: rentValues?.client || null,
+              brutto: rentValues?.brutto || 0,
+              vat: rentValues?.brutto || 0,
+              netto: rentValues?.netto || 0,
+              advance: rentValues?.advance || 0,
+              comments: rentValues?.comments || '',
+            }}
+            validate={(values) => {
+              const errors = {};
 
-            if (!values.dateOfRent) {
-              errors.dateOfRent = 'Pole wymagane.';
-            }
-
-            if (!values.dateOfReturn) {
-              errors.dateOfReturn = 'Pole wymagane.';
-            }
-
-            if (values.products) {
-              if (!values.products.length > 0) {
-                errors.products = 'Pole wymagane.';
+              if (!values.dateOfRent) {
+                errors.dateOfRent = 'Pole wymagane.';
               }
-            }
 
-            if (!values.client) {
-              errors.client = 'Pole wymagane.';
-            }
+              if (!values.dateOfReturn) {
+                errors.dateOfReturn = 'Pole wymagane.';
+              }
 
-            return errors;
-          }}
-          onSubmit={(values) => {
-            const brutto = getBrutto(values.products, rentDuration);
-            const netto = getNetto(values.products, rentDuration);
-            const discount = getDiscount(values, rentDuration);
-            const vat = getVAT(values.products, rentDuration);
-            const price = getFinalPrice(values, rentDuration);
-            if (isNewRent) {
-              dispatch(addRent({ userID, ...values, brutto, netto, vat, discount, price, rentDuration }));
-              setRedirect(true);
-            } else {
-              dispatch(updateRent(id, { userID, ...values, brutto, netto, vat, discount, price, rentDuration }));
-              setIsMessageBoxOpen(true);
-            }
-          }}
-        >
-          {({ values, setFieldValue }) => (
-            <StyledForm id="newRentForm" autoComplete="new-password">
-              <GridWrapper>
-                <DateWrapper>
-                  <p>Data wypożyczenia</p>
+              if (values.products) {
+                if (!values.products.length > 0) {
+                  errors.products = 'Pole wymagane.';
+                }
+              }
 
-                  <DatePicker
-                    selectsStart
-                    selected={values.dateOfRent}
-                    startDate={values.dateOfRent}
-                    endDate={values.dateOfReturn}
-                    // maxDate={values.dateOfRent}
-                    dateFormat="MMMM d, yyyy"
-                    className="form-control"
-                    name="dateOfRent"
-                    onChange={(date) => {
-                      setFieldValue('dateOfRent', date);
-                      getRentDuration(date, values.dateOfReturn);
-                    }}
-                    customInput={<Field as={Input} />}
-                  />
-                  <ErrorMessage name="dateOfRent" component={ErrorParagraph} />
-                </DateWrapper>
+              if (!values.client) {
+                errors.client = 'Pole wymagane.';
+              }
 
-                <DateWrapper>
-                  <p>Data oddania</p>
-                  <DatePicker
-                    selectsEnd
-                    selected={values.dateOfReturn}
-                    startDate={values.dateOfRent}
-                    endDate={values.dateOfReturn}
-                    minDate={values.dateOfRent}
-                    dateFormat="MMMM d, yyyy"
-                    className="form-control"
-                    name="dateOfReturn"
-                    onChange={(date) => {
-                      setFieldValue('dateOfReturn', date);
-                      getRentDuration(values.dateOfRent, date);
-                    }}
-                    customInput={<Field as={Input} autoComplete="new-password" />}
-                  />
-                  <ErrorMessage name="dateOfReturn" component={ErrorParagraph} />
-                </DateWrapper>
-              </GridWrapper>
-
-              <SelectWrapper>
-                <StyledSelect
-                  name="client"
-                  placeholder="Wybierz klienta"
-                  options={clientsList.map(({ name, surname, _id, ...clientValues }) => ({
-                    value: `${name} ${surname}`,
-                    label: `${name} ${surname}`,
-                    _id,
-                    ...clientValues,
-                  }))}
-                  onChange={(client) => setFieldValue('client', client)}
-                />
-                <ErrorMessage name="client" component={ErrorParagraph} />
-              </SelectWrapper>
-
-              {values.client && (
-                <SelectWrapper>
-                  <StyledSelect
-                    isMulti
-                    placeholder="Wybierz produkty"
-                    name="products"
-                    options={productsList.map(({ productName, _id, ...productValue }) => ({
-                      value: productName,
-                      label: productName,
-                      productName,
-                      _id,
-                      qty: 1,
-                      ...productValue,
-                    }))}
-                    // onChange={handleProduct}
-                    // onChange={(products) => setFieldValue('products', products)}
-                    onChange={(products) => {
-                      setCartItems(products);
-                      setFieldValue('products', products);
-                    }}
-                  />
-                  <ErrorMessage name="products" component={ErrorParagraph} />
-                </SelectWrapper>
-              )}
-
-              {values.products && values.products.length > 0 && (
-                <>
-                  <ProductsCard
-                    values={values.products}
-                    setRentValue={setRentValue}
-                    rentValue={rentValue}
-                    // onAdd={() => onAdd(cartItems, setFieldValue, values)}
-                    setFieldValue={setFieldValue}
-                    cartItems={cartItems}
-                  />
-
-                  <div>
-                    <Field as={Input} label="Kaucja zwrotna" id="advance" name="advance" type="number" autoComplete="new-password" />
-                    <ErrorMessage name="advance" component={ErrorParagraph} />
-                  </div>
-
-                  <Summary>
-                    <SummaryItem>
-                      <p>Ilość dni: </p>
-                      <p>{rentDuration}</p>
-                    </SummaryItem>
-
-                    <SummaryItem>
-                      <p>Kwota netto: </p>
-                      <p>{`${getNetto(values.products, rentDuration)} zł`}</p>
-                    </SummaryItem>
-
-                    <SummaryItem>
-                      <p>Rabat [%] </p>
-                      <p>{values.client.discount}</p>
-                    </SummaryItem>
-
-                    <SummaryItem>
-                      <p>Podatek VAT</p>
-                      <p>{` ${getVAT(values.products, rentDuration)} zł`}</p>
-                    </SummaryItem>
-
-                    <SummaryItem>
-                      <p>Rabat</p>
-                      <p>{`${getDiscount(values, rentDuration)} zł`}</p>
-                    </SummaryItem>
-
-                    <SummaryItem>
-                      <p>Kwota brutto</p>
-                      <p>{`${getBrutto(values.products, rentDuration)} zł`}</p>
-                    </SummaryItem>
-
-                    <SummaryItem>
-                      <p>Kaucja zwrotna</p>
-                      <p>{`${values.advance} zł`}</p>
-                    </SummaryItem>
-
-                    <SummaryItem>
-                      <p>Do zapłaty</p>
-                      <p>{`${getFinalPrice(values, rentDuration)} zł`}</p>
-                    </SummaryItem>
-                  </Summary>
-                </>
-              )}
-            </StyledForm>
-          )}
-        </Formik>
+              return errors;
+            }}
+            onSubmit={(values) => {
+              const brutto = getBrutto(values.products, rentDuration);
+              const netto = getNetto(values.products, rentDuration);
+              const discount = getDiscount(values, rentDuration);
+              const vat = getVAT(values.products, rentDuration);
+              const price = getFinalPrice(values, rentDuration);
+              if (isNewRent) {
+                dispatch(addRent({ userID, ...values, brutto, netto, vat, discount, price, rentDuration }));
+                setRedirect(true);
+              } else {
+                dispatch(updateRent(id, { userID, ...values, brutto, netto, vat, discount, price, rentDuration }));
+                setIsMessageBoxOpen(true);
+              }
+            }}
+          >
+            {({ values, setFieldValue }) => (
+              <RentContext.Provider
+                value={{
+                  values,
+                  productsList,
+                  rentValues,
+                  clientsList,
+                  rentDuration,
+                  setRentDuration,
+                  cartItems,
+                  setCartItems,
+                  rentValue,
+                  setRentValue,
+                  setFieldValue,
+                }}
+              >
+                <RentForm />
+              </RentContext.Provider>
+            )}
+          </Formik>
+        </>
       </InnerTemplate>
     </MainTemplate>
+  );
+};
+
+const Summary = () => {
+  const { values, rentDuration } = useContext(RentContext);
+  console.log('values', values, 'duration', rentDuration);
+  return (
+    <SummaryWrapper>
+      <SummaryItem>
+        <p>Ilość dni: </p>
+        <p>{rentDuration}</p>
+      </SummaryItem>
+
+      <SummaryItem>
+        <p>Kwota netto: </p>
+        <p>{`${getNetto(values?.products, rentDuration)} zł`}</p>
+      </SummaryItem>
+
+      <SummaryItem>
+        <p>Rabat [%] </p>
+        <p>{values?.client?.discount}</p>
+      </SummaryItem>
+
+      <SummaryItem>
+        <p>Podatek VAT</p>
+        <p>{` ${getVAT(values?.products, rentDuration)} zł`}</p>
+      </SummaryItem>
+
+      <SummaryItem>
+        <p>Rabat</p>
+        <p>{`${getDiscount(values, rentDuration)} zł`}</p>
+      </SummaryItem>
+
+      <SummaryItem>
+        <p>Kwota brutto</p>
+        <p>{`${getBrutto(values?.products, rentDuration)} zł`}</p>
+      </SummaryItem>
+
+      <SummaryItem>
+        <p>Kaucja zwrotna</p>
+        <p>{`${values?.advance} zł`}</p>
+      </SummaryItem>
+
+      <SummaryItem>
+        <p>Do zapłaty</p>
+        <p>{`${getFinalPrice(values, rentDuration)} zł`}</p>
+      </SummaryItem>
+    </SummaryWrapper>
+  );
+};
+
+const RentForm = () => {
+  const { values, productsList, clientsList, cartItems, setCartItems, rentValue, setRentValue, setFieldValue, getRentDuration } = useContext(
+    RentContext,
+  );
+  return (
+    <StyledForm id="newRentForm" autoComplete="new-password">
+      <GridWrapper>
+        <DateWrapper>
+          <p>Data wypożyczenia</p>
+
+          <DatePicker
+            selectsStart
+            selected={values.dateOfRent}
+            startDate={values.dateOfRent}
+            endDate={values.dateOfReturn}
+            // maxDate={values.dateOfRent}
+            dateFormat="MMMM d, yyyy"
+            className="form-control"
+            name="dateOfRent"
+            onChange={(date) => {
+              setFieldValue('dateOfRent', date);
+              getRentDuration(date, values.dateOfReturn);
+            }}
+            customInput={<Field as={Input} />}
+          />
+          <ErrorMessage name="dateOfRent" component={ErrorParagraph} />
+        </DateWrapper>
+
+        <DateWrapper>
+          <p>Data oddania</p>
+          <DatePicker
+            selectsEnd
+            selected={values.dateOfReturn}
+            startDate={values.dateOfRent}
+            endDate={values.dateOfReturn}
+            minDate={values.dateOfRent}
+            dateFormat="MMMM d, yyyy"
+            className="form-control"
+            name="dateOfReturn"
+            onChange={(date) => {
+              setFieldValue('dateOfReturn', date);
+              getRentDuration(values.dateOfRent, date);
+            }}
+            customInput={<Field as={Input} autoComplete="new-password" />}
+          />
+          <ErrorMessage name="dateOfReturn" component={ErrorParagraph} />
+        </DateWrapper>
+      </GridWrapper>
+
+      <SelectWrapper>
+        <StyledSelect
+          name="client"
+          placeholder="Wybierz klienta"
+          options={clientsList.map(({ name, surname, _id, ...clientValues }) => ({
+            value: `${name} ${surname}`,
+            label: `${name} ${surname}`,
+            _id,
+            ...clientValues,
+          }))}
+          onChange={(client) => setFieldValue('client', client)}
+        />
+        <ErrorMessage name="client" component={ErrorParagraph} />
+      </SelectWrapper>
+
+      {values.client && (
+        <SelectWrapper>
+          <StyledSelect
+            isMulti
+            placeholder="Wybierz produkty"
+            name="products"
+            options={productsList.map(({ productName, _id, ...productValue }) => ({
+              value: productName,
+              label: productName,
+              productName,
+              _id,
+              qty: 1,
+              ...productValue,
+            }))}
+            // onChange={handleProduct}
+            // onChange={(products) => setFieldValue('products', products)}
+            onChange={(products) => {
+              setCartItems(products);
+              setFieldValue('products', products);
+            }}
+          />
+          <ErrorMessage name="products" component={ErrorParagraph} />
+        </SelectWrapper>
+      )}
+
+      {values.products && values.products.length > 0 && (
+        <>
+          <ProductsCard
+            values={values.products}
+            setRentValue={setRentValue}
+            rentValue={rentValue}
+            // onAdd={() => onAdd(cartItems, setFieldValue, values)}
+            setFieldValue={setFieldValue}
+            cartItems={cartItems}
+          />
+
+          <div>
+            <Field as={Input} label="Kaucja zwrotna" id="advance" name="advance" type="number" autoComplete="new-password" />
+            <ErrorMessage name="advance" component={ErrorParagraph} />
+          </div>
+
+          <Summary />
+        </>
+      )}
+    </StyledForm>
   );
 };
 
