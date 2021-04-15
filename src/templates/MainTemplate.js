@@ -8,6 +8,7 @@ import Loader from '../components/organisms/Loader/Loader';
 import Spinner from '../components/atoms/Spinner/Spinner';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import Loading from '../providers/Loading';
+import Notification from '../providers/Notification';
 
 const Wrapper = styled.div`
   max-width: 1024px;
@@ -27,6 +28,13 @@ const MainTemplate = ({ children }) => (
           {client.success && isMessageBoxOpen && (
             <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />
           )} */}
+          <Notification
+            render={({ isNotificationVisible, setIsNotificationVisible }) => (
+              <>
+                {isNotificationVisible && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsNotificationVisible} />}
+              </>
+            )}
+          />
           <Wrapper>{children}</Wrapper>
         </>
       )}

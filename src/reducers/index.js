@@ -4,6 +4,7 @@ import client from './client';
 import account from './account';
 import rent from './rent';
 import users from './users';
+import notification from './notification';
 
 export default combineReducers({
   product,
@@ -11,4 +12,5 @@ export default combineReducers({
   rent,
   users,
   account,
+  notification,
 });

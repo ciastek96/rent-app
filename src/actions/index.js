@@ -83,12 +83,15 @@ export const removeClient = (id) => async (dispatch) => {
 };
 
 export const addClient = (values) => async (dispatch) => {
+  dispatch({ type: 'CLEAR_NOTIFICATION' });
   dispatch({ type: 'ADD_CLIENT_REQUEST' });
   try {
     const { data } = await axios.post(`${api}/clients/add`, values);
     dispatch({ type: 'ADD_CLIENT_SUCCESS', payload: data });
+    dispatch({ type: 'ADD_NOTIFICATION', payload: data });
   } catch (error) {
     dispatch({ type: 'ADD_CLIENT_FAILURE', error });
+    dispatch({ type: 'ADD_NOTIFICATION', payload: error });
     console.log(error);
   }
 };

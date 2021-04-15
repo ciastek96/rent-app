@@ -236,8 +236,8 @@ const RentItem = ({
   const statusVal = getStatus(dateOfRent, dateOfReturn, isFinished);
 
   return (
-    <Wrapper isCollapsed={isCollapsed} activeStatus={statusVal} ref={ref}>
-      <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} />
+    <Wrapper isCollapsed={isCollapsed} activeStatus={statusVal}>
+      <StyledMoreButton onClick={() => setOptionMenu(!optionMenu)} ref={ref} />
       <StyledButton tertiary onClick={() => setIsCollapsed(!isCollapsed)}>
         {isCollapsed ? 'Zwiń' : 'Rozwiń'}
       </StyledButton>
