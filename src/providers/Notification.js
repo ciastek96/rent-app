@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { resetNotification } from '../actions';
 
 const Notification = (props) => {
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  const dispatch = useDispatch();
 
-  const content = useSelector(({ notification }) => notification.content);
+  const toastNotification = useSelector(({ notification }) => notification);
 
   useEffect(() => {
-    if (content) {
+    if (toastNotification.content) {
       setIsNotificationVisible(true);
-      setTimeout(() => setIsNotificationVisible(false), 5000);
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+        dispatch(resetNotification());
+      }, 5000);
     } else setIsNotificationVisible(false);
-  }, [content]);
+  }, [toastNotification]);
 
-  return props.render({ isNotificationVisible, setIsNotificationVisible });
+  return props.render({ toastNotification, isNotificationVisible, setIsNotificationVisible });
 };
 
 export default Notification;
