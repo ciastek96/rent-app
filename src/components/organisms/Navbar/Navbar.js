@@ -19,10 +19,9 @@ const Wrapper = styled.div`
   padding: 20px;
 `;
 
-const Logo = styled.a`
+const Logo = styled(NavLink)`
   font-size: 24px;
   color: ${({ theme }) => theme.green};
-  background: url(${Logotype});
   text-decoration: none;
 `;
 

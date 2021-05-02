@@ -50,7 +50,6 @@ const Value = styled.p`
 
 const Title = styled.p`
   font-size: ${({ theme }) => theme.fontSize.xxs};
-
   font-family: 'Montserrat', sans-serif;
 `;
 
