@@ -37,7 +37,7 @@ const ItemsTemplate = ({ children, title, value, handleChange, path }) => (
 );
 
 ItemsTemplate.propTypes = {
-  children: PropTypes.instanceOf(Array),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   title: PropTypes.string.isRequired,
   handleChange: PropTypes.func,
   value: PropTypes.string,

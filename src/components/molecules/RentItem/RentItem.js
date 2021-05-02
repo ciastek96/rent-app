@@ -395,7 +395,7 @@ RentItem.propTypes = {
   dateOfRent: PropTypes.string.isRequired,
   dateOfReturn: PropTypes.string.isRequired,
   isFinished: PropTypes.bool,
-  products: PropTypes.arrayOf(PropTypes.oneOfType(PropTypes.string, PropTypes.object)).isRequired,
+  products: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])).isRequired,
   price: PropTypes.number.isRequired,
   brutto: PropTypes.number.isRequired,
   netto: PropTypes.number.isRequired,

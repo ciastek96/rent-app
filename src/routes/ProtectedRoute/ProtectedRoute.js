@@ -12,7 +12,7 @@ function ProtectedRoute({ component: Component, ...children }) {
   if (isAuthenticated && !isTokenExpired) {
     return <Route {...children} render={(props) => <Component {...props} user={decodedToken} />} />;
   }
-  return <Redirect to={routes.logout} />;
+  return <Redirect to={routes.login} />;
 }
 
 ProtectedRoute.propTypes = {

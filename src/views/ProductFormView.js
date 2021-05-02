@@ -17,7 +17,6 @@ import InnerTemplate from '../templates/InnerTemplate';
 import ErrorParagraph from '../components/atoms/ErrorParagraph/ErrorParagraph';
 import Button from '../components/atoms/Button/Button';
 import ImageUploader from '../components/atoms/ImageUploader/ImageUploader';
-import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import { routes } from '../routes/routes';
 
 const ButtonsWrapper = styled.div`
@@ -89,10 +88,8 @@ const ProductFormView = ({ match, user: { userID } }) => {
   const { id } = match.params;
   const isNewProduct = id ? 0 : 1;
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.product);
   const productValues = id && useSelector((state) => state.product.products.find((i) => i._id === id));
   const [selectedFile, setSelectedFile] = useState();
-  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
   const [redirect, setRedirect] = useState(false);
 
   if (redirect) {
@@ -112,10 +109,6 @@ const ProductFormView = ({ match, user: { userID } }) => {
         </ButtonsWrapper>
       </ItemsTemplate>
       <InnerTemplate>
-        {products?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
-        {products?.success && isMessageBoxOpen && (
-          <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />
-        )}
         <Formik
           initialValues={{
             productName: productValues?.productName || '',
@@ -170,7 +163,6 @@ const ProductFormView = ({ match, user: { userID } }) => {
               setRedirect(true);
             } else {
               dispatch(updateProduct(id, { userID, ...values, selectedFile }));
-              setIsMessageBoxOpen(true);
             }
           }}
         >

@@ -57,19 +57,20 @@ const StyledLogotype = styled(Logotype)`
 const LoginView = ({ location: { pathname } }) => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.users.isAuthenticated);
-  const [cardType, setCardType] = useState('/logowanie');
+  const [cardType, setCardType] = useState(pathname);
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    if (pathname === routes.register) {
-      setCardType(routes.register);
-    } else if (pathname === routes.logout) {
-      setCardType(routes.logout);
-      dispatch(signOut());
+    if (cardType === routes.logout) {
+      if (isAuth) dispatch(signOut());
+      else setCardType(routes.login);
+    } else {
+      if (!isAuth) setRedirect(false);
+      setRedirect(true);
     }
   }, []);
 
-  if (isAuth && !redirect) {
+  if (isAuth && redirect) {
     return <Redirect to={{ pathname: routes.home, state: { from: routes.login } }} />;
   }
 

@@ -12,7 +12,6 @@ import ItemsTemplate from '../templates/ItemsTemplate';
 import InnerTemplate from '../templates/InnerTemplate';
 import Button from '../components/atoms/Button/Button';
 import ErrorParagraph from '../components/atoms/ErrorParagraph/ErrorParagraph';
-import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import ImageUploader from '../components/atoms/ImageUploader/ImageUploader';
 import { routes } from '../routes/routes';
 
@@ -83,10 +82,8 @@ const ClientFormView = ({
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState();
   const [redirect, setRedirect] = useState(false);
-  const clients = useSelector((state) => state.client);
   const clientValues = useSelector((state) => state.client.clients.find((i) => i._id === id));
-  const isNewClient = id ? 0 : 1;
-  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
+  const isNewClient = !id;
 
   if (redirect) {
     return <Redirect to={routes.clients} />;
@@ -103,10 +100,6 @@ const ClientFormView = ({
         </StyledButton>
       </ItemsTemplate>
       <InnerTemplate>
-        {clients?.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
-        {clients?.success && isMessageBoxOpen && (
-          <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />
-        )}
         <Formik
           initialValues={{
             name: clientValues?.name || '',
@@ -213,7 +206,6 @@ const ClientFormView = ({
               setRedirect(true);
             } else {
               dispatch(updateClient(id, { userID, ...values, selectedFile }));
-              setIsMessageBoxOpen(true);
             }
           }}
         >
@@ -286,8 +278,8 @@ const ClientFormView = ({
 };
 
 ClientFormView.propTypes = {
-  user: PropTypes.objectOf(PropTypes.string).isRequired,
-  match: PropTypes.objectOf(PropTypes.string).isRequired,
+  user: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default ClientFormView;

@@ -5,6 +5,8 @@ import { theme } from '../theme/theme';
 import GlobalStyle from '../theme/globalStyles';
 import Loader from '../components/organisms/Loader/Loader';
 import Loading from '../providers/Loading';
+import MessageBox from '../components/atoms/MessageBox/MessageBox';
+import Notification from '../providers/Notification';
 
 const LoginTemplate = ({ children }) => (
   <ThemeProvider theme={theme}>
@@ -13,6 +15,15 @@ const LoginTemplate = ({ children }) => (
       render={({ isLoading }) => (
         <>
           {isLoading && <Loader />}
+          <Notification
+            render={({ toastNotification, isNotificationVisible, setIsNotificationVisible }) => (
+              <>
+                {isNotificationVisible && (
+                  <MessageBox type={toastNotification.type} value={toastNotification.content} setIsOpen={setIsNotificationVisible} />
+                )}
+              </>
+            )}
+          />
           {children}
         </>
       )}

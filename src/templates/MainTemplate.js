@@ -5,7 +5,6 @@ import { theme } from '../theme/theme';
 import GlobalStyle from '../theme/globalStyles';
 import Navbar from '../components/organisms/Navbar/Navbar';
 import Loader from '../components/organisms/Loader/Loader';
-import Spinner from '../components/atoms/Spinner/Spinner';
 import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import Loading from '../providers/Loading';
 import Notification from '../providers/Notification';
@@ -24,14 +23,12 @@ const MainTemplate = ({ children }) => (
       render={({ isLoading }) => (
         <>
           {isLoading && <Loader />}
-          {/* {client.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
-          {client.success && isMessageBoxOpen && (
-            <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />
-          )} */}
           <Notification
-            render={({ isNotificationVisible, setIsNotificationVisible }) => (
+            render={({ toastNotification, isNotificationVisible, setIsNotificationVisible }) => (
               <>
-                {isNotificationVisible && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsNotificationVisible} />}
+                {isNotificationVisible && (
+                  <MessageBox type={toastNotification.type} value={toastNotification.content} setIsOpen={setIsNotificationVisible} />
+                )}
               </>
             )}
           />

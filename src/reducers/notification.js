@@ -1,4 +1,5 @@
-const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
+// const RESET_NOTIFICATION = 'RESET_NOTIFICATION';
+const RESET_NOTIFICATION = 'RESET_NOTIFICATION';
 const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 
 const initialState = {
@@ -10,14 +11,13 @@ const notificationReducer = (notifications = initialState, { type, payload }) =>
   switch (type) {
     case ADD_NOTIFICATION:
       return {
-        type: payload,
-        content: payload,
+        type: payload.type,
+        content: payload.content,
       };
-    case CLEAR_NOTIFICATION:
-      return {
-        type: null,
-        content: null,
-      };
+    // case RESET_NOTIFICATION:
+    //   return notifications.filter((notification) => notification.id !== payload.id);
+    case RESET_NOTIFICATION:
+      return initialState;
     default:
       return notifications;
   }

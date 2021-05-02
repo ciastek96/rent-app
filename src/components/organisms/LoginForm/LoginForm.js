@@ -33,13 +33,13 @@ const Error = styled.p`
   font-size: ${({ theme }) => theme.fontSize.xxs};
 `;
 
-const LoginForm = ({ setCardType }) => {
+const LoginForm = ({ setCardType, setRedirect }) => {
   const users = useSelector((state) => state.users);
   const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
   const dispatch = useDispatch();
   let statusCode = 404;
 
-  const renderMessageBox = (value = 'Wystąpił błąd. Spróbuj ponownie.') => <MessageBox type="error" value={value} setIsOpen={setIsMessageBoxOpen} />;
+  const renderMessageBox = (value = 'Wystąpił błąd. Spróbuj ponownie.') => <MessageBox type="ERROR" value={value} setIsOpen={setIsMessageBoxOpen} />;
 
   const handleError = () => {
     switch (statusCode) {
@@ -73,6 +73,7 @@ const LoginForm = ({ setCardType }) => {
         onSubmit={(values) => {
           dispatch(signIn(values));
           setIsMessageBoxOpen(true);
+          setRedirect(true);
         }}
       >
         {() => (
@@ -92,13 +93,14 @@ const LoginForm = ({ setCardType }) => {
         )}
       </Formik>
       {users.error && isMessageBoxOpen && handleError()}
-      {users.success && isMessageBoxOpen && <MessageBox type="success" value="Zostałeś pomyślnie zalogowany" setIsOpen={setIsMessageBoxOpen} />}
+      {users.success && isMessageBoxOpen && <MessageBox type="SUCCESS" value="Zostałeś pomyślnie zalogowany" setIsOpen={setIsMessageBoxOpen} />}
     </>
   );
 };
 
 LoginForm.propTypes = {
   setCardType: PropTypes.func.isRequired,
+  setRedirect: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

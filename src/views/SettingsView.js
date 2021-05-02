@@ -7,7 +7,6 @@ import MainTemplate from '../templates/MainTemplate';
 import InnerTemplate from '../templates/InnerTemplate';
 import Button from '../components/atoms/Button/Button';
 import ItemsTemplate from '../templates/ItemsTemplate';
-import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import SettingsForm from '../components/organisms/SettingsForm/SettingsForm';
 import { SettingsContext } from '../context/SettingsContext';
 
@@ -20,9 +19,6 @@ const SettingsView = () => {
   const currentUser = useSelector((state) => state.account);
   const username = useSelector((state) => state.users.user.username);
   const dispatch = useDispatch();
-  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
-
-  console.log(currentUser);
 
   return (
     <MainTemplate>
@@ -115,7 +111,6 @@ const SettingsView = () => {
           }}
           onSubmit={(values) => {
             dispatch(updateAccount({ ...values, selectedFile }));
-            setIsMessageBoxOpen(true);
           }}
         >
           {({ values }) => (
@@ -124,12 +119,6 @@ const SettingsView = () => {
             </SettingsContext.Provider>
           )}
         </Formik>
-        {currentUser.error && isMessageBoxOpen && (
-          <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />
-        )}
-        {currentUser.success && isMessageBoxOpen && (
-          <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />
-        )}
       </InnerTemplate>
     </MainTemplate>
   );

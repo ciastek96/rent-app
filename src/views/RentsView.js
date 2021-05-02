@@ -5,14 +5,11 @@ import ItemsTemplate from '../templates/ItemsTemplate';
 import RentItem from '../components/molecules/RentItem/RentItem';
 import MainTemplate from '../templates/MainTemplate';
 import RentFilter from '../components/molecules/RentFilter/RentFilter';
-import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import NoResults from '../components/atoms/NoResults/NoResults';
 import { routes } from '../routes/routes';
 
 const RentsView = () => {
-  const rent = useSelector((state) => state.rent);
   const rentsList = useSelector((state) => state.rent.rents.filter((i) => i.isFinished === false));
-  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(true);
   const [activeView, setActiveView] = useState('all');
 
   const handleChange = (e) => {
@@ -23,8 +20,6 @@ const RentsView = () => {
   return (
     <MainTemplate>
       <ItemsTemplate title="Wypożyczenia" path={routes.newRent} />
-      {rent.error && isMessageBoxOpen && <MessageBox type="error" value="Wystąpił błąd. Spróbuj ponownie." setIsOpen={setIsMessageBoxOpen} />}
-      {rent.success && isMessageBoxOpen && <MessageBox type="success" value="Dane zostały zapisane pomyślnie." setIsOpen={setIsMessageBoxOpen} />}
       <RentFilter handleChange={handleChange} />
       {rentsList.length > 0 ? (
         rentsList.map((rentValues) => {

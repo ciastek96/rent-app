@@ -4,7 +4,8 @@ const LOGIN_FAILURE = 'LOGIN_FAILURE';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGIN_REQUEST = 'LOGIN_REQUEST';
 
-const LOGOUT_USER = 'LOGOUT_USER';
+const LOGOUT_USER_REQUEST = 'LOGOUT_USER_REQUEST';
+const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
 
 const REGISTER_FAILURE = 'REGISTER_FAILURE';
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
@@ -29,7 +30,14 @@ const usersReducer = (users = initialState, { type, payload, error }) => {
         isAuthenticated: true,
         user: payload,
       };
-    case LOGOUT_USER:
+    case LOGOUT_USER_REQUEST:
+      return {
+        ...users,
+        loading: true,
+        error: null,
+        success: null,
+      };
+    case LOGOUT_USER_SUCCESS:
       return {
         isAuthenticated: false,
         user: null,

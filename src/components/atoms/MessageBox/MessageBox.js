@@ -5,9 +5,14 @@ import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/svg/interfaces/close-a.svg';
 import { ReactComponent as SuccessIcon } from '../../../assets/icons/svg/interfaces/check.svg';
 
+const SUCCESS = 'SUCCESS';
+const ERROR = 'ERROR';
+
 const Wrapper = styled.div`
   width: 380px;
   height: 100px;
+  width: 300px;
+  height: 80px;
   border-radius: 6px;
   background-color: ${({ theme }) => theme.white};
   position: fixed;
@@ -30,7 +35,7 @@ const Wrapper = styled.div`
     position: absolute;
     height: 100%;
     width: 6px;
-    background-color: ${({ theme, type }) => (type === 'error' ? theme.error : theme.green)};
+    background-color: ${({ theme, type }) => (type === ERROR ? theme.error : theme.green)};
   }
 
   @media (max-width: 500px) {
@@ -44,6 +49,7 @@ const Value = styled.p`
   font-size: ${({ theme }) => theme.fontSize.s};
   font-weight: 500;
   margin: 0 auto 0 15px;
+  font-size: 1.4rem;
 `;
 
 const CloseButton = styled.button`
@@ -72,10 +78,10 @@ const StyledSuccesIcon = styled(SuccessIcon)`
   fill: ${({ theme }) => theme.green};
 `;
 
-const MessageBox = ({ type, value, setIsOpen }) =>
+const MessageBox = ({ type = ERROR, value = 'Wystąpił nieznany błąd. Spróbuj ponownie.', setIsOpen }) =>
   ReactDOM.createPortal(
     <Wrapper type={type}>
-      {type === 'success' && <StyledSuccesIcon />}
+      {type === SUCCESS && <StyledSuccesIcon />}
       <Value>{value}</Value>
       <CloseButton type="submit" onClick={() => setIsOpen(false)}>
         <StyledCloseIcon />
@@ -85,8 +91,8 @@ const MessageBox = ({ type, value, setIsOpen }) =>
   );
 
 MessageBox.propTypes = {
-  type: PropTypes.oneOfType(['error', 'success']),
-  value: PropTypes.number.isRequired,
+  type: PropTypes.oneOf([ERROR, SUCCESS]),
+  value: PropTypes.string.isRequired,
 };
 
 export default MessageBox;

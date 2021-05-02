@@ -19,7 +19,7 @@ const UPDATE_PRODUCT_FAILURE = 'UPDATE_PRODUCT_FAILURE';
 const LOGOUT_USER = 'LOGOUT_USER';
 
 const initialState = {
-  loading: true,
+  loading: false,
   error: null,
   success: null,
   products: [],

@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '../components/atoms/Input/Input';
 import MainTemplate from '../templates/MainTemplate';
-import MessageBox from '../components/atoms/MessageBox/MessageBox';
 import Button from '../components/atoms/Button/Button';
 import { routes } from '../routes/routes';
 import { updatePassword } from '../actions';
@@ -58,9 +57,7 @@ const StyledForm = styled(Form)`
 `;
 
 const UpdatePasswordView = () => {
-  const user = useSelector((state) => state.users);
   const dispatch = useDispatch();
-  const [isMessageBoxOpen, setIsMessageBoxOpen] = useState(false);
   // const history = useHistory();
 
   return (
@@ -77,12 +74,6 @@ const UpdatePasswordView = () => {
         </ButtonsWrapper>
       </StyledHeader>
       <Wrapper>
-        {user.error && isMessageBoxOpen && (
-          <MessageBox type="error" title="Błąd" value="Podane hasło jest nieprawidłowe" setIsOpen={setIsMessageBoxOpen} />
-        )}
-        {user.success && isMessageBoxOpen && (
-          <MessageBox type="success" title="Gitarka" value="Hasło zostało zaaktualizowane" setIsOpen={setIsMessageBoxOpen} />
-        )}
         <Formik
           initialValues={{
             currentPassword: '',
@@ -113,7 +104,6 @@ const UpdatePasswordView = () => {
           }}
           onSubmit={(values) => {
             dispatch(updatePassword(values));
-            setIsMessageBoxOpen(true);
           }}
         >
           {() => (

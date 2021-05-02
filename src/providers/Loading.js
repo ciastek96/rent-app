@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const Loading = (props) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const accountLoading = useSelector(({ account }) => account.loading);
   const clientLoading = useSelector(({ client }) => client.loading);
   const rentLoading = useSelector(({ rent }) => rent.loading);
