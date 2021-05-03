@@ -65,7 +65,10 @@ const LoginView = ({ location: { pathname } }) => {
       if (isAuth) dispatch(signOut());
       else setCardType(routes.login);
     } else {
-      if (!isAuth) setRedirect(false);
+      if (!isAuth) {
+        setRedirect(false);
+        return;
+      }
       setRedirect(true);
     }
   }, []);

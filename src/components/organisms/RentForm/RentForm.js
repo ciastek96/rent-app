@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { Form, Field, ErrorMessage } from 'formik';
 import Select from 'react-select';
-import 'react-datepicker/dist/react-datepicker.css';
-import DatePicker from 'react-datepicker';
 import styled from 'styled-components';
+import { MyDatePicker as DatePicker } from '../../molecules/DatePicker/DatePicker';
 import Input from '../../atoms/Input/Input';
 import ProductsCard from '../ProductsCard/ProductsCard';
 import ErrorParagraph from '../../atoms/ErrorParagraph/ErrorParagraph';
 import Summary from '../../molecules/Summary/Summary';
 import { RentContext } from '../../../context/RentContext';
+import { theme as appTheme } from '../../../theme/theme';
 
 const StyledForm = styled(Form)`
   padding-bottom: 45px;
@@ -31,10 +31,14 @@ const GridWrapper = styled.div`
 
 const StyledSelect = styled(Select)`
   font-size: 14px;
+  border-radius: 10px;
   margin: 0;
 `;
 
 const DateWrapper = styled.div`
+  .react-datepicker {
+    transform: scale(1.2);
+  }
   .react-datepicker-wrapper {
     width: 100%;
     margin-bottom: 8px;
@@ -49,6 +53,22 @@ const SelectWrapper = styled.div`
   padding: 15px 0;
 `;
 
+const selectTheme = (theme) => ({
+  ...theme,
+  borderRadius: '10px',
+  padding: '15px 0',
+  color: 'black',
+  colors: {
+    ...theme.colors,
+    primary: appTheme.lightGray,
+    primary75: appTheme.default,
+    primary50: appTheme.default,
+    primary25: appTheme.default,
+    neutral20: appTheme.lightGray,
+    neutral10: appTheme.default,
+  },
+});
+
 const RentForm = () => {
   const { values, productsList, clientsList, cartItems, setCartItems, rentValue, setRentValue, setFieldValue, getRentDuration } = useContext(
     RentContext,
@@ -61,17 +81,14 @@ const RentForm = () => {
 
           <DatePicker
             selectsStart
+            name="dateOfRent"
             selected={values.dateOfRent}
             startDate={values.dateOfRent}
             endDate={values.dateOfReturn}
-            dateFormat="MMMM d, yyyy"
-            className="form-control"
-            name="dateOfRent"
             onChange={(date) => {
               setFieldValue('dateOfRent', date);
               getRentDuration(date, values.dateOfReturn);
             }}
-            customInput={<Field as={Input} />}
           />
           <ErrorMessage name="dateOfRent" component={ErrorParagraph} />
         </DateWrapper>
@@ -80,18 +97,15 @@ const RentForm = () => {
           <p>Data oddania</p>
           <DatePicker
             selectsEnd
+            name="dateOfReturn"
             selected={values.dateOfReturn}
             startDate={values.dateOfRent}
             endDate={values.dateOfReturn}
             minDate={values.dateOfRent}
-            dateFormat="MMMM d, yyyy"
-            className="form-control"
-            name="dateOfReturn"
             onChange={(date) => {
               setFieldValue('dateOfReturn', date);
               getRentDuration(values.dateOfRent, date);
             }}
-            customInput={<Field as={Input} autoComplete="new-password" />}
           />
           <ErrorMessage name="dateOfReturn" component={ErrorParagraph} />
         </DateWrapper>
@@ -100,6 +114,7 @@ const RentForm = () => {
       <SelectWrapper>
         <StyledSelect
           name="client"
+          theme={(theme) => selectTheme(theme)}
           placeholder="Wybierz klienta"
           options={clientsList.map(({ name, surname, _id, ...clientValues }) => ({
             value: `${name} ${surname}`,
@@ -116,6 +131,7 @@ const RentForm = () => {
         <SelectWrapper>
           <StyledSelect
             isMulti
+            theme={(theme) => selectTheme(theme)}
             placeholder="Wybierz produkty"
             name="products"
             options={productsList.map(({ productName, _id, ...productValue }) => ({
