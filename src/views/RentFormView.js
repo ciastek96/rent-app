@@ -47,6 +47,23 @@ const RentFormView = ({ match, user: { userID } }) => {
     return <Redirect to={routes.rents} />;
   }
 
+  if (!!id && !rentValues) {
+    return (
+      <MainTemplate>
+        <ItemsTemplate title={isNewRent ? 'Nowe wypożyczenie' : 'Edycja wypożyczenia'}>
+          <ButtonsLayout>
+            <Button as={Link} to={routes.rents} secondary="true">
+              Cofnij
+            </Button>
+            <StyledButton type="submit" form="newRentForm">
+              {isNewRent ? 'Dodaj' : 'Zapisz'}
+            </StyledButton>
+          </ButtonsLayout>
+        </ItemsTemplate>
+      </MainTemplate>
+    );
+  }
+
   return (
     <MainTemplate>
       <ItemsTemplate title={isNewRent ? 'Nowe wypożyczenie' : 'Edycja wypożyczenia'}>
@@ -136,8 +153,8 @@ const RentFormView = ({ match, user: { userID } }) => {
 };
 
 RentFormView.propTypes = {
-  user: PropTypes.objectOf(PropTypes.string).isRequired,
-  match: PropTypes.objectOf(PropTypes.string).isRequired,
+  user: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default RentFormView;

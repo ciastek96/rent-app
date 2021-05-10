@@ -20,6 +20,18 @@ const SettingsView = () => {
   const username = useSelector((state) => state.users.user.username);
   const dispatch = useDispatch();
 
+  if (!currentUser.userID) {
+    return (
+      <MainTemplate>
+        <ItemsTemplate title="Ustawienia">
+          <StyledButton type="submit" form="settingsForm">
+            Zapisz
+          </StyledButton>
+        </ItemsTemplate>
+      </MainTemplate>
+    );
+  }
+
   return (
     <MainTemplate>
       <ItemsTemplate title="Ustawienia">

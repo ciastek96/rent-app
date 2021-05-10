@@ -10,7 +10,7 @@ const HistoryView = () => {
   return (
     <MainTemplate>
       <ItemsTemplate title="Historia" />
-      {rentsList.length > 0 ? rentsList.map((rentValues) => <RentItem values={rentValues} />) : <p>Brak wyników...</p>}
+      {rentsList.length > 0 ? rentsList.map((rentValues) => <RentItem values={rentValues} key={rentValues._id} />) : <p>Brak wyników...</p>}
     </MainTemplate>
   );
 };

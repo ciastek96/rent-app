@@ -30,12 +30,14 @@ const StyledButton = styled(Button)`
 
 const InnerWrapper = styled.div`
   display: flex;
+  flex: 1 1 50%;
+  flex-wrap: wrap;
   flex-direction: row;
   padding: 45px;
 `;
 
 const ClientInfo = styled.div`
-  margin-left: 45px;
+  // margin-left: 5px;
 
   h2 {
     color: ${({ theme }) => theme.lightGray};
@@ -86,14 +88,31 @@ const Label = styled.p`
 
 const ProductFormView = ({ match, user: { userID } }) => {
   const { id } = match.params;
-  const isNewProduct = id ? 0 : 1;
+  const isNewProduct = !id;
   const dispatch = useDispatch();
-  const productValues = id && useSelector((state) => state.product.products.find((i) => i._id === id));
+  const productValues = !isNewProduct && useSelector((state) => state.product.products.find((i) => i._id === id));
   const [selectedFile, setSelectedFile] = useState();
   const [redirect, setRedirect] = useState(false);
 
   if (redirect) {
     return <Redirect to={routes.products} />;
+  }
+
+  if (!!id && !productValues) {
+    return (
+      <MainTemplate>
+        <ItemsTemplate title={isNewProduct ? 'Nowy produkt' : 'Edycja produktu'}>
+          <ButtonsWrapper>
+            <Button as={Link} to={routes.products} secondary="true">
+              Anuluj
+            </Button>
+            <StyledButton type="submit" form="newProductForm">
+              {isNewProduct ? 'Dodaj' : 'Zapisz'}
+            </StyledButton>
+          </ButtonsWrapper>
+        </ItemsTemplate>
+      </MainTemplate>
+    );
   }
 
   return (
@@ -267,8 +286,8 @@ const ProductFormView = ({ match, user: { userID } }) => {
 };
 
 ProductFormView.propTypes = {
-  user: PropTypes.objectOf(PropTypes.string).isRequired,
-  match: PropTypes.objectOf(PropTypes.string).isRequired,
+  user: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default ProductFormView;

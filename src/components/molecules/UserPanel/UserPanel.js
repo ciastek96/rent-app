@@ -1,12 +1,13 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { routes } from '../../../routes/routes';
 import DropdownMenu from '../../atoms/DropdownMenu/DropdownMenu';
 import Toggle from '../../../providers/Toggle';
 import { useDetectOutsideClick } from '../../../hooks/useDetectOutsideClick';
 import DownIcon from '../../../assets/icons/svg/directional/angle-down.svg';
+import { signOut } from '../../../actions';
 
 const Wrapper = styled.div`
   display: flex;
@@ -62,6 +63,8 @@ const StyledLink = styled(Link)`
 const UserPanel = () => {
   const username = useSelector((state) => state.users.user.username);
   const account = useSelector((state) => state.account);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const ref = useRef(null);
 
@@ -79,7 +82,17 @@ const UserPanel = () => {
               <StyledLink to={routes.settings}>Ustawienia konta</StyledLink>
             </ListItem>
             <ListItem>
-              <StyledLink to={routes.logout}>Wyloguj</StyledLink>
+              {/* <StyledLink to={routes.logout}>Wyloguj</StyledLink> */}
+              <StyledLink
+                // as="button"
+                to=""
+                onClick={() => {
+                  dispatch(signOut());
+                  history.push({ pathname: routes.logout, state: { from: history.location.pathname } });
+                }}
+              >
+                Wyloguj
+              </StyledLink>
             </ListItem>
           </DropdownMenu>
         </Wrapper>

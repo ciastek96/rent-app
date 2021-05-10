@@ -136,7 +136,7 @@ const StyledButton = styled(Button)`
 const RentItem = ({
   values: {
     _id,
-    status,
+    // status,
     client: { label, companyName, email, phone, nip, address, discount: clientDiscount },
     dateOfRent,
     dateOfReturn,
@@ -153,11 +153,9 @@ const RentItem = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // const [status, setStatus] = useState('active');
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [optionMenu, setOptionMenu] = useState(false);
-  // const productList = useSelector((state) => products.map((product) => state.products.filter((item) => item._id === product)));
   const currentUser = useSelector((state) => state.account);
   const [isRedirect, setIsRedirect] = useState(false);
   const td = moment().format('DD.MM.YYYY');
@@ -388,25 +386,29 @@ const RentItem = ({
 };
 
 RentItem.propTypes = {
-  values: PropTypes.objectOf(PropTypes.string, PropTypes.number).isRequired,
-  _id: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
-  client: PropTypes.objectOf(PropTypes.any).isRequired,
-  dateOfRent: PropTypes.string.isRequired,
-  dateOfReturn: PropTypes.string.isRequired,
-  isFinished: PropTypes.bool,
-  products: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])).isRequired,
-  price: PropTypes.number.isRequired,
-  brutto: PropTypes.number.isRequired,
-  netto: PropTypes.number.isRequired,
-  vat: PropTypes.number.isRequired,
-  discount: PropTypes.number.isRequired,
-  advance: PropTypes.string.isRequired,
-  rentDuration: PropTypes.number.isRequired,
-};
-
-RentItem.defaultProps = {
-  isFinished: false,
+  values: PropTypes.shape({
+    _id: PropTypes.string,
+    client: PropTypes.shape({
+      label: PropTypes.string,
+      companyName: PropTypes.string,
+      email: PropTypes.string,
+      phone: PropTypes.string,
+      nip: PropTypes.string,
+      address: PropTypes.instanceOf(Object),
+      discount: PropTypes.number,
+    }),
+    dateOfRent: PropTypes.string,
+    dateOfReturn: PropTypes.string,
+    isFinished: PropTypes.bool,
+    products: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
+    price: PropTypes.number,
+    brutto: PropTypes.number,
+    netto: PropTypes.number,
+    vat: PropTypes.number,
+    discount: PropTypes.number,
+    advance: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    rentDuration: PropTypes.number,
+  }).isRequired,
 };
 
 export default RentItem;

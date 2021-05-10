@@ -13,6 +13,7 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
+    'no-extra-boolean-cast': 0,
     'arrow-body-style': 1,
     'no-console': 0,
     'max-len': 0,

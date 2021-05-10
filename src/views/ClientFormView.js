@@ -89,6 +89,21 @@ const ClientFormView = ({
     return <Redirect to={routes.clients} />;
   }
 
+  if (!!id && !clientValues) {
+    return (
+      <MainTemplate>
+        <ItemsTemplate title={isNewClient ? 'Nowy klient' : 'Edycja klienta'}>
+          <Button as={Link} to={routes.clients} secondary="true">
+            Anuluj
+          </Button>
+          <StyledButton type="submit" form="newClientForm">
+            {isNewClient ? 'Dodaj' : 'Zapisz'}
+          </StyledButton>
+        </ItemsTemplate>
+      </MainTemplate>
+    );
+  }
+
   return (
     <MainTemplate>
       <ItemsTemplate title={isNewClient ? 'Nowy klient' : 'Edycja klienta'}>

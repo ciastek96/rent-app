@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import LoginTemplate from '../templates/LoginTemplate';
@@ -8,7 +8,6 @@ import { routes } from '../routes/routes';
 import { ReactComponent as Logotype } from '../assets/logo.svg';
 import LoginForm from '../components/organisms/LoginForm/LoginForm';
 import RegisterForm from '../components/organisms/RegisterForm/RegisterForm';
-import { signOut } from '../actions';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -55,23 +54,9 @@ const StyledLogotype = styled(Logotype)`
 `;
 
 const LoginView = ({ location: { pathname } }) => {
-  const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.users.isAuthenticated);
   const [cardType, setCardType] = useState(pathname);
   const [redirect, setRedirect] = useState(false);
-
-  useEffect(() => {
-    if (cardType === routes.logout) {
-      if (isAuth) dispatch(signOut());
-      else setCardType(routes.login);
-    } else {
-      if (!isAuth) {
-        setRedirect(false);
-        return;
-      }
-      setRedirect(true);
-    }
-  }, []);
 
   if (isAuth && redirect) {
     return <Redirect to={{ pathname: routes.home, state: { from: routes.login } }} />;
@@ -105,7 +90,7 @@ const LoginView = ({ location: { pathname } }) => {
 };
 
 LoginView.propTypes = {
-  location: PropTypes.objectOf(PropTypes.string),
+  location: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
 };
 
 LoginView.defaultProps = {

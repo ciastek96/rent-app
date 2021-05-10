@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { useFormikContext, Form } from 'formik';
+import { /* useFormikContext */ Form } from 'formik';
 import { Link } from 'react-router-dom';
 import FileBase from 'react-file-base64';
 import Input from '../../atoms/Input/Input';
@@ -69,7 +69,7 @@ const PasswordContainer = styled.div`
 `;
 
 const SettingsForm = () => {
-  const { values } = useFormikContext();
+  // const { values } = useFormikContext();
   const { selectedFile, setSelectedFile, username, currentUser, Field, ErrorMessage } = useContext(SettingsContext);
   return (
     <>

@@ -14,7 +14,7 @@ const Loading = (props) => {
     else setIsLoading(false);
   });
 
-  return props.render({ isLoading });
+  return props.render({ isLoading, setIsLoading });
 };
 
 export default Loading;
