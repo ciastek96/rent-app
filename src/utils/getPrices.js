@@ -1,5 +1,5 @@
 export function bruttoToNetto(brutto, vat) {
-  const netto = (brutto / (1 + vat / 100)).toFixed(2);
+  const netto = parseFloat((brutto / (1 + vat / 100)).toFixed(2));
   return netto;
 }
 
@@ -8,7 +8,7 @@ export const getNetto = (values, rentsDuration) => {
     .map((product) => (product.qty ? product.netto * product.qty : product.netto))
     .reduce((sum = 0, i) => sum + i)
     .toFixed(2);
-  return (netto * rentsDuration).toFixed(2);
+  return parseFloat((netto * rentsDuration).toFixed(2));
 };
 
 export const getBrutto = (values, rentsDuration) => {
