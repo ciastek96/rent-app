@@ -50,11 +50,11 @@ const Input = ({ label, id, ...props }) => {
         <Label htmlFor={id}>
           <span>{label}</span>
         </Label>
-        <StyledInput {...props} />
+        <StyledInput name={id} id={id} {...props} />
       </Wrapper>
     );
   }
-  return <StyledInput {...props} />;
+  return <StyledInput {...props} data-testid="sample-input" />;
 };
 
 Input.propTypes = {
